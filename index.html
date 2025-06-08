@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html translate="no" lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>El Pollo Loco</title>
+        <link rel="stylesheet" href="./style.css">
+        <link rel="icon" type="image/x-icon" href="img/12_icons/favicon_chicken.png">
+       
+        <script src="./models/drawable-object.class.js"></script>
+        <script src="./models/movable-object.class.js"></script>
+        <script src="./models/avatar.class.js"></script>
+        <script src="./models/chicken.class.js"></script>
+        <script src="./models/cloud.class.js"></script>
+        <script src="./models/status-bar.class.js"></script>
+        <script src="./models/coin.class.js"></script>
+        <script src="./models/bottles.class.js"></script>
+        <script src="./models/boss-healthbar.class.js"></script>
+        <script src="./models/coin-bar.class.js"></script>
+        <script src="./models/bottle-bar.class.js"></script>
+        <script src="./models/world.class.js"></script>
+        <script src="./models/bg-object.class.js"></script>
+        <script src="./models/keyboard.class.js"></script>
+        <script src="./models/level.class.js"></script>
+        <script src="./models/throwable-object.class.js"></script>
+        <script src="./models/boss.class.js"></script>
+        <script src="./levels/level1.js"></script>
+        <script src="./js/audio.js"></script>
+        <script src="./js/game.js"></script>
+        <script src="./js/eventListeners.js"></script>
+    </head>
+
+<body>
+    <div class="rotate-container">
+        <div class="rotate">
+            Bitte drehe
+            <img src="./img/12_icons/ROTATE_icon.png" alt="Rotieren">
+            dein Gerät
+        </div>
+    </div>
+    <div class="title">
+        <h1>El Pollo Loco</h1>
+    </div>
+    
+    <div id="game-wrapper" class="game-wrapper">
+        <div id="main-menu" class="main-menu-view" style="display:flex">
+            <div id="navigation-panel" class="navigation-panel">
+                <button class="button-M" onclick="init()">Spielen</button>
+                <button class="button-M" onclick="openControls()">Steuerung</button>
+                <button class="button-M" onclick="openStory()">Geschichte</button>
+                <button class="button-M" onclick="openSettings()">Einstellungen</button>
+            </div>
+        </div>
+        <div id="game-controls" class="game-controls">
+            <img id="audio-toggle" onclick="toggleSoundAndImage()" class="control-icon" src="./img/12_icons/SOUND_ON_icon.png" alt="Audio umschalten">
+        </div>
+        <div id="config-panel" class="config-panel" style="display:none">
+            <button class="back-button-top-left" onclick="closeSettings()">Zurück</button>
+            <div class="screen-title">
+                <h2>Einstellungen</h2>
+            </div>
+            <div class="config-options">
+                <button class="button-M fullscreen-toggle" onclick="toggleFullScreen()">Vollbild</button>
+                <button id="audio-control-btn" class="button-M" onclick="toggleSoundAndImage()">Sound An</button>
+            </div>
+        </div>
+        <div id="keys-info" class="keys-info">
+            <button class="back-button-top-left" onclick="closeControls()">Zurück</button>
+            <div class="screen-title">
+                <h2>Steuerung</h2>
+            </div>
+            <div class="controls">
+                <div class="controls-container">
+                    <div class="box jc-center">
+                        <img src="./img/10_start_screen/left-right-key-2.PNG" alt="Pfeiltasten">
+                    </div>
+                    <div class="box jc-center">
+                        <img src="./img/10_start_screen/jump-img.png" alt="Leertaste">
+                    </div>
+                    <div class="box jc-center">
+                        <img src="./img/10_start_screen/throw-img.png" alt="D-Taste">
+                    </div>
+                </div>
+                <div class="controls-container">
+                    <div class="box jc-left">
+                        <span>Verwende die LINKS und RECHTS Pfeiltasten zum Bewegen</span>
+                    </div>
+                    <div class="box jc-left">
+                        <span>Drücke <b>LEERTASTE</b> zum Springen</span>
+                    </div>
+                    <div class="box jc-left">
+                        <span>Drücke <b>D</b> um Flaschen auf Gegner zu werfen</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="lore-panel" class="lore-panel" style="display:none">
+            <button class="back-button-top-left" onclick="closeStory()">Zurück</button>
+            <div class="screen-title">
+                <h2>Die Legende von Pepe</h2>
+            </div>
+            <div class="story">
+                <p>Pepe, ein erfinderischer Dorfbewohner aus Mexiko, lebt in einem kleinen, sonnigen Ort am Fuße der Berge. Eines Tages wird das Dorf von einer mysteriösen Maschinenbande bedroht, die alles in Stahl verwandelt. Pepe, bekannt für seine Klugheit und seinen Mut, nimmt die Herausforderung an. Mit einem selbstgebauten Gerät aus alten Werkzeugen macht er sich auf den Weg, um seine Heimat zu retten und das natürliche Gleichgewicht wiederherzustellen.</p>
+            </div>
+        </div>
+        <div id="finale-screen" class="finale-screen">
+            <div class="end-text"></div>
+            <div class="endscreen-buttons">
+                <button class="button-M" onclick="returnToMenu()">🏠 Menü</button>
+                <button class="button-M" onclick="init()">🔄 Neustart</button>
+            </div>
+        </div>
+          
+        <div id="game-area" class="game-area" style="display:none">
+            <canvas width="720" height="480" id="game-canvas"></canvas>
+        </div>
+        <div class="touch-interface">
+            <div class="touch-group">
+                <img id="touch-left" class="touch-button" src="./img/12_icons/MOBILE_LEFT_icon.png" alt="Links gehen">
+                <img id="touch-right" class="touch-button" src="./img/12_icons/MOBILE_RIGHT_icon.png" alt="Rechts gehen">
+            </div>
+            <div class="touch-group">
+                <img id="touch-throw" class="touch-button" src="./img/12_icons/MOBILE_THROW_icon.png" alt="Werfen">
+                <img id="touch-jump" class="touch-button" src="./img/12_icons/MOBILE_JUMP_icon.png" alt="Springen">
+            </div>
+        </div>
+    </div>
+
+    <div><a class="impressum-text" href="./impressum.html">Impressum</a></div>
+</body>
+
+</html>

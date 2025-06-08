@@ -1,0 +1,450 @@
+@font-face {
+    font-family: 'zabras';
+    src: url('./fonts/zabras.ttf') format('truetype');
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    background-image: url('./img/10_start_screen/start_bg-2.png');
+    background-size: cover;
+    background-position: top;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.title {
+    display: flex;
+    position: absolute;
+    top: 115px;
+}
+
+h1 {
+    font-size: 110px;
+    letter-spacing: 5px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* BACK Button oben links */
+.back-button-top-left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    margin: 10px;
+    padding: 12px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    border: 4px solid #8b3a0b;
+    border-radius: 10px;
+    display: block;
+    font-weight: 700;
+    box-shadow: 0px 0px 14px -7px #f09819;
+    background-color: #FECC02;
+    color: black;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+}
+
+.back-button-top-left:hover {
+    transform: scale(1.05);
+    background-color: white;
+}
+
+.back-button-top-left:active {
+    transform: scale(0.95);
+}
+
+.game-wrapper {
+    height: 480px;
+    width: 720px;
+    position: relative;
+}
+
+.game-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 480px;
+    width: 720px;
+}
+
+canvas {
+    background-color: black;
+    display: block;
+}
+
+/* Vollbild-Styles */
+:fullscreen .game-wrapper,
+:fullscreen .main-menu-view,
+:fullscreen .keys-info,
+:fullscreen .finale-screen,
+:fullscreen .lore-panel,
+:fullscreen .config-panel {
+    width: 100vw;
+    height: 100vh;
+}
+
+:fullscreen .controls,
+:fullscreen .story,
+:fullscreen .config-options {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+}
+
+:fullscreen .fs-centered {
+    display: block;
+    position: absolute;
+    top: 350px;
+    left: 0;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+}
+
+/* Hauptmenü */
+.main-menu-view {
+    background: url('img/9_intro_outro_screens/start/startscreen_2.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 480px;
+    width: 720px;
+    position: absolute;
+    z-index: 2;
+}
+
+/* Endbildschirm */
+.finale-screen {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    height: 430px;
+    width: 720px;
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    z-index: 2;
+}
+
+/* Info-Panels */
+.keys-info,
+.lore-panel,
+.config-panel {
+    display: none;
+    height: 480px;
+    width: 720px;
+    position: absolute;
+    z-index: 3;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.config-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.lore-panel {
+    flex-direction: column;
+}
+
+.end-text {
+    width: 100%;
+    flex-grow: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    min-height: 200px;
+}
+
+.screen-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+
+.screen-title h2 {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.7em;
+}
+
+/* Steuerung und Story */
+.controls,
+.story {
+    display: flex;
+    justify-content: center;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.story {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+    hyphens: auto;
+    text-align: justify;
+}
+
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.box {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.jc-center {
+    justify-content: center;
+}
+
+.jc-left {
+    justify-content: flex-start;
+    padding-left: 40px;
+    width: 350px;
+}
+
+.box img {
+    width: 40px;
+}
+
+/* Buttons */
+.finale-screen button {
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: orange;
+    border: 2px solid #8b3a0b;
+    border-radius: 15px;
+    color: black;
+    margin: 5px 10px;
+    transition: all 150ms ease-in-out;
+    min-width: 100px;
+    font-family: 'zabras';
+}
+
+.navigation-panel {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 720px;
+    height: 80px;
+    top: 50px;
+    left: 0px;
+    gap: 15px;
+}
+
+.game-controls {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.control-icon {
+    cursor: pointer;
+    width: 40px;
+    height: auto;
+}
+
+.button-M {
+    margin: 10px;
+    padding: 12px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    border: 4px solid #8b3a0b;
+    border-radius: 10px;
+    display: block;
+    font-weight: 700;
+    box-shadow: 0px 0px 14px -7px #f09819;
+    background-color: #FECC02;
+    color: black;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-M:hover {
+    transform: scale(1.05);
+    background-color: white;
+}
+
+.button-M:active {
+    transform: scale(0.95);
+}
+
+/* Touch-Interface für Mobile */
+.touch-interface {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    align-items: end;
+    justify-content: space-between;
+    padding: 0 20px 20px 20px;
+}
+
+.touch-group {
+    display: flex;
+    gap: 10px;
+}
+
+.touch-button {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+/* Bildschirm-Rotation */
+.rotate-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.rotate {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+.rotate img {
+    width: 80px;
+}
+
+/* Responsive Design */
+@media only screen and (max-width:1368px) {
+    .navigation-panel {
+        gap: 5px;
+    }
+
+    .button-M {
+        width: 140px;
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .keys-info,
+    .lore-panel,
+    .config-panel {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .game-wrapper,
+    .main-menu-view,
+    .keys-info,
+    .finale-screen,
+    .lore-panel,
+    .config-panel,
+    .game-area {
+        transform: scale(0.85);
+    }
+
+    .finale-screen button {
+        font-size: 16px;
+    }
+
+    .title,
+    h1 {
+        transform: scale(0.85);
+    }
+
+    .screen-title h2 {
+        font-size: 18px;
+    }
+}
+
+@media (max-height:1000px) {
+    h1 {
+        font-size: 90px;
+    }
+}
+
+/* Impressum */
+.impressum-text {
+    color: #FECC02;
+    text-decoration: none;
+    position: fixed;
+    bottom: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px;
+    text-align: center;
+    z-index: 10;
+}
+
+.impressum-text:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+/* Endbildschirm-Layouts */
+.fs-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.endscreen-buttons {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.game-lost-screen .end-text {
+    background-image: url('img/You won, you lost/You lost.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.game-won-screen .end-text {
+    background-image: url('img/You won, you lost/You\ Win\ A.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
