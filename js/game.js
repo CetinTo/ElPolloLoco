@@ -376,7 +376,7 @@ function hideScreens() {
 function toggleRotateScreen() {
     const rotateContainer = document.querySelector('.rotate-container');
 
-    if (window.innerWidth <= 1368 && window.innerHeight > window.innerWidth) {
+    if (window.innerWidth <= 1300 && window.innerHeight > window.innerWidth) {
         rotateContainer.style.display = 'flex';
     } else {
         rotateContainer.style.display = 'none';
@@ -388,7 +388,7 @@ function toggleRotateScreen() {
  */
 function toggleMobileButtonContainer() {
     const mobileButtonContainer = document.querySelector('.touch-interface');
-    const isMobileMode = window.innerWidth <= 1368;
+    const isMobileMode = window.innerWidth <= 1300;
 
     if (mobileButtonContainer) {
         if (isMobileMode) {

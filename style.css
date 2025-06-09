@@ -353,7 +353,7 @@ canvas {
 }
 
 /* Responsive Design */
-@media only screen and (max-width:1368px) {
+@media only screen and (max-width: 1300px) {
     .navigation-panel {
         gap: 5px;
     }
@@ -392,6 +392,13 @@ canvas {
 
     .screen-title h2 {
         font-size: 18px;
+    }
+}
+
+/* Rotate-Container für Bildschirme unter 1300px */
+@media only screen and (max-width: 1300px) and (orientation: portrait) {
+    .rotate-container {
+        display: flex !important;
     }
 }
 
