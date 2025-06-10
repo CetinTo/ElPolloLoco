@@ -10,6 +10,8 @@ class Endboss extends MoveableObject {
     isDead = false;
     hadFirstContact = false;
     alertAnimationPlayed = false;
+    isAttacking = false;
+    lastAttackTime = 0;
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -29,12 +31,6 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
-    IMAGES_HURT = [
-        'img/4_enemie_boss_chicken/4_hurt/G21.png',
-        'img/4_enemie_boss_chicken/4_hurt/G22.png',
-        'img/4_enemie_boss_chicken/4_hurt/G23.png'
-    ];
-
     IMAGES_ATTACK = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -44,6 +40,12 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/3_attack/G18.png',
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png'
+    ];
+
+    IMAGES_HURT = [
+        'img/4_enemie_boss_chicken/4_hurt/G21.png',
+        'img/4_enemie_boss_chicken/4_hurt/G22.png',
+        'img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
     IMAGES_DEAD = [
@@ -60,8 +62,8 @@ class Endboss extends MoveableObject {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
-        this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.x = 5000;
         this.speed = 8;
@@ -129,11 +131,43 @@ class Endboss extends MoveableObject {
     }
 
     /**
+     * Startet die Angriffs-Animation für den Endboss-Charakter
+     * Diese Animation tritt auf, wenn der Endboss in der Nähe des Spielers ist
+     */
+    startAttackAnimation() {
+        if (!this.isAttacking && this.energy > 0) {
+            this.isAttacking = true;
+            this.stopMovement();
+            this.lastAttackTime = Date.now();
+            
+            this.attackAnimationInterval = this.startAnimationInterval(this.IMAGES_ATTACK, 200, () => {
+                this.resetToWalkingState();
+                this.isAttacking = false;
+                clearInterval(this.attackAnimationInterval);
+            });
+        }
+    }
+
+    /**
+     * Prüft ob der Boss angreifen soll basierend auf der Entfernung zum Spieler
+     * @returns {boolean} True wenn der Boss angreifen soll, false andernfalls
+     */
+    shouldAttack() {
+        if (!world || !world.character || this.isAttacking) return false;
+        
+        const distanceToPlayer = Math.abs(this.x - world.character.x);
+        const timeSinceLastAttack = Date.now() - this.lastAttackTime;
+        
+        // Angriff wenn Spieler nah ist und genug Zeit vergangen ist
+        return distanceToPlayer < 300 && timeSinceLastAttack > 3000 && this.energy > 0;
+    }
+
+    /**
      * Startet die Verletzungs-Animation für den Endboss-Charakter
      * Diese Animation tritt auf, wenn der Endboss getroffen wird
      */
     startHurtAnimation() {
-        if (!this.hurtAnimationInterval) {
+        if (!this.hurtAnimationInterval && !this.isAttacking) {
             this.stopMovement();
             this.hurt_sound.play();
             this.hurtAnimationInterval = this.startAnimationInterval(this.IMAGES_HURT, 300, () => {
@@ -153,7 +187,13 @@ class Endboss extends MoveableObject {
         }
         
         this.walkingInterval = setInterval(() => {
-            if (this.energy > 0 && !this.isDead) {
+            if (this.energy > 0 && !this.isDead && !this.isAttacking) {
+                // Prüfe ob Angriff starten soll
+                if (this.shouldAttack()) {
+                    this.startAttackAnimation();
+                    return;
+                }
+                
                 this.updateSpeed();
                 this.playAnimation(this.IMAGES_WALKING);
                 this.x -= this.speed; // Direkte Bewegung nach links
@@ -264,7 +304,9 @@ class Endboss extends MoveableObject {
      */
     stopAllAnimations() {
         clearInterval(this.hurtAnimationInterval);
+        clearInterval(this.attackAnimationInterval);
         this.stopMovement();
+        this.isAttacking = false;
     }
 
     /**

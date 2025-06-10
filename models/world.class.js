@@ -106,15 +106,27 @@ class World {
      * Überprüft Kollisionen mit Gegnern
      */
     checkCollisionsWithEnemies() {
+        let killedEnemies = []; // Array für getötete Gegner beim Springen
+        let shouldTakeDamage = false; // Flag für Schaden
+        
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && enemy.energy > 0) {
                 if (this.character.isAboveGround() && this.character.speedY < 0) {
+                    // Spieler springt - töte Gegner ohne Schaden
                     this.handleCollisionAboveGround(enemy);
+                    killedEnemies.push(enemy);
                 } else if (this.character.energy > 0) {
-                    this.handleCollision();
+                    // Spieler ist am Boden - soll Schaden nehmen
+                    shouldTakeDamage = true;
                 }
             }
         });
+        
+        // Nur Schaden nehmen wenn kein Gegner beim Springen getötet wurde
+        if (shouldTakeDamage && killedEnemies.length === 0) {
+            this.handleCollision();
+        }
+        
         this.checkBottleEnemyCollisions();
     }
 
@@ -215,30 +227,31 @@ class World {
         for (let i = this.level.bottles.length - 1; i >= 0; i--) {
             let bottle = this.level.bottles[i];
             if (this.isCharacterNearBottle(bottle)) {
+                // Sammle Flaschen nur wenn noch Platz im Inventar ist
                 if (this.availableBottles < this.bottleBar.MAX_BOTTLES) {
                     this.level.bottles.splice(i, 1);
                     this.availableBottles++;
-                    let visibleBottles = Math.min(this.availableBottles, this.bottleBar.MAX_BOTTLES);
-                    this.bottleBar.setCollectedBottles(visibleBottles);
+                    this.bottleBar.setCollectedBottles(this.availableBottles);
                     if (!isGameMuted) {
                         this.playGameSound('audio/bottle_collect.mp3', 1);
                     }
                 }
+                // Wenn der Balken voll ist, sammle die Flasche nicht (lasse sie liegen)
             }
         }
     }
     
     /**
-     * Präziserer Bounding-Box-Check für Flaschen-Sammlung mit Puffer
+     * Verbesserte Kollisionserkennung für Flaschen-Sammlung
      */
     isCharacterNearBottle(bottle) {
-        const buffer = 30; 
+        const buffer = 20; // Reduzierter Buffer für präzisere Kollision
 
         const char = this.character;
-        const charLeft = char.x + char.offset.left + buffer;
-        const charRight = char.x + char.width - char.offset.right - buffer;
-        const charTop = char.y + char.offset.top + buffer;
-        const charBottom = char.y + char.height - char.offset.bottom - buffer;
+        const charLeft = char.x + char.offset.left;
+        const charRight = char.x + char.width - char.offset.right;
+        const charTop = char.y + char.offset.top;
+        const charBottom = char.y + char.height - char.offset.bottom;
 
         const bottleLeft = bottle.x;
         const bottleRight = bottle.x + (bottle.width || 40);
@@ -256,6 +269,11 @@ class World {
      */
     checkThrowObjects() {
         if (this.keyboard.D && this.canThrowBottle && this.availableBottles > 0 && !this.character.otherDirection) {
+            // Wecke den Charakter auf, falls er schläft
+            if (this.character.idleTimer > this.character.IDLE_THRESHOLD) {
+                this.character.wakeUp();
+            }
+            
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
             this.availableBottles--;

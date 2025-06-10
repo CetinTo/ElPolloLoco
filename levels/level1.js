@@ -7,32 +7,52 @@ function initLevel() {
      * @type {Level}
      */
     level1 = new Level(
-        // Hühner-Array
+        // Hühner-Array (Mix aus normalen und kleinen Hühnern)
         [
             // Erstes Huhn - Tutorial (einzeln)
-            new Chicken(800, 275),
+            new Chicken(800),
+            
+            // Kleine Hühner - früher Bereich
+            new ChickenSmall(1100),
+            new ChickenSmall(1150),
             
             // Früher Bereich - Hühner-Paar (schwieriger)
-            new Chicken(1200, 275),
-            new Chicken(1350, 275),
+            new Chicken(1200),
+            new Chicken(1350),
             
-            // Einzelnes Huhn
-            new Chicken(1800, 275),
+            // Einzelnes kleines Huhn
+            new ChickenSmall(1600),
+            
+            // Einzelnes normales Huhn
+            new Chicken(1800),
+            
+            // Kleine Hühner-Gruppe
+            new ChickenSmall(2000),
+            new ChickenSmall(2100),
             
             // Mittlerer Bereich - Dreier-Gruppe (herausfordernd)
-            new Chicken(2200, 275),
-            new Chicken(2350, 275),
-            new Chicken(2500, 275),
+            new Chicken(2200),
+            new Chicken(2350),
+            new Chicken(2500),
+            
+            // Kleine Hühner nach der großen Gruppe
+            new ChickenSmall(2700),
             
             // Pause - einzelnes Huhn
-            new Chicken(2900, 275),
+            new Chicken(2900),
             
-            // Später Bereich - Hühner-Paar
-            new Chicken(3300, 275),
-            new Chicken(3450, 275),
+            // Mix aus kleinen und normalen Hühnern
+            new ChickenSmall(3100),
+            new Chicken(3300),
+            new ChickenSmall(3400),
+            new Chicken(3450),
+            
+            // Kleine Hühner vor dem Boss
+            new ChickenSmall(3800),
+            new ChickenSmall(3850),
             
             // Letztes einzelnes Huhn vor Boss
-            new Chicken(3900, 275),
+            new Chicken(3900),
         ],
         // Wolken-Array
         [

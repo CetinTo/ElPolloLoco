@@ -264,6 +264,14 @@ class Character extends MoveableObject {
     }
 
     /**
+     * Weckt den Charakter auf, indem der Idle-Timer zurückgesetzt wird
+     * Wird aufgerufen wenn der Spieler eine Aktion durchführt während der Charakter schläft
+     */
+    wakeUp() {
+        this.idleTimer = 0;
+    }
+
+    /**
      * Behandelt den Zustand des Charakters während des Gehens
      */
     handleWalkingState() {
