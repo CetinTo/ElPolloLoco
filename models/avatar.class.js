@@ -84,7 +84,7 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         
-        // Audio-Elemente mit verbesserter Fehlerbehandlung initialisieren
+        
         this.initializeAudio();
         
         this.animate();
@@ -102,7 +102,7 @@ class Character extends MoveableObject {
      * Initialisiert alle Audio-Elemente mit verbesserter Fehlerbehandlung
      */
     initializeAudio() {
-        // Verwende die globale createAudioElement Funktion
+        
         this.walking_sound = createAudioElement('audio/running_3.mp3');
         if (this.walking_sound) {
             this.walking_sound.loop = true;
@@ -116,9 +116,9 @@ class Character extends MoveableObject {
      * Sichere Audio-Wiedergabe mit Fehlerbehandlung
      */
     playAudioSafely(audioElement) {
-        // Prüfe zuerst, ob das Spiel gemutet ist
+        
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
-            return; // Kein Sound abspielen wenn gemutet
+            return; 
         }
         
         if (audioElement) {
@@ -127,11 +127,11 @@ class Character extends MoveableObject {
                     safePlay(audioElement);
                 } else {
                     audioElement.play().catch(error => {
-                        // Audio konnte nicht abgespielt werden
+                        
                     });
                 }
             } catch (error) {
-                // Fehler beim Abspielen des Sounds
+                
             }
         }
     }
@@ -199,7 +199,7 @@ class Character extends MoveableObject {
     handleWalking() {
         if (!this.world || !this.world.keyboard) return;
         
-        // Stoppe Walking-Sound wenn gemutet
+        
         if (typeof isGameMuted !== 'undefined' && isGameMuted && this.walking_sound) {
             this.walking_sound.pause();
         }
@@ -207,13 +207,13 @@ class Character extends MoveableObject {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
           this.moveRight();
           this.otherDirection = false;
-          // Verwende sichere Audio-Wiedergabe
+          
           this.playAudioSafely(this.walking_sound);
         }
         if (this.world.keyboard.LEFT && this.x > 0) {
           this.moveLeft();
           this.otherDirection = true;
-          // Sicheres Pausieren des Sounds
+          
           if (this.walking_sound) {
               this.walking_sound.pause();
           }
@@ -298,15 +298,15 @@ class Character extends MoveableObject {
     handleCamera() {
         if (!this.world) return;
         
-        // Verbesserte Kamera-Interpolation mit Pixel-perfekter Rundung
+        
         let targetCamera = -this.x + 100;
         let currentCamera = this.world.camera_x;
         let difference = targetCamera - currentCamera;
         
-        // Dynamische Interpolation basierend auf Entfernung
+        
         let lerpFactor = Math.abs(difference) > 50 ? 0.15 : 0.08;
         
-        // Pixel-perfekte Kamera-Position (auf ganze Pixel gerundet)
+        
         this.world.camera_x = Math.round(currentCamera + (difference * lerpFactor));
     }
 }

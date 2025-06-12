@@ -89,16 +89,16 @@ class ThrowableObject extends MoveableObject {
      */
     playThrowSound() {
         if (!isGameMuted) {
-            // Verwende die globale createAudioElement Funktion
+            
             let throwSound = createAudioElement('audio/bottle_throw.mp3');
             
             if (throwSound) {
-                // Verwende sichere Audio-Wiedergabe
+                
                 if (typeof safePlay === 'function') {
                     safePlay(throwSound);
                 } else {
                     throwSound.play().catch(error => {
-                        // Bottle throw sound konnte nicht abgespielt werden
+                        
                     });
                 }
             }

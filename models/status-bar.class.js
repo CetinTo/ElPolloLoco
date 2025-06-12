@@ -6,12 +6,12 @@
 
 class Statusbar extends DrawableObject {
     IMAGES_HEALTH = [
-        'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',   // Index 0
-        'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',  // Index 1
-        'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',  // Index 2
-        'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',  // Index 3
-        'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',  // Index 4
-        'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'  // Index 5
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',   
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',  
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',  
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',  
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',  
+        'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'  
     ];
     
 
@@ -35,7 +35,7 @@ class Statusbar extends DrawableObject {
     setPercentage(percentage) {
         this.percentage = percentage;
     
-        // Zusätzlicher Schutz gegen Werte unter 0
+        
         if (this.percentage < 0) this.percentage = 0;
     
         let index = this.resolveImagesIndex(this.percentage);

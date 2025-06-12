@@ -22,7 +22,7 @@ class World {
     canThrowBottle = true;
     availableBottles = 0;
 
-    // Manager-Instanzen
+    
     collisionManager;
     renderManager;
     gameManager;
@@ -33,26 +33,26 @@ class World {
         this.keyboard = keyboard;
         this.level = level1;
         
-        // Optimiere Canvas für perfekt nahtlose Hintergrundbilder
+        
         this.ctx.imageSmoothingEnabled = false;
         this.ctx.webkitImageSmoothingEnabled = false;
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.msImageSmoothingEnabled = false;
         this.ctx.oImageSmoothingEnabled = false;
         
-        // Erzwinge Pixel-perfektes Rendering
+        
         this.ctx.translate(0.5, 0.5);
         this.ctx.scale(1, 1);
         this.ctx.translate(-0.5, -0.5);
         
-        // Initialisiere Manager
+        
         this.collisionManager = new CollisionManager(this);
         this.renderManager = new RenderManager(this);
         this.gameManager = new GameManager(this);
         
         this.setWorld();
         
-        // Rendere sofort mehrere Frames um schwarzes Bild zu vermeiden
+        
         this.draw();
         setTimeout(() => this.draw(), 10);
         setTimeout(() => this.draw(), 50);
@@ -112,7 +112,7 @@ class World {
         this.collectedCoins = 0;
         this.showEndbossHealthbar = false;
 
-        // Level1 neu initialisieren
+        
         initLevel();
         this.level = level1;
         

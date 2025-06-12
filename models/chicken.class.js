@@ -27,7 +27,7 @@ class Chicken extends MoveableObject {
         this.movementInterval = null;
         this.animationInterval = null;
         
-        // Audio-Element mit verbesserter Fehlerbehandlung initialisieren
+        
         this.initializeAudio();
         
         this.animate();
@@ -43,7 +43,7 @@ class Chicken extends MoveableObject {
      * Initialisiert das Audio-Element mit verbesserter Fehlerbehandlung
      */
     initializeAudio() {
-        // Verwende die globale createAudioElement Funktion
+        
         this.death_sound = createAudioElement('audio/chicken_hurt.mp3');
     }
 
@@ -87,26 +87,26 @@ class Chicken extends MoveableObject {
      * Passt die Lautstärke an und spielt den Soundeffekt ab
      */
     playSoundOnDeath() {
-        // Prüfe zuerst, ob das Spiel gemutet ist
+        
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
-            return; // Kein Sound abspielen wenn gemutet
+            return; 
         }
         
         if (this.death_sound) {
             try {
                 this.death_sound.volume = 0.4;
-                this.death_sound.currentTime = 0; // Reset zum Anfang
+                this.death_sound.currentTime = 0; 
                 
-                // Verwende die sichere Play-Funktion aus audio.js
+                
                 if (typeof safePlay === 'function') {
                     safePlay(this.death_sound);
                 } else {
                     this.death_sound.play().catch(error => {
-                        // Chicken death sound konnte nicht abgespielt werden
+                        
                     });
                 }
             } catch (error) {
-                // Fehler beim Abspielen des Chicken death sounds
+                
             }
         }
     }

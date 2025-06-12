@@ -265,7 +265,7 @@ canvas {
     position: absolute;
     justify-content: center;
     align-items: center;
-    top: 40px;
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -370,7 +370,15 @@ canvas {
     padding: 0 !important;
     margin: 0 !important;
     box-shadow: none !important;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+    text-shadow: 
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        2px 2px 0 #000,
+        -2px 0 0 #000,
+        2px 0 0 #000,
+        0 -2px 0 #000,
+        0 2px 0 #000 !important;
 }
 
 .impressum-text:hover {

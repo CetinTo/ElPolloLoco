@@ -1,5 +1,5 @@
 /**
- * Verwaltet das Rendering des Spiels
+ * Verwaltet das Rendering aller Spielobjekte
  * @class
  */
 class RenderManager {
@@ -8,103 +8,37 @@ class RenderManager {
     }
 
     /**
-     * Hauptzeichenfunktion - rendert das komplette Spiel
+     * Rendert alle Spielobjekte
      */
     draw() {
-        this.clearCanvas();
-        
-        // Kamera-Position berechnen
-        this.world.camera_x = -this.world.character.x + 100;
-        
-        // Pixel-perfekte Kamera-Translation
-        this.world.ctx.save();
-        this.world.ctx.translate(Math.round(this.world.camera_x), 0);
-        
-        this.drawBackground();
-        this.drawClouds();
-        this.drawGameObjects();
-        this.drawMainCharacter();
-        
-        this.world.ctx.restore();
-        
-        this.drawUI();
-    }
-
-    /**
-     * Zeichnet die Wolken
-     */
-    drawClouds() {
-        this.addObjectsToMap(this.world.level.clouds);
-    }
-
-    /**
-     * Löscht den Canvas
-     */
-    clearCanvas() {
         this.world.ctx.clearRect(0, 0, this.world.canvas.width, this.world.canvas.height);
-    }
-
-    /**
-     * Zeichnet den Hintergrund pixel-perfekt
-     */
-    drawBackground() {
+        
+        this.world.ctx.translate(this.world.camera_x, 0);
+        
         this.addObjectsToMap(this.world.level.backgroundObjects);
-    }
-
-    /**
-     * Zeichnet den Hauptcharakter
-     */
-    drawMainCharacter() {
+        this.addObjectsToMap(this.world.level.clouds);
+        this.addObjectsToMap(this.world.level.coins);
+        this.addObjectsToMap(this.world.level.bottles);
+        this.addObjectsToMap(this.world.level.enemies);
+        this.addObjectsToMap(this.world.level.endboss);
         this.addToMap(this.world.character);
-    }
-
-    /**
-     * Zeichnet die Benutzeroberfläche
-     */
-    drawUI() {
-        // UI wird ohne Kamera-Translation gezeichnet
+        this.addObjectsToMap(this.world.throwableObjects);
+        
+        this.world.ctx.translate(-this.world.camera_x, 0);
+        
         this.addToMap(this.world.statusBar);
         this.addToMap(this.world.coinBar);
         this.addToMap(this.world.bottleBar);
+        this.addToMap(this.world.endbossHealthbar);
         
-        this.updateEndbossHealthbarVisibility();
-    }
-
-    /**
-     * Aktualisiert die Sichtbarkeit der Endboss-Gesundheitsleiste
-     */
-    updateEndbossHealthbarVisibility() {
-        if (this.world.character.x >= 4500) {
-            this.world.showEndbossHealthbar = true;
-        }
-        
-        if (this.world.showEndbossHealthbar && this.world.level.endboss && this.world.level.endboss.length > 0) {
-            this.addToMap(this.world.endbossHealthbar);
-        }
-    }
-
-    /**
-     * Zeichnet alle Spielobjekte
-     */
-    drawGameObjects() {
-        this.addObjectsToMap(this.world.level.enemies);
-        this.addObjectsToMap(this.world.level.endboss);
-        this.addObjectsToMap(this.world.level.coins);
-        this.addObjectsToMap(this.world.level.bottles);
-        this.addObjectsToMap(this.world.throwableObjects);
-    }
-
-    /**
-     * Fügt mehrere Objekte zur Karte hinzu
-     */
-    addObjectsToMap(objects) {
-        objects.forEach(o => {
-            this.addToMap(o);
+        let self = this;
+        requestAnimationFrame(function() {
+            self.draw();
         });
     }
 
     /**
-     * Fügt ein Objekt zur Karte hinzu mit pixel-perfektem Rendering
+     * Fügt Objekt zur Karte hinzu
      */
     addToMap(mo) {
         if (mo.otherDirection) {
@@ -119,7 +53,16 @@ class RenderManager {
     }
 
     /**
-     * Spiegelt das Bild horizontal
+     * Fügt Array von Objekten zur Karte hinzu
+     */
+    addObjectsToMap(objects) {
+        objects.forEach(o => {
+            this.addToMap(o);
+        });
+    }
+
+    /**
+     * Spiegelt Bild horizontal
      */
     flipImage(mo) {
         this.world.ctx.save();
@@ -129,7 +72,7 @@ class RenderManager {
     }
 
     /**
-     * Setzt die Bildspiegelung zurück
+     * Stellt Bildorientierung wieder her
      */
     flipImageBack(mo) {
         mo.x = mo.x * -1;

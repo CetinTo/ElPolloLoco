@@ -23,11 +23,11 @@ class ChickenSmall extends MoveableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
         this.x = x;
-        this.speed = 0.15 + Math.random() * 0.25; // Etwas langsamer als normale Hühner
+        this.speed = 0.15 + Math.random() * 0.25; 
         this.movementInterval = null;
         this.animationInterval = null;
         
-        // Audio-Element mit verbesserter Fehlerbehandlung initialisieren
+        
         this.initializeAudio();
         
         this.animate();
@@ -43,7 +43,7 @@ class ChickenSmall extends MoveableObject {
      * Initialisiert das Audio-Element mit verbesserter Fehlerbehandlung
      */
     initializeAudio() {
-        // Verwende die globale createAudioElement Funktion
+        
         this.death_sound = createAudioElement('audio/chicken_hurt.mp3');
     }
 
@@ -61,7 +61,7 @@ class ChickenSmall extends MoveableObject {
             if (this.energy > 0) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 250); // Etwas langsamere Animation
+        }, 250); 
     }
 
     /**
@@ -87,26 +87,26 @@ class ChickenSmall extends MoveableObject {
      * Passt die Lautstärke an und spielt den Soundeffekt ab
      */
     playSoundOnDeath() {
-        // Prüfe zuerst, ob das Spiel gemutet ist
+        
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
-            return; // Kein Sound abspielen wenn gemutet
+            return; 
         }
         
         if (this.death_sound) {
             try {
-                this.death_sound.volume = 0.3; // Etwas leiser als normale Hühner
-                this.death_sound.currentTime = 0; // Reset zum Anfang
+                this.death_sound.volume = 0.3; 
+                this.death_sound.currentTime = 0; 
                 
-                // Verwende die sichere Play-Funktion aus audio.js
+                
                 if (typeof safePlay === 'function') {
                     safePlay(this.death_sound);
                 } else {
                     this.death_sound.play().catch(error => {
-                        // Small chicken death sound konnte nicht abgespielt werden
+                        
                     });
                 }
             } catch (error) {
-                // Fehler beim Abspielen des Small chicken death sounds
+                
             }
         }
     }

@@ -20,22 +20,22 @@ function resetGame() {
  */
 function preloadImages() {
     const imagesToPreload = [
-        // Charakter-Bilder
+        
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/1_idle/idle/I-1.png',
         
-        // Hintergrund-Bilder
+        
         'img/5_background/layers/air.png',
         'img/5_background/layers/3_third_layer/1.png',
         'img/5_background/layers/2_second_layer/1.png',
         'img/5_background/layers/1_first_layer/1.png',
         
-        // UI-Bilder
+        
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
         
-        // Spiel-Objekte
+        
         'img/8_coin/coin_1.png',
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png'
@@ -76,7 +76,7 @@ async function init() {
     resetGame();
     gameActive = true;
     
-    // Bilder zuerst vorladen um schwarzen Bildschirm zu verhindern
+    
     await preloadImages();
     
     initLevel();
@@ -409,7 +409,7 @@ function toggleIngameMenu() {
     }
 }
 
-// Event-Listener für Vollbild- und Orientierungsänderungen
+
 document.addEventListener('fullscreenchange', handleFullscreenChange);
 document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 document.addEventListener('mozfullscreenchange', handleFullscreenChange);

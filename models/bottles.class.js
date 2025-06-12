@@ -21,7 +21,7 @@ class Bottles extends MoveableObject {
             bottom: 5,
             left: 5
         };
-        this.collected = false; // Flasche ist noch nicht eingesammelt
+        this.collected = false; 
     }
     
     /**

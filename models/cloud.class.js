@@ -20,7 +20,7 @@ class Cloud extends MoveableObject {
         setInterval(() => {
             this.moveLeft();
             if (this.x + this.width < 0) {
-                this.x = window.innerWidth + 1000 + Math.random() * 1000; // zufällig aber weiter entfernt
+                this.x = window.innerWidth + 1000 + Math.random() * 1000; 
             }
         }, 1000 / 60);
     }

@@ -15,7 +15,7 @@ class BottleBar extends DrawableObject {
 
     constructor() {
         super();
-        this.MAX_BOTTLES = 10; // Maximale Anzahl von Flaschen
+        this.MAX_BOTTLES = 10; 
         this.collectedBottles = 0;
         this.loadImages(this.IMAGES_BOTTLES);
         this.x = 15;

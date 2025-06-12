@@ -1,5 +1,5 @@
 /**
- * Verwaltet den Spiel-Zustand und Audio
+ * Verwaltet Spiellogik und Audio
  * @class
  */
 class GameManager {
@@ -8,11 +8,25 @@ class GameManager {
     }
 
     /**
+     * Behandelt das Werfen von Objekten
+     */
+    handleThrowing() {
+        if (this.world.keyboard.D && this.world.availableBottles > 0) {
+            this.world.character.wakeUp();
+            
+            let bottle = new ThrowableObject(this.world.character.x + 100, this.world.character.y + 100);
+            this.world.throwableObjects.push(bottle);
+            this.world.availableBottles--;
+            this.world.bottleBar.setCollectedBottles(this.world.availableBottles);
+        }
+    }
+
+    /**
      * Überprüft die Wurflogik für Flaschen
      */
     checkThrowObjects() {
         if (this.world.keyboard.D && this.world.canThrowBottle && this.world.availableBottles > 0 && !this.world.character.otherDirection) {
-            // Wecke den Charakter auf, falls er schläft
+            
             if (this.world.character.idleTimer > this.world.character.IDLE_THRESHOLD) {
                 this.world.character.wakeUp();
             }
@@ -58,30 +72,32 @@ class GameManager {
     }
 
     /**
-     * Spielt einen Spiel-Sound ab (wenn nicht stummgeschaltet)
+     * Spielt Spiel-Audio ab
      */
-    playGameSound(soundFilePath, volume = 0.2) {
-        if (isGameMuted) return;
+    playGameSound(audioPath, volume = 1.0, loop = false) {
+        if (isGameMuted) {
+            return;
+        }
         
         try {
-            const audio = new Audio(soundFilePath);
+            const audio = new Audio(audioPath);
             audio.volume = volume;
+            audio.loop = loop;
             
             const playPromise = audio.play();
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    // Fehler beim Abspielen ignorieren
+                playPromise.then(() => {
+                }).catch(error => {
                 });
             }
         } catch (error) {
-            // Fehler beim Laden ignorieren
         }
     }
 
     /**
-     * Spielt das Flaschen-Zerbrechgeräusch ab
+     * Spielt Flaschen-Zerbrechungsgeräusch ab
      */
     playBottleShatterSound() {
-        this.playGameSound('./audio/bottle_shatter.mp3', 0.7);
+        this.playGameSound('./audio/bottle.mp3', 0.5);
     }
 } 

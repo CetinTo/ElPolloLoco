@@ -22,7 +22,6 @@ class CollisionManager {
      * Überprüft Münz-Kollisionen
      */
     checkCoinCollisions() {
-        // Verwende for-Schleife rückwärts für bessere Performance beim Entfernen
         for (let i = this.world.level.coins.length - 1; i >= 0; i--) {
             let coin = this.world.level.coins[i];
             if (this.world.character.isColliding(coin)) {
@@ -42,14 +41,12 @@ class CollisionManager {
         for (let i = this.world.level.bottles.length - 1; i >= 0; i--) {
             let bottle = this.world.level.bottles[i];
             if (this.isCharacterNearBottle(bottle)) {
-                // Sammle Flaschen nur wenn noch Platz im Inventar ist
                 if (this.world.availableBottles < this.world.bottleBar.MAX_BOTTLES) {
                     this.world.level.bottles.splice(i, 1);
                     this.world.availableBottles++;
                     this.world.bottleBar.setCollectedBottles(this.world.availableBottles);
                     this.world.playGameSound('./audio/bottle_collect.mp3', 0.6);
                 }
-                // Wenn der Balken voll ist, sammle die Flasche nicht (lasse sie liegen)
             }
         }
     }
@@ -58,7 +55,7 @@ class CollisionManager {
      * Verbesserte Kollisionserkennung für Flaschen-Sammlung
      */
     isCharacterNearBottle(bottle) {
-        const buffer = 20; // Reduzierter Buffer für präzisere Kollision
+        const buffer = 20;
 
         const char = this.world.character;
         const charLeft = char.x + char.offset.left;
@@ -178,9 +175,15 @@ class CollisionManager {
      * Behandelt Kollision über dem Boden (Springen auf Gegner)
      */
     handleCollisionAboveGround(enemy) {
-        enemy.energy--;
+        if (enemy instanceof Chicken || enemy instanceof ChickenSmall) {
+            enemy.energy = 0;
+        } else {
+            enemy.energy--;
+        }
+        
         this.world.character.jump();
         this.world.playGameSound('./audio/chicken_hurt.mp3', 0.8);
+        
         if (enemy.energy === 0) {
             enemy.playDeathAnimation();
             setTimeout(() => {
@@ -195,7 +198,6 @@ class CollisionManager {
     handleCollision() {
         this.world.character.hit();
         this.world.statusBar.setPercentage(this.world.character.energy);
-        this.world.playGameSound('./audio/hurt.mp3', 0.7);
     }
 
     /**
@@ -213,8 +215,7 @@ class CollisionManager {
      */
     handleBottleEndbossCollision(bottle, index) {
         bottle.hasCollided = true;
-        this.world.level.endboss[0].hit();
-        this.world.endbossHealthbar.setPercentage((this.world.level.endboss[0].energy / 120) * 100);
+        this.world.level.endboss[0].bossIsHit();
         this.world.playBottleShatterSound();
         bottle.animateBottleSplash();
         

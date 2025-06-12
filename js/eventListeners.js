@@ -1,4 +1,4 @@
-// Tastatur-Ereignisse
+
 document.addEventListener("keydown", (event) => {
     if (!gameActive) return;
     if (event.code == 'ArrowRight') {
@@ -89,7 +89,7 @@ function mobileButtonTouch() {
     }
 }
 
-// Mobile Touch-Ereignisse initialisieren wenn DOM geladen ist
+
 document.addEventListener('DOMContentLoaded', () => {
     mobileButtonTouch();
 });

@@ -9,7 +9,7 @@ function safePlay(audioElement) {
     if (audioElement.paused) {
       return audioElement.play().catch((error) => {
         if (error.name !== 'AbortError') {
-          // Audio-Fehler aufgetreten
+          
         }
       });
     }
@@ -26,7 +26,7 @@ function createAudioElement(src) {
         const audio = new Audio();
         audio.preload = 'auto';
         
-        // Cache-Busting nur in der Entwicklung, um Produktions-Performance zu erhalten
+        
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             const timestamp = Date.now();
             audio.src = `${src}?t=${timestamp}`;
@@ -35,7 +35,7 @@ function createAudioElement(src) {
         }
         
         audio.addEventListener('error', (e) => {
-            // Audio-Datei konnte nicht geladen werden
+            
         });
         
         return audio;
@@ -68,7 +68,7 @@ let gameLost = createAudioElement('audio/game_lost.mp3');
  */
 let isGameMuted = false;
 
-// Zustand aus localStorage laden
+
 isGameMuted = localStorage.getItem('isGameMuted') === 'true';
 
 /**
@@ -151,7 +151,7 @@ function muteSounds() {
     muteCharacterSounds();
     muteEndbossSounds();
     
-    // Stoppe alle laufenden Character-Sounds wenn gemutet
+    
     if (isGameMuted && world && world.character) {
       if (world.character.walking_sound) {
         world.character.walking_sound.pause();
@@ -205,7 +205,7 @@ function initSoundStatusUI() {
     let musicToggleButton = document.getElementById('audio-control-btn');
     let soundIcon = document.getElementById('audio-toggle');
 
-    // Falls die HTML-Elemente noch nicht existieren, abbrechen
+    
     if (!musicToggleButton || !soundIcon) return;
 
     if (isGameMuted) {
@@ -220,7 +220,7 @@ function initSoundStatusUI() {
     muteSounds();
 }
 
-// Event-Listener für das Laden der Seite
+
 window.addEventListener('load', () => {
     initSoundStatusUI();
 });
