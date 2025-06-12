@@ -13,6 +13,8 @@ class RenderManager {
     draw() {
         this.world.ctx.clearRect(0, 0, this.world.canvas.width, this.world.canvas.height);
         
+        this.world.camera_x = -this.world.character.x + 100;
+        
         this.world.ctx.translate(this.world.camera_x, 0);
         
         this.addObjectsToMap(this.world.level.backgroundObjects);
@@ -29,12 +31,14 @@ class RenderManager {
         this.addToMap(this.world.statusBar);
         this.addToMap(this.world.coinBar);
         this.addToMap(this.world.bottleBar);
-        this.addToMap(this.world.endbossHealthbar);
         
-        let self = this;
-        requestAnimationFrame(function() {
-            self.draw();
-        });
+        if (this.world.character.x >= 4500) {
+            this.world.showEndbossHealthbar = true;
+        }
+        
+        if (this.world.showEndbossHealthbar && this.world.level.endboss && this.world.level.endboss.length > 0) {
+            this.addToMap(this.world.endbossHealthbar);
+        }
     }
 
     /**
