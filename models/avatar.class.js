@@ -77,18 +77,28 @@ class Character extends MoveableObject {
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+        this.initializeImages();
+        this.initializeProperties();
+        this.initializeAudio();
+        this.startAnimations();
+    }
+
+    /**
+     * Lädt alle Bild-Arrays für verschiedene Animationen
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
-        
-        
-        this.initializeAudio();
-        
-        this.animate();
-        this.applyGravity();
+    }
+
+    /**
+     * Initialisiert grundlegende Eigenschaften des Charakters
+     */
+    initializeProperties() {
         this.jumping = false;
         this.offset = {
             top: 60,
@@ -96,6 +106,14 @@ class Character extends MoveableObject {
             bottom: 30,
             left: 20
         };
+    }
+
+    /**
+     * Startet alle Animationen und Physik
+     */
+    startAnimations() {
+        this.animate();
+        this.applyGravity();
     }
 
     /**

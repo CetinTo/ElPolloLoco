@@ -19,13 +19,34 @@ class EndbossHealthbar extends DrawableObject {
 
     constructor() {
         super();
-        this.id = EndbossHealthbar.counter;
+        this.initializeImages();
+        this.initializeProperties();
+        this.initializeDisplay();
+    }
+
+    /**
+     * Lädt alle Boss-Gesundheits-Bilder
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_BOSS_HEALTH_FULL);
         this.loadImages(this.IMAGES_BOSS_HEALTH);
+    }
+
+    /**
+     * Initialisiert Position und Eigenschaften der Boss-Gesundheitsleiste
+     */
+    initializeProperties() {
+        this.id = EndbossHealthbar.counter;
         this.x = 500;
         this.y = 0;
         this.width = 200;
         this.height = 60;
+    }
+
+    /**
+     * Initialisiert die Anzeige mit voller Boss-Energie
+     */
+    initializeDisplay() {
         this.setPercentage(this.bossEnergy);
     }
 

@@ -20,23 +20,41 @@ class Chicken extends MoveableObject {
 
     constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        this.initializeImages();
+        this.initializeProperties(x);
+        this.initializeAudio();
+        this.startBehavior();
+    }
+
+    /**
+     * Lädt alle Animations-Bilder für das Huhn
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
+    }
+
+    /**
+     * Initialisiert grundlegende Eigenschaften des Huhns
+     */
+    initializeProperties(x) {
         this.x = x;
         this.speed = 0.25 + Math.random() * 0.35;
         this.movementInterval = null;
         this.animationInterval = null;
-        
-        
-        this.initializeAudio();
-        
-        this.animate();
         this.offset = {
             top: 5,
             right: 5,
             bottom: -55,
             left: 5
         };
+    }
+
+    /**
+     * Startet das Huhn-Verhalten
+     */
+    startBehavior() {
+        this.animate();
     }
 
     /**

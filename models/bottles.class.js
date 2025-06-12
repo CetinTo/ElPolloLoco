@@ -12,7 +12,21 @@ class Bottles extends MoveableObject {
 
     constructor(x, y) {
         super();
+        this.initializeImage();
+        this.initializeProperties(x, y);
+    }
+
+    /**
+     * Lädt ein zufälliges Flaschen-Bild
+     */
+    initializeImage() {
         this.loadImage(this.IMAGES_BOTTLE[Math.round(Math.random())]);
+    }
+
+    /**
+     * Initialisiert Position und Eigenschaften der Flasche
+     */
+    initializeProperties(x, y) {
         this.x = x + 450;
         this.y = y;
         this.offset = {
@@ -21,7 +35,7 @@ class Bottles extends MoveableObject {
             bottom: 5,
             left: 5
         };
-        this.collected = false; 
+        this.collected = false;
     }
     
     /**

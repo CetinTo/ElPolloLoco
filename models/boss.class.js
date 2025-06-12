@@ -66,24 +66,49 @@ class Endboss extends MoveableObject {
 
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
+        this.initializeImages();
+        this.initializeProperties();
+        this.initializeHandlers();
+        this.startBehavior();
+    }
+
+    /**
+     * Lädt alle Bild-Arrays für verschiedene Animationen
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
+    }
+
+    /**
+     * Initialisiert grundlegende Eigenschaften des Endbosses
+     */
+    initializeProperties() {
         this.x = 5000;
         this.speed = 60;
         this.speedMode = 'normal';
         this.horizontalJumpSpeed = 30;
         this.offset = { top: 60, right: 20, bottom: 90, left: 20 };
         this.animationIntervals = [];
-        
-        
+    }
+
+    /**
+     * Initialisiert alle Handler-Klassen für Boss-Verhalten
+     */
+    initializeHandlers() {
         this.movementHandler = new BossMovement(this);
         this.attackHandler = new BossAttacks(this);
         this.jumpHandler = new BossJumpAttacks(this);
         this.animationHandler = new BossAnimations(this);
-        
+    }
+
+    /**
+     * Startet das Boss-Verhalten
+     */
+    startBehavior() {
         this.animate();
     }
 

@@ -15,13 +15,34 @@ class BottleBar extends DrawableObject {
 
     constructor() {
         super();
-        this.MAX_BOTTLES = 10; 
-        this.collectedBottles = 0;
+        this.initializeImages();
+        this.initializeProperties();
+        this.initializeDisplay();
+    }
+
+    /**
+     * Lädt alle Flaschen-Status-Bilder
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_BOTTLES);
+    }
+
+    /**
+     * Initialisiert Position und Eigenschaften der Flaschenleiste
+     */
+    initializeProperties() {
+        this.MAX_BOTTLES = 10;
+        this.collectedBottles = 0;
         this.x = 15;
         this.y = 100;
         this.width = 200;
         this.height = 60;
+    }
+
+    /**
+     * Initialisiert die Anzeige mit null Flaschen
+     */
+    initializeDisplay() {
         this.setCollectedBottles(0);
     }
 

@@ -29,15 +29,28 @@ class ThrowableObject extends MoveableObject {
 
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
+        this.initializeImages();
+        this.initializeProperties(x, y);
+        this.startBehavior();
+    }
+
+    /**
+     * Lädt alle Animations-Bilder für das werfbare Objekt
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);
         this.loadImages(this.IMAGES_BOTTLE_SPLASH);
+    }
+
+    /**
+     * Initialisiert Position und Eigenschaften des werfbaren Objekts
+     */
+    initializeProperties(x, y) {
         this.x = x;
         this.y = y;
         this.height = 80;
         this.width = 65;
         this.throwInterval = null;
-        this.throw();
-        this.animate();
         this.offset = {
             top: 10,
             right: 10,
@@ -46,6 +59,13 @@ class ThrowableObject extends MoveableObject {
         };
     }
 
+    /**
+     * Startet das Wurf- und Animations-Verhalten
+     */
+    startBehavior() {
+        this.throw();
+        this.animate();
+    }
 
     /**
      * Wirft das Objekt mit einer bestimmten Flugbahn und startet die Animation

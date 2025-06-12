@@ -28,35 +28,66 @@ class World {
     gameManager;
 
     constructor(canvas, keyboard, level1) {
+        this.initializeCanvasContext(canvas);
+        this.initializeProperties(keyboard, level1);
+        this.initializeManagers();
+        this.setupWorld();
+        this.startGameLoops();
+    }
+
+    /**
+     * Initialisiert Canvas und Kontext-Eigenschaften
+     */
+    initializeCanvasContext(canvas) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        this.keyboard = keyboard;
-        this.level = level1;
         
-        
+        // Anti-Aliasing deaktivieren für pixelgenaues Rendering
         this.ctx.imageSmoothingEnabled = false;
         this.ctx.webkitImageSmoothingEnabled = false;
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.msImageSmoothingEnabled = false;
         this.ctx.oImageSmoothingEnabled = false;
         
-        
+        // Pixel-perfektes Rendering
         this.ctx.translate(0.5, 0.5);
         this.ctx.scale(1, 1);
         this.ctx.translate(-0.5, -0.5);
-        
-        
+    }
+
+    /**
+     * Initialisiert grundlegende Eigenschaften
+     */
+    initializeProperties(keyboard, level1) {
+        this.keyboard = keyboard;
+        this.level = level1;
+    }
+
+    /**
+     * Initialisiert alle Manager-Klassen
+     */
+    initializeManagers() {
         this.collisionManager = new CollisionManager(this);
         this.renderManager = new RenderManager(this);
         this.gameManager = new GameManager(this);
-        
+    }
+
+    /**
+     * Richtet die Welt ein
+     */
+    setupWorld() {
         this.setWorld();
         
-        
+        // Initiale Zeichnungen für bessere Performance
         this.draw();
         setTimeout(() => this.draw(), 10);
         setTimeout(() => this.draw(), 50);
-        
+    }
+
+    /**
+     * Startet alle Spiel-Loops
+     */
+    startGameLoops() {
         this.run();
     }
 

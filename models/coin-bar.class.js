@@ -21,11 +21,32 @@ class CoinBar extends DrawableObject {
 
     constructor() {
         super();
+        this.initializeImages();
+        this.initializeProperties();
+        this.initializeDisplay();
+    }
+
+    /**
+     * Lädt alle Münz-Status-Bilder
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_COINS);
+    }
+
+    /**
+     * Initialisiert Position und Größe der Münzleiste
+     */
+    initializeProperties() {
         this.x = 15;
         this.y = 50;
         this.width = 200;
         this.height = 60;
+    }
+
+    /**
+     * Initialisiert die Anzeige mit null Münzen
+     */
+    initializeDisplay() {
         this.setCollectedCoins(0);
     }
 

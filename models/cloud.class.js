@@ -9,7 +9,21 @@ class Cloud extends MoveableObject {
 
     constructor(x = 0) {
         super().loadImage('img/5_background/layers/4_clouds/1.png');
+        this.initializeProperties(x);
+        this.startMovement();
+    }
+
+    /**
+     * Initialisiert die Position der Wolke
+     */
+    initializeProperties(x) {
         this.x = x;
+    }
+
+    /**
+     * Startet die Wolken-Bewegung
+     */
+    startMovement() {
         this.animate();
     }
 

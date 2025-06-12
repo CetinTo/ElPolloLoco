@@ -20,23 +20,41 @@ class ChickenSmall extends MoveableObject {
 
     constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
+        this.initializeImages();
+        this.initializeProperties(x);
+        this.initializeAudio();
+        this.startBehavior();
+    }
+
+    /**
+     * Lädt alle Animations-Bilder für das kleine Huhn
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
+    }
+
+    /**
+     * Initialisiert grundlegende Eigenschaften des kleinen Huhns
+     */
+    initializeProperties(x) {
         this.x = x;
-        this.speed = 0.15 + Math.random() * 0.25; 
+        this.speed = 0.15 + Math.random() * 0.25;
         this.movementInterval = null;
         this.animationInterval = null;
-        
-        
-        this.initializeAudio();
-        
-        this.animate();
         this.offset = {
             top: 5,
             right: 5,
             bottom: -45,
             left: 5
         };
+    }
+
+    /**
+     * Startet das kleine Huhn-Verhalten
+     */
+    startBehavior() {
+        this.animate();
     }
 
     /**

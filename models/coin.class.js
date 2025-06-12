@@ -13,8 +13,23 @@ class Coin extends MoveableObject {
 
     constructor(x, y) {
         super();
+        this.initializeImages();
+        this.initializeProperties(x, y);
+        this.startAnimation();
+    }
+
+    /**
+     * Lädt alle Münz-Bilder
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_COINS);
         this.loadImage('img/8_coin/coin_2.png');
+    }
+
+    /**
+     * Initialisiert Position und Eigenschaften der Münze
+     */
+    initializeProperties(x, y) {
         this.x = x + 500;
         this.y = y;
         this.width = 120;
@@ -25,6 +40,12 @@ class Coin extends MoveableObject {
             bottom: 80,
             left: 45
         };
+    }
+
+    /**
+     * Startet die Münz-Animation
+     */
+    startAnimation() {
         this.animate();
     }
 

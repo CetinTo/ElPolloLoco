@@ -19,14 +19,34 @@ class Statusbar extends DrawableObject {
 
     constructor() {
         super();
+        this.initializeImages();
+        this.initializeProperties();
+        this.initializeDisplay();
+    }
+
+    /**
+     * Lädt alle Status-Bilder
+     */
+    initializeImages() {
         this.loadImages(this.IMAGES_HEALTH);
+    }
+
+    /**
+     * Initialisiert Position und Größe der Statusleiste
+     */
+    initializeProperties() {
         this.x = 15;
         this.y = 0;
         this.width = 200;
         this.height = 60;
-        this.setPercentage(100);
     }
 
+    /**
+     * Initialisiert die Anzeige mit vollem Status
+     */
+    initializeDisplay() {
+        this.setPercentage(100);
+    }
 
     /**
      * Setzt den Prozentsatz für die Statusleiste und aktualisiert das angezeigte Bild entsprechend

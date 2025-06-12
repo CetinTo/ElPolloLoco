@@ -10,6 +10,13 @@ class BackgroundObject extends MoveableObject {
 
     constructor(imagePath, x) {
         super().loadImage(imagePath);
+        this.initializeProperties(x);
+    }
+
+    /**
+     * Initialisiert Position des Hintergrund-Objekts
+     */
+    initializeProperties(x) {
         this.x = x;
         this.y = 480 - this.height;
     }
