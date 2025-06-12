@@ -98,6 +98,6 @@ class GameManager {
      * Spielt Flaschen-Zerbrechungsgeräusch ab
      */
     playBottleShatterSound() {
-        this.playGameSound('./audio/bottle.mp3', 0.5);
+        this.playGameSound('./audio/bottle_shatter.mp3', 0.5);
     }
 } 
