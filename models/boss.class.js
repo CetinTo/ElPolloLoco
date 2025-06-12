@@ -72,7 +72,7 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.x = 5000;
-        this.speed = 80;
+        this.speed = 15;
         this.speedMode = 'normal';
         this.horizontalJumpSpeed = 20;
         this.offset = { top: 60, right: 20, bottom: 90, left: 20 };

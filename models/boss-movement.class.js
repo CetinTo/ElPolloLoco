@@ -21,23 +21,23 @@ class BossMovement {
     }
 
     /**
-     * EXTREM schnelle aggressive Geschwindigkeit
+     * Balancierte Boss-Geschwindigkeit
      */
     updateAggressiveSpeed() {
-        this.boss.speed = 35 + this.boss.aggressionLevel * 15;
+        this.boss.speed = 8 + this.boss.aggressionLevel * 3;
         
         if (world && world.character) {
             const distance = Math.abs(this.boss.x - world.character.x);
-            if (distance < 600) {
-                this.boss.speed += 20;
+            if (distance < 400) {
+                this.boss.speed += 5;
             }
         }
         
         if (this.boss.energy < 60) {
-            this.boss.speed += 25;
+            this.boss.speed += 4;
         }
         if (this.boss.energy < 30) {
-            this.boss.speed += 35;
+            this.boss.speed += 6;
         }
     }
 
