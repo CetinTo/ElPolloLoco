@@ -430,9 +430,11 @@ canvas {
         font-size: 18px;
     }
 
-    
+    .impressum-text {
+        font-size: 20px !important;
+        top: 95% !important;
+    }
 }
-
 
 /* Zusätzliche Anpassungen für sehr kleine Bildschirme */
 @media only screen and (max-width: 480px) {
@@ -476,7 +478,10 @@ canvas {
         font-size: 14px;
     }
 
-    /* Impressum-Regel entfernt - wird von Haupt-CSS übernommen */
+    .impressum-text {
+        font-size: 28px !important;
+        top: 50% !important;
+    }
 }
 
 @media only screen and (max-width: 375px) {
@@ -499,13 +504,20 @@ canvas {
         letter-spacing: 1px;
     }
 
-    /* Impressum-Regel entfernt - wird von Haupt-CSS übernommen */
+    .impressum-text {
+        font-size: 24px !important;
+        top: 55% !important;
+    }
 }
 
 /* Rotate-Container für Bildschirme unter 1300px */
 @media only screen and (max-width: 1300px) and (orientation: portrait) {
     .rotate-container {
         display: flex !important;
+    }
+    
+    .impressum-text {
+        display: none !important;
     }
 }
 
@@ -604,7 +616,40 @@ canvas {
         font-size: 18px;
     }
 
-    /* Impressum-Regel entfernt - wird von Haupt-CSS übernommen */
+    .impressum-text {
+        font-size: 36px !important;
+        top: 68% !important;
+    }
+}
+
+/* iPad Pro 1366x1024 - Touch-Buttons aktivieren */
+@media only screen and (min-width: 1300px) and (max-width: 1400px) and (min-height: 1000px) and (max-height: 1100px) {
+    .touch-interface {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 20px !important;
+        right: 20px !important;
+        justify-content: space-between !important;
+        align-items: flex-end !important;
+        padding: 0 !important;
+        pointer-events: none !important;
+    }
+    
+    .touch-group {
+        pointer-events: auto !important;
+        gap: 12px !important;
+    }
+    
+    .touch-button {
+        width: 60px !important;
+        height: 60px !important;
+        opacity: 0.8 !important;
+    }
+    
+    .impressum-text {
+        font-size: 42px !important;
+    }
 }
 
 

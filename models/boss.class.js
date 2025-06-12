@@ -6,7 +6,7 @@ class Endboss extends MoveableObject {
     height = 400;
     width = 250;
     y = 55;
-    energy = 120;
+    energy = 300;
     isDead = false;
     hadFirstContact = false;
     alertAnimationPlayed = false;
@@ -72,9 +72,9 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.x = 5000;
-        this.speed = 15;
+        this.speed = 60;
         this.speedMode = 'normal';
-        this.horizontalJumpSpeed = 20;
+        this.horizontalJumpSpeed = 30;
         this.offset = { top: 60, right: 20, bottom: 90, left: 20 };
         this.animationIntervals = [];
         

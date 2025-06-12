@@ -24,20 +24,20 @@ class BossMovement {
      * Balancierte Boss-Geschwindigkeit
      */
     updateAggressiveSpeed() {
-        this.boss.speed = 8 + this.boss.aggressionLevel * 3;
+        this.boss.speed = 40 + this.boss.aggressionLevel * 15;
         
         if (world && world.character) {
             const distance = Math.abs(this.boss.x - world.character.x);
-            if (distance < 400) {
-                this.boss.speed += 5;
+            if (distance < 700) {
+                this.boss.speed += 25;
             }
         }
         
         if (this.boss.energy < 60) {
-            this.boss.speed += 4;
+            this.boss.speed += 20;
         }
         if (this.boss.energy < 30) {
-            this.boss.speed += 6;
+            this.boss.speed += 25;
         }
     }
 
@@ -76,7 +76,7 @@ class BossMovement {
                 clearInterval(this.boss.walkingInterval);
                 this.boss.walkingInterval = null;
             }
-        }, 40);
+        }, 30);
         
         this.boss.animationIntervals.push(this.boss.walkingInterval);
         addInterval(this.boss.walkingInterval);

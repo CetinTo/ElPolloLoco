@@ -140,13 +140,57 @@ function showEndScreen() {
         stopBackgroundMusic();
     }
     
+    stopAllGameSounds();
     clearAllIntervals();
+}
+
+/**
+ * Stoppt alle laufenden Spiel-Sounds
+ */
+function stopAllGameSounds() {
+    if (world && world.character) {
+        if (world.character.walking_sound) {
+            world.character.walking_sound.pause();
+            world.character.walking_sound.currentTime = 0;
+        }
+        if (world.character.hurt_sound) {
+            world.character.hurt_sound.pause();
+            world.character.hurt_sound.currentTime = 0;
+        }
+    }
+    
+    if (world && world.level && world.level.endboss) {
+        world.level.endboss.forEach((boss) => {
+            if (boss.alert_sound) {
+                boss.alert_sound.pause();
+                boss.alert_sound.currentTime = 0;
+            }
+            if (boss.hurt_sound) {
+                boss.hurt_sound.pause();
+                boss.hurt_sound.currentTime = 0;
+            }
+            if (boss.dead_sound) {
+                boss.dead_sound.pause();
+                boss.dead_sound.currentTime = 0;
+            }
+        });
+    }
+    
+    if (world && world.level && world.level.enemies) {
+        world.level.enemies.forEach((enemy) => {
+            if (enemy.death_sound) {
+                enemy.death_sound.pause();
+                enemy.death_sound.currentTime = 0;
+            }
+        });
+    }
 }
 
 /**
  * Zurück zum Hauptmenü
  */
 function returnToMenu() {
+    stopAllGameSounds();
     clearAllIntervals();
     prepareRestart();
     showMenu();
@@ -157,6 +201,7 @@ function returnToMenu() {
  * Spiel neu starten
  */
 function restart() {
+    stopAllGameSounds();
     clearAllIntervals();
     prepareRestart();
     init();

@@ -154,6 +154,6 @@ class BossAnimations {
      * Aktualisiert die Gesundheitsleiste des Endbosses
      */
     updateHealthBar() {
-        world.endbossHealthbar.setPercentage(this.boss.energy);
+        world.endbossHealthbar.setPercentage((this.boss.energy / 180) * 100);
     }
 } 

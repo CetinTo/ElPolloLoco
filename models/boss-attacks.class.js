@@ -40,8 +40,8 @@ class BossAttacks {
         const distanceToPlayer = Math.abs(this.boss.x - world.character.x);
         const timeSinceLastAttack = Date.now() - this.boss.lastAttackTime;
         
-        const attackDistance = 450 + (this.boss.aggressionLevel * 100);
-        const attackCooldown = Math.max(600 - (this.boss.aggressionLevel * 150), 300);
+        const attackDistance = 550 + (this.boss.aggressionLevel * 100);
+        const attackCooldown = Math.max(400 - (this.boss.aggressionLevel * 100), 200);
         
         return distanceToPlayer < attackDistance && timeSinceLastAttack > attackCooldown && this.boss.energy > 0;
     }
@@ -65,10 +65,10 @@ class BossJumpAttacks {
         const distanceToPlayer = Math.abs(this.boss.x - world.character.x);
         const timeSinceLastJump = Date.now() - this.boss.lastJumpTime;
         
-        const jumpChance = this.boss.aggressionLevel * 0.003;
+        const jumpChance = this.boss.aggressionLevel * 0.005;
         
         return distanceToPlayer < 600 && distanceToPlayer > 100 && 
-               timeSinceLastJump > 2500 && Math.random() < jumpChance;
+               timeSinceLastJump > 2000 && Math.random() < jumpChance;
     }
 
     /**
@@ -83,12 +83,12 @@ class BossJumpAttacks {
             const bossX = this.boss.x;
             const distance = Math.abs(playerX - bossX);
             
-            this.boss.speedY = -20 - (this.boss.aggressionLevel * 2);
+            this.boss.speedY = -25 - (this.boss.aggressionLevel * 3);
             
             if (playerX < bossX) {
-                this.boss.horizontalJumpSpeed = -(8 + this.boss.aggressionLevel * 2);
+                this.boss.horizontalJumpSpeed = -(12 + this.boss.aggressionLevel * 3);
             } else {
-                this.boss.horizontalJumpSpeed = (8 + this.boss.aggressionLevel * 2);
+                this.boss.horizontalJumpSpeed = (12 + this.boss.aggressionLevel * 3);
             }
             
             if (this.boss.alert_sound) {
@@ -102,7 +102,7 @@ class BossJumpAttacks {
                 this.boss.speedY = 0;
                 this.boss.horizontalJumpSpeed = 0;
                 this.boss.y = 55;
-            }, 1200);
+            }, 1000);
         }
     }
 
