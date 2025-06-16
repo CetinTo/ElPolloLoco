@@ -78,10 +78,7 @@ function gameWonSound() {
     if (gameWon) {
         gameWon.muted = false; // Immer abspielen
         gameWon.volume = 0.7;
-        console.log('🔊 Game Won Sound wird abgespielt, Lautstärke:', gameWon.volume);
         safePlay(gameWon);
-    } else {
-        console.log('❌ Game Won Sound Element nicht verfügbar');
     }
 }
 
@@ -92,10 +89,7 @@ function gameLostSound() {
     if (gameLost) {
         gameLost.muted = false; // Immer abspielen
         gameLost.volume = 0.7;
-        console.log('🔊 Game Lost Sound wird abgespielt, Lautstärke:', gameLost.volume);
         safePlay(gameLost);
-    } else {
-        console.log('❌ Game Lost Sound Element nicht verfügbar');
     }
 }
 
@@ -142,12 +136,8 @@ function updateSoundStatus() {
  * MASTER AUDIO CONTROL - Kontrolliert alle Sounds im Spiel
  */
 function toggleSoundAndImage() {
-    console.log('🔊 Sound Toggle geklickt - aktueller Status:', isGameMuted ? 'STUMM' : 'AN');
-    
     isGameMuted = !isGameMuted;
     localStorage.setItem('isGameMuted', isGameMuted);
-    
-    console.log('🔊 Neuer Sound Status:', isGameMuted ? 'STUMM' : 'AN');
     
     updateSoundStatus();
     masterMuteAllSounds();
@@ -157,20 +147,16 @@ function toggleSoundAndImage() {
  * MASTER MUTE FUNKTION - Steuert alle Audios im Spiel
  */
 function masterMuteAllSounds() {
-    console.log('🔊 Master Mute wird ausgeführt, stumm:', isGameMuted);
-    
     // Hintergrundmusik steuern
     if (backgroundMusic) {
         backgroundMusic.muted = isGameMuted;
         if (isGameMuted) {
             backgroundMusic.pause();
-            console.log('🔇 Hintergrundmusik gestoppt');
         } else {
             // Nur wieder starten wenn das Spiel aktiv ist
             if (gameActive) {
                 backgroundMusic.muted = false;
                 safePlay(backgroundMusic);
-                console.log('🔊 Hintergrundmusik gestartet');
             }
         }
     }
@@ -181,7 +167,6 @@ function masterMuteAllSounds() {
         if (isGameMuted) {
             gameWon.pause();
             gameWon.currentTime = 0;
-            console.log('🔇 Game Won Sound gestoppt');
         }
     }
     
@@ -190,7 +175,6 @@ function masterMuteAllSounds() {
         if (isGameMuted) {
             gameLost.pause();
             gameLost.currentTime = 0;
-            console.log('🔇 Game Lost Sound gestoppt');
         }
     }
     
@@ -210,7 +194,6 @@ function masterMuteAllSounds() {
                 world.character.jumping_sound.muted = isGameMuted;
                 if (isGameMuted) world.character.jumping_sound.pause();
             }
-            console.log('🔊 Character Sounds', isGameMuted ? 'gemutet' : 'aktiviert');
         }
         
         // Enemy Sounds
@@ -225,7 +208,6 @@ function masterMuteAllSounds() {
                     if (isGameMuted) enemy.walking_sound.pause();
                 }
             });
-            console.log('🔊 Enemy Sounds', isGameMuted ? 'gemutet' : 'aktiviert');
         }
         
         // Endboss Sounds
@@ -244,7 +226,6 @@ function masterMuteAllSounds() {
                     if (isGameMuted) endboss.dead_sound.pause();
                 }
             });
-            console.log('🔊 Endboss Sounds', isGameMuted ? 'gemutet' : 'aktiviert');
         }
         
         // Throwable Object Sounds
@@ -259,7 +240,6 @@ function masterMuteAllSounds() {
                     if (isGameMuted) bottle.throw_sound.pause();
                 }
             });
-            console.log('🔊 Throwable Object Sounds', isGameMuted ? 'gemutet' : 'aktiviert');
         }
     }
     
@@ -271,9 +251,6 @@ function masterMuteAllSounds() {
             audio.pause();
         }
     });
-    console.log('🔊 Alle HTML Audio Elemente', isGameMuted ? 'gemutet' : 'aktiviert');
-    
-    console.log('✅ Master Mute abgeschlossen');
 }
 
 /**
@@ -281,7 +258,6 @@ function masterMuteAllSounds() {
  * (Veraltete Funktion - wird von masterMuteAllSounds() ersetzt)
  */
 function muteSounds() {
-    console.log('⚠️ muteSounds() aufgerufen - wird zu masterMuteAllSounds() weitergeleitet');
     masterMuteAllSounds();
 }
 

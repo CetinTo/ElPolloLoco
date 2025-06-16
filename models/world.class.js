@@ -54,8 +54,6 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = 'blue';
         this.ctx.fillRect(0, 0, 50, 50);
-        
-        console.log('Canvas initialisiert:', this.canvas.width, 'x', this.canvas.height);
     }
 
     /**
@@ -91,14 +89,38 @@ class World {
      * Startet alle Spiel-Loops
      */
     startGameLoops() {
-        console.log('Starte Game Loops...');
-        this.run();
+        this.startMainGameLoop();
+        this.startDrawLoop();
+    }
+
+    /**
+     * Startet die Hauptspiel-Schleife
+     */
+    startMainGameLoop() {
+        const gameLoop = setInterval(() => {
+            if (!gameActive) {
+                clearInterval(gameLoop);
+                return;
+            }
+            this.run();
+        }, 1000 / 60);
         
-        // Erzwinge erste Zeichnung
-        setTimeout(() => {
-            console.log('Erste Zeichnung...');
+        addInterval(gameLoop);
+    }
+
+    /**
+     * Startet die Zeichen-Schleife
+     */
+    startDrawLoop() {
+        const drawLoop = setInterval(() => {
+            if (!gameActive) {
+                clearInterval(drawLoop);
+                return;
+            }
             this.draw();
-        }, 100);
+        }, 1000 / 60);
+        
+        addInterval(drawLoop);
     }
 
     /**
@@ -112,13 +134,10 @@ class World {
      * Startet die Hauptspiel-Schleife
      */
     run() {
-        console.log('Hauptspiel-Schleife gestartet');
-        
         // Vereinfachte Game Loop
         const gameLoopInterval = setInterval(() => {
             if (!gameActive || !this.character || this.gameOver) {
                 clearInterval(gameLoopInterval);
-                console.log('🛑 Game Loop gestoppt');
                 return;
             }
             
@@ -131,7 +150,6 @@ class World {
         const drawLoopInterval = setInterval(() => {
             if (!gameActive || this.gameOver) {
                 clearInterval(drawLoopInterval);
-                console.log('🛑 Draw Loop gestoppt');
                 return;
             }
             this.draw();
