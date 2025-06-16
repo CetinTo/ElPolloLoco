@@ -42,17 +42,20 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         
-        // Anti-Aliasing deaktivieren für pixelgenaues Rendering
-        this.ctx.imageSmoothingEnabled = false;
-        this.ctx.webkitImageSmoothingEnabled = false;
-        this.ctx.mozImageSmoothingEnabled = false;
-        this.ctx.msImageSmoothingEnabled = false;
-        this.ctx.oImageSmoothingEnabled = false;
+        // Canvas Größe explizit setzen
+        this.canvas.width = 864;
+        this.canvas.height = 576;
         
-        // Pixel-perfektes Rendering
-        this.ctx.translate(0.5, 0.5);
-        this.ctx.scale(1, 1);
-        this.ctx.translate(-0.5, -0.5);
+        // Anti-Aliasing konfigurieren aber nicht deaktivieren
+        this.ctx.imageSmoothingEnabled = true;
+        this.ctx.imageSmoothingQuality = 'high';
+        
+        // Canvas leeren und testen
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = 'blue';
+        this.ctx.fillRect(0, 0, 50, 50);
+        
+        console.log('Canvas initialisiert:', this.canvas.width, 'x', this.canvas.height);
     }
 
     /**
@@ -88,7 +91,14 @@ class World {
      * Startet alle Spiel-Loops
      */
     startGameLoops() {
+        console.log('Starte Game Loops...');
         this.run();
+        
+        // Erzwinge erste Zeichnung
+        setTimeout(() => {
+            console.log('Erste Zeichnung...');
+            this.draw();
+        }, 100);
     }
 
     /**
@@ -102,25 +112,36 @@ class World {
      * Startet die Hauptspiel-Schleife
      */
     run() {
-        const gameLoop = () => {
-            if (!this.character || this.gameOver) return;
-    
+        console.log('Hauptspiel-Schleife gestartet');
+        
+        // Vereinfachte Game Loop
+        const gameLoopInterval = setInterval(() => {
+            if (!gameActive || !this.character || this.gameOver) {
+                clearInterval(gameLoopInterval);
+                console.log('🛑 Game Loop gestoppt');
+                return;
+            }
+            
             this.collisionManager.checkAllCollisions();
             this.gameManager.checkThrowObjects();
             this.checkGameState();
-    
-            requestAnimationFrame(gameLoop); 
-        };
+        }, 1000/60); // 60 FPS
         
-        const drawLoop = () => {
-            if (!gameActive || this.gameOver) return;
-            
+        // Vereinfachte Draw Loop
+        const drawLoopInterval = setInterval(() => {
+            if (!gameActive || this.gameOver) {
+                clearInterval(drawLoopInterval);
+                console.log('🛑 Draw Loop gestoppt');
+                return;
+            }
             this.draw();
-            requestAnimationFrameId = requestAnimationFrame(drawLoop);
-        };
+        }, 1000/60); // 60 FPS
         
-        requestAnimationFrame(gameLoop);
-        requestAnimationFrame(drawLoop);
+        // Intervals zur globalen Liste hinzufügen
+        if (typeof addInterval === 'function') {
+            addInterval(gameLoopInterval);
+            addInterval(drawLoopInterval);
+        }
     }
 
     /**

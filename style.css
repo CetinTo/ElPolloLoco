@@ -3,94 +3,140 @@
     src: url('./fonts/zabras.ttf') format('truetype');
 }
 
+/* GRUNDLEGENDES LAYOUT */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Scrollbars komplett entfernen */
+*::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: 'zabras', Arial, Helvetica, sans-serif;
     background-image: url('./img/10_start_screen/start_bg-2.png');
     background-size: cover;
-    background-position: top;
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    /* Scrollbars für alle Mobile-Geräte entfernen */
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    background-position: center;
 }
 
-/* WebKit Scrollbar für alle Geräte ausblenden */
-body::-webkit-scrollbar,
-html::-webkit-scrollbar,
-*::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-    -webkit-appearance: none;
+/* HAUPTCONTAINER */
+.game-wrapper {
+    width: 864px;
+    height: 576px;
+    position: relative;
+    background-color: transparent;
 }
 
-/* Zusätzliche Scrollbar-Entfernung für alle Container */
-.game-wrapper,
-.main-menu-view,
-.keys-info,
-.finale-screen,
-.lore-panel,
-.config-panel,
 .game-area {
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.game-wrapper::-webkit-scrollbar,
-.main-menu-view::-webkit-scrollbar,
-.keys-info::-webkit-scrollbar,
-.finale-screen::-webkit-scrollbar,
-.lore-panel::-webkit-scrollbar,
-.config-panel::-webkit-scrollbar,
-.game-area::-webkit-scrollbar {
-    display: none;
-}
-
-.title {
+    width: 100%;
+    height: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+}
+
+canvas {
+    background-color: transparent;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* HAUPTMENÜ */
+.main-menu-view {
+    background: url('img/9_intro_outro_screens/start/startscreen_2.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: 115px;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-h1 {
-    font-size: 110px;
-    letter-spacing: 5px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+/* NAVIGATION PANEL */
+.navigation-panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 20px;
+    z-index: 3;
 }
 
-/* BACK Button oben links */
+/* BUTTONS */
+.button-M {
+    padding: 16px 28px;
+    font-size: 18px;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #FECC02;
+    color: black;
+    border: 4px solid #8b3a0b;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    user-select: none;
+    min-width: 140px;
+    letter-spacing: 1px;
+}
+
+.button-M:hover {
+    transform: scale(1.05);
+    background-color: white;
+}
+
+.button-M:active {
+    transform: scale(0.95);
+}
+
+/* BACK BUTTON */
 .back-button-top-left {
     position: absolute;
     top: 20px;
     left: 20px;
     z-index: 10;
-    margin: 10px;
     padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 700;
     text-align: center;
     text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    border: 4px solid #8b3a0b;
-    border-radius: 10px;
-    display: block;
-    font-weight: 700;
-    box-shadow: 0px 0px 14px -7px #f09819;
     background-color: #FECC02;
     color: black;
+    border: 4px solid #8b3a0b;
+    border-radius: 10px;
     cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+    transition: all 0.2s ease;
     font-family: 'zabras', Arial, Helvetica, sans-serif;
+    user-select: none;
 }
 
 .back-button-top-left:hover {
@@ -102,146 +148,425 @@ h1 {
     transform: scale(0.95);
 }
 
-.game-wrapper {
-    height: 480px;
-    width: 720px;
-    position: relative;
+/* TITLE */
+.title {
+    position: absolute;
+    top: 115px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
 }
 
-.game-area {
-    display: flex;
-    align-items: center;
+h1 {
+    font-size: 110px;
+    letter-spacing: 5px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    text-align: center;
+}
+
+/* PANELS */
+.finale-screen,
+.keys-info,
+.lore-panel,
+.config-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 864px;
+    height: 576px;
+    z-index: 999;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: none;
+}
+
+.finale-screen {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    flex-direction: column;
     justify-content: center;
-    position: relative;
-    height: 480px;
-    width: 720px;
+    align-items: center;
 }
 
-canvas {
-    background-color: black;
-    display: block;
+.finale-screen.game-lost-screen,
+.finale-screen.game-won-screen {
+    display: flex !important;
 }
 
-/* Vollbild-Styles */
-:fullscreen .game-wrapper,
-:fullscreen .main-menu-view,
-:fullscreen .keys-info,
-:fullscreen .finale-screen,
-:fullscreen .lore-panel,
-:fullscreen .config-panel {
+.finale-screen .end-text {
+    width: 100%;
+    max-width: 864px;
+    height: 350px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin-bottom: 40px;
+}
+
+.finale-screen .endscreen-buttons {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 60px;
+    z-index: 10;
+}
+
+.finale-screen button {
+    padding: 16px 28px;
+    font-size: 16px;
+    background-color: #FECC02;
+    border: 3px solid #8b3a0b;
+    border-radius: 12px;
+    color: black;
+    transition: all 150ms ease-in-out;
+    min-width: 150px;
+    font-family: 'zabras';
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.finale-screen button:hover {
+    background-color: white;
+    transform: scale(1.05);
+}
+
+.finale-screen button:active {
+    transform: scale(0.95);
+}
+
+/* Game Over/Won specific backgrounds */
+.game-lost-screen .end-text {
+    background-image: url('img/You won, you lost/You lost.png');
+}
+
+.game-won-screen .end-text {
+    background-image: url('img/You won, you lost/You Win A.png');
+}
+
+/* TOUCH INTERFACE */
+.touch-interface {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    display: none;
+    justify-content: space-between;
+    align-items: flex-end;
+    pointer-events: none;
+    z-index: 500;
+}
+
+.touch-group {
+    display: flex;
+    gap: 15px;
+    pointer-events: auto;
+}
+
+.touch-button {
+    width: 60px;
+    height: 60px;
+    opacity: 0.8;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.2s ease;
+}
+
+.touch-button:active {
+    opacity: 1;
+    transform: scale(0.95);
+}
+
+/* IMPRESSUM */
+.impressum-text {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #FECC02;
+    font-size: 36px;
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    z-index: 500 !important;
+    text-shadow: 
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        2px 2px 0 #000;
+}
+
+.impressum-text:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+/* Finale Screen hat Vorrang über Impressum */
+.finale-screen.game-lost-screen ~ .impressum-text,
+.finale-screen.game-won-screen ~ .impressum-text {
+    display: none !important;
+}
+
+/* RESPONSIVE DESIGN - EINFACH UND FUNKTIONAL */
+
+/* Desktop - Keine Skalierung (über 1300px) */
+@media only screen and (min-width: 1301px) {
+    .impressum-text {
+        font-size: 36px;
+        bottom: 20px;
+    }
+}
+
+/* Tablet (768px - 1300px) */
+@media only screen and (max-width: 1300px) and (min-width: 768px) {
+    .game-wrapper,
+    .main-menu-view,
+    .finale-screen,
+    .keys-info,
+    .lore-panel,
+    .config-panel {
+        transform: scale(0.85);
+        transform-origin: center center;
+    }
+    
+    .title {
+        display: none;
+    }
+    
+    .button-M {
+        font-size: 14px;
+        padding: 12px 20px;
+        min-width: 120px;
+        font-weight: 700;
+    }
+    
+    .impressum-text {
+        font-size: 28px;
+        bottom: 15px;
+    }
+}
+
+/* Alle iPhones (max 767px) */
+@media only screen and (max-width: 767px) {
+    .game-wrapper,
+    .main-menu-view,
+    .finale-screen,
+    .keys-info,
+    .lore-panel,
+    .config-panel {
+        transform: scale(0.75);
+        transform-origin: center center;
+    }
+    
+    .title {
+        display: none;
+    }
+    
+    .navigation-panel {
+        gap: 12px;
+        top: 30px;
+    }
+    
+    .button-M {
+        font-size: 16px !important;
+        padding: 14px 22px !important;
+        min-width: 120px !important;
+        font-weight: 800 !important;
+        background-color: #FECC02 !important;
+        color: black !important;
+        border: 3px solid #8b3a0b !important;
+        border-radius: 10px !important;
+        cursor: pointer !important;
+        letter-spacing: 0.8px !important;
+    }
+    
+    .back-button-top-left {
+        top: 10px;
+        left: 10px;
+        font-size: 12px !important;
+        padding: 10px 16px !important;
+        font-weight: 700 !important;
+        background-color: #FECC02 !important;
+        color: black !important;
+        border: 3px solid #8b3a0b !important;
+    }
+    
+    .impressum-text {
+        font-size: 22px;
+        bottom: 10px;
+    }
+    
+    .touch-interface {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 15px !important;
+        left: 15px !important;
+        right: 15px !important;
+        justify-content: space-between !important;
+        align-items: flex-end !important;
+        pointer-events: none !important;
+        z-index: 1000 !important;
+    }
+    
+    .touch-group {
+        display: flex !important;
+        gap: 12px !important;
+        pointer-events: auto !important;
+    }
+    
+    .touch-button {
+        width: 65px !important;
+        height: 65px !important;
+        opacity: 0.9 !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 10px !important;
+        background: rgba(0, 0, 0, 0.1) !important;
+    }
+}
+
+/* iPhone SE und sehr kleine (max 375px) */
+@media only screen and (max-width: 375px) {
+    .game-wrapper,
+    .main-menu-view,
+    .finale-screen,
+    .keys-info,
+    .lore-panel,
+    .config-panel {
+        transform: scale(0.7);
+        transform-origin: center center;
+    }
+    
+    .navigation-panel {
+        gap: 10px;
+        top: 25px;
+    }
+    
+    .button-M {
+        font-size: 14px !important;
+        padding: 12px 18px !important;
+        min-width: 110px !important;
+        font-weight: 800 !important;
+        background-color: #FECC02 !important;
+        color: black !important;
+        border: 3px solid #8b3a0b !important;
+        border-radius: 10px !important;
+        letter-spacing: 0.6px !important;
+    }
+    
+    .back-button-top-left {
+        top: 8px;
+        left: 8px;
+        font-size: 11px !important;
+        padding: 8px 14px !important;
+        font-weight: 700 !important;
+        background-color: #FECC02 !important;
+        color: black !important;
+        border: 3px solid #8b3a0b !important;
+    }
+    
+    .impressum-text {
+        font-size: 20px;
+        bottom: 8px;
+    }
+    
+    .touch-interface {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 12px !important;
+        left: 12px !important;
+        right: 12px !important;
+        justify-content: space-between !important;
+        align-items: flex-end !important;
+        pointer-events: none !important;
+        z-index: 1000 !important;
+    }
+    
+    .touch-group {
+        display: flex !important;
+        gap: 10px !important;
+        pointer-events: auto !important;
+    }
+    
+    .touch-button {
+        width: 58px !important;
+        height: 58px !important;
+        opacity: 0.9 !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 8px !important;
+        background: rgba(0, 0, 0, 0.1) !important;
+    }
+}
+
+/* Querformat - Bildschirm drehen Warnung - NUR bei Portrait */
+@media only screen and (max-width: 1300px) and (orientation: portrait) and (max-height: 900px) {
+    .rotate-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: black;
+        z-index: 1000;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+        font-size: 24px;
+        text-align: center;
+    }
+    
+    .rotate img {
+        width: 80px;
+        margin-bottom: 20px;
+    }
+    
+    .impressum-text {
+        display: none !important;
+    }
+}
+
+/* Normale Querformat-Ansicht - KEINE Rotation-Warnung */
+@media only screen and (orientation: landscape) {
+    .rotate-container {
+        display: none !important;
+    }
+}
+
+/* Vollbild-Modus */
+:fullscreen body {
     width: 100vw;
     height: 100vh;
 }
 
-:fullscreen .controls,
-:fullscreen .story,
-:fullscreen .config-options {
-    width: 50%;
-    height: 50%;
-    margin: auto;
+:fullscreen .game-wrapper,
+:fullscreen .main-menu-view,
+:fullscreen .finale-screen,
+:fullscreen .keys-info,
+:fullscreen .lore-panel,
+:fullscreen .config-panel {
+    width: 100vw;
+    height: 100vh;
+    transform: none;
 }
 
-:fullscreen .fs-centered {
-    display: block;
-    position: absolute;
-    top: 350px;
-    left: 0;
-    width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    right: 0;
-}
-
-/* Hauptmenü */
-.main-menu-view {
-    background: url('img/9_intro_outro_screens/start/startscreen_2.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 480px;
-    width: 720px;
-    position: absolute;
-    z-index: 2;
-    overflow: hidden;
-    max-width: 100vw;
-    max-height: 100vh;
-}
-
-/* Endbildschirm */
-.finale-screen {
-    background-color: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    height: 430px;
-    width: 720px;
-    position: absolute;
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    z-index: 2;
-}
-
-/* Info-Panels */
-.keys-info,
-.lore-panel,
-.config-panel {
-    display: none;
-    height: 480px;
-    width: 720px;
-    position: absolute;
-    z-index: 3;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-}
-
-.config-options {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.lore-panel {
-    flex-direction: column;
-}
-
-.end-text {
-    width: 100%;
-    flex-grow: 1;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    min-height: 200px;
-}
-
-.screen-title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-}
-
-.screen-title h2 {
-    margin-block-start: 0.5em;
-    margin-block-end: 0.7em;
-}
-
-/* Steuerung und Story */
+/* Hilfsklassen */
 .controls,
 .story {
     display: flex;
     justify-content: center;
-    margin-left: 100px;
-    margin-right: 100px;
+    margin: 0 50px;
 }
 
 .story {
     font-size: 18px;
     font-weight: 700;
     font-family: 'Courier New', Courier, monospace;
-    hyphens: auto;
     text-align: justify;
 }
 
@@ -275,361 +600,37 @@ canvas {
     width: 40px;
 }
 
-/* Buttons */
-.finale-screen button {
-    padding: 10px 20px;
-    font-size: 20px;
-    background-color: orange;
-    border: 2px solid #8b3a0b;
-    border-radius: 15px;
-    color: black;
-    margin: 5px 10px;
-    transition: all 150ms ease-in-out;
-    min-width: 100px;
-    font-family: 'zabras';
-}
-
-.navigation-panel {
+.config-options {
     display: flex;
-    flex-direction: row;
-    position: absolute;
     justify-content: center;
     align-items: center;
-    width: 720px;
-    height: 80px;
-    top: 50px;
-    left: 0px;
-    gap: 15px;
+    flex-direction: column;
 }
 
-.game-controls {
+.lore-panel {
+    flex-direction: column;
+}
+
+.end-text {
+    width: 100%;
+    flex-grow: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    min-height: 200px;
+}
+
+.screen-title {
     display: flex;
-    position: absolute;
     justify-content: center;
     align-items: center;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-}
-
-.control-icon {
-    cursor: pointer;
-    width: 40px;
-    height: auto;
-}
-
-.button-M {
-    margin: 10px;
-    padding: 12px 20px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    border: 4px solid #8b3a0b;
-    border-radius: 10px;
-    display: block;
-    font-weight: 700;
-    box-shadow: 0px 0px 14px -7px #f09819;
-    background-color: #FECC02;
-    color: black;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    font-size: 14px;
-}
-
-.button-M:hover {
-    transform: scale(1.05);
-    background-color: white;
-}
-
-.button-M:active {
-    transform: scale(0.95);
-}
-
-/* Touch-Interface für Mobile */
-.touch-interface {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: none;
-    align-items: end;
-    justify-content: space-between;
-    padding: 0 20px 20px 20px;
-}
-
-.touch-group {
-    display: flex;
-    gap: 10px;
-}
-
-.touch-button {
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-}
-
-/* Bildschirm-Rotation */
-.rotate-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
-    z-index: 1000;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.rotate {
-    color: white;
     font-size: 24px;
-    text-align: center;
 }
 
-.rotate img {
-    width: 80px;
+.screen-title h2 {
+    margin: 0.5em 0 0.7em 0;
 }
 
-.impressum-text {
-    color: #FECC02 !important;
-    text-decoration: none !important;
-    position: fixed !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    font-size: 48px !important;
-    text-align: center !important;
-    z-index: 9999 !important;
-    display: block !important;
-    font-family: 'zabras', Arial, Helvetica, sans-serif !important;
-    background: none !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    text-shadow: 
-        -2px -2px 0 #000,
-        2px -2px 0 #000,
-        -2px 2px 0 #000,
-        2px 2px 0 #000,
-        -2px 0 0 #000,
-        2px 0 0 #000,
-        0 -2px 0 #000,
-        0 2px 0 #000 !important;
-}
-
-.impressum-text:hover {
-    text-decoration: underline !important;
-    color: white !important;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-/* Responsive Design */
-@media only screen and (max-width: 1300px) {
-    body {
-        overflow: hidden !important;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    html {
-        overflow: hidden !important;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    .title {
-        display: none;
-    }
-
-    .navigation-panel {
-        gap: 5px;
-    }
-
-    .button-M {
-        width: 140px;
-        height: 50px;
-        font-size: 13px;
-    }
-
-    .keys-info,
-    .lore-panel,
-    .config-panel {
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        overflow: hidden !important;
-    }
-
-    .game-wrapper,
-    .main-menu-view,
-    .keys-info,
-    .finale-screen,
-    .lore-panel,
-    .config-panel,
-    .game-area {
-        transform: scale(0.85);
-        overflow: hidden !important;
-    }
-
-    .main-menu-view {
-        background-size: cover !important;
-        background-position: center !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-    }
-
-    .finale-screen button {
-        font-size: 16px;
-    }
-
-    .screen-title h2 {
-        font-size: 18px;
-    }
-
-    .impressum-text {
-        font-size: 20px !important;
-        top: 95% !important;
-    }
-}
-
-/* Zusätzliche Anpassungen für sehr kleine Bildschirme */
-@media only screen and (max-width: 480px) {
-    body {
-        height: 100vh;
-        overflow: hidden !important;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    html {
-        overflow: hidden !important;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    .game-wrapper,
-    .main-menu-view,
-    .keys-info,
-    .finale-screen,
-    .lore-panel,
-    .config-panel,
-    .game-area {
-        transform: scale(0.6);
-        transform-origin: center center;
-        overflow: hidden !important;
-    }
-
-    .title {
-        top: 60px;
-    }
-
-    h1 {
-        font-size: 60px;
-        letter-spacing: 2px;
-    }
-
-    .button-M {
-        width: 120px;
-        height: 40px;
-        font-size: 12px;
-        padding: 8px 15px;
-        margin: 5px;
-    }
-
-    .back-button-top-left {
-        top: 10px;
-        left: 10px;
-        padding: 8px 15px;
-        font-size: 14px;
-    }
-
-    .impressum-text {
-        font-size: 28px !important;
-        top: 50% !important;
-    }
-
-    .main-menu-view {
-        background-size: cover !important;
-        background-position: center !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-    }
-}
-
-@media only screen and (max-width: 375px) {
-    body {
-        overflow: hidden !important;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    html {
-        overflow: hidden !important;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    .game-wrapper,
-    .main-menu-view,
-    .keys-info,
-    .finale-screen,
-    .lore-panel,
-    .config-panel,
-    .game-area {
-        transform: scale(0.5);
-        overflow: hidden !important;
-    }
-
-    .title {
-        top: 40px;
-    }
-
-    h1 {
-        font-size: 50px;
-        letter-spacing: 1px;
-    }
-
-    .impressum-text {
-        font-size: 24px !important;
-        top: 55% !important;
-    }
-
-    .main-menu-view {
-        background-size: cover !important;
-        background-position: center !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-    }
-}
-
-/* Rotate-Container für Bildschirme unter 1300px */
-@media only screen and (max-width: 1300px) and (orientation: portrait) {
-    .rotate-container {
-        display: flex !important;
-    }
-    
-    .impressum-text {
-        display: none !important;
-    }
-}
-
-@media (max-height:1000px) {
-    h1 {
-        font-size: 90px;
-    }
-}
-
-/* Endbildschirm-Layouts */
 .fs-centered {
     display: flex;
     justify-content: center;
@@ -643,158 +644,64 @@ canvas {
     margin-bottom: 30px;
 }
 
-.game-lost-screen .end-text {
-    background-image: url('img/You won, you lost/You lost.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+.game-controls {
+    display: flex !important;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
 
-.game-won-screen .end-text {
-    background-image: url('img/You won, you lost/You\ Win\ A.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+.control-icon {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    transition: all 0.2s ease;
+    opacity: 0.9;
 }
 
-/* Desktop - Normale Ansicht (über 1300px) */
-@media only screen and (min-width: 1301px) {
-    /* Impressum-Regel entfernt - wird von Haupt-CSS übernommen */
+.control-icon:hover {
+    transform: scale(1.1);
+    opacity: 1;
 }
 
-/* Desktop - Sehr große Bildschirme (über 1600px) */
-@media only screen and (min-width: 1601px) {
-    /* Impressum-Regel entfernt - wird von Haupt-CSS übernommen */
+.control-icon:active {
+    transform: scale(0.95);
 }
 
-/* Tablet - Ansicht (768px bis 1023px) */
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
-    /* Impressum-Regel entfernt - wird von Haupt-CSS übernommen */
-}
-
-/* Handy - Mobile Ansicht (bis 767px) */
-@media only screen and (max-width: 767px) {
-    /* Impressum-Regel entfernt - wird von Haupt-CSS übernommen */
-}
-
-/* Responsive Design für Bildschirme zwischen 1024px und 1300px */
-@media only screen and (min-width: 1024px) and (max-width: 1300px) {
-    body {
-        overflow: hidden !important;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    html {
-        overflow: hidden !important;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    .title {
-        display: none;
-    }
-
-    .navigation-panel {
-        gap: 5px;
-    }
-
-    .button-M {
-        width: 140px;
-        height: 50px;
-        font-size: 13px;
-    }
-
-    .keys-info,
-    .lore-panel,
-    .config-panel {
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        overflow: hidden !important;
-    }
-
-    .game-wrapper,
-    .main-menu-view,
-    .keys-info,
-    .finale-screen,
-    .lore-panel,
-    .config-panel,
-    .game-area {
-        transform: scale(0.85);
-        overflow: hidden !important;
-    }
-
-    .main-menu-view {
-        background-size: cover !important;
-        background-position: center !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-    }
-
-    .finale-screen button {
-        font-size: 16px;
-    }
-
-    .screen-title h2 {
-        font-size: 18px;
-    }
-
-    .impressum-text {
-        font-size: 36px !important;
-        top: 68% !important;
-    }
-}
-
-/* iPad Pro 1366x1024 - Touch-Buttons aktivieren */
-@media only screen and (min-width: 1300px) and (max-width: 1400px) and (min-height: 1000px) and (max-height: 1100px) {
-    body {
-        overflow: hidden !important;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    html {
-        overflow: hidden !important;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
+/* Mobile Detection - Touch Interface automatisch anzeigen */
+@media only screen and (max-width: 1300px) {
     .touch-interface {
         display: flex !important;
-        position: fixed !important;
-        bottom: 20px !important;
-        left: 20px !important;
-        right: 20px !important;
-        justify-content: space-between !important;
-        align-items: flex-end !important;
-        padding: 0 !important;
-        pointer-events: none !important;
-        overflow: hidden !important;
     }
     
-    .touch-group {
-        pointer-events: auto !important;
-        gap: 12px !important;
+    .game-controls {
+        top: 15px !important; /* Etwas mehr Abstand auf Mobile */
+        left: 50% !important; /* Mittig positioniert */
+        transform: translateX(-50%) !important; /* Zentrieren */
+        z-index: 150 !important; /* Noch höher auf Mobile */
     }
     
-    .touch-button {
-        width: 60px !important;
-        height: 60px !important;
-        opacity: 0.8 !important;
-    }
-    
-    .impressum-text {
-        font-size: 42px !important;
-    }
-
-    .main-menu-view {
-        background-size: cover !important;
-        background-position: center !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
+    .control-icon {
+        width: 40px !important; /* Angemessene Größe auf Mobile */
+        height: 40px !important;
+        opacity: 1 !important; /* Vollständig sichtbar auf Mobile */
     }
 }
 
-
+/* Sehr kleine Bildschirme */
+@media only screen and (max-width: 375px) {
+    .game-controls {
+        top: 12px !important;
+        left: 50% !important; /* Mittig */
+        transform: translateX(-50%) !important; /* Zentrieren */
+    }
+    
+    .control-icon {
+        width: 32px !important; /* Kleiner auf sehr kleinen Bildschirmen */
+        height: 32px !important;
+    }
+}
