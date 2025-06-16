@@ -98,11 +98,11 @@ class World {
      */
     startMainGameLoop() {
         const gameLoop = setInterval(() => {
-            if (!gameActive) {
+            if (!gameActive || this.gameOver) {
                 clearInterval(gameLoop);
                 return;
             }
-            this.run();
+            this.runGameLogic();
         }, 1000 / 60);
         
         addInterval(gameLoop);
@@ -113,7 +113,7 @@ class World {
      */
     startDrawLoop() {
         const drawLoop = setInterval(() => {
-            if (!gameActive) {
+            if (!gameActive || this.gameOver) {
                 clearInterval(drawLoop);
                 return;
             }
@@ -131,35 +131,16 @@ class World {
     }
 
     /**
-     * Startet die Hauptspiel-Schleife
+     * Führt die Hauptspiel-Logik aus (OHNE neue Intervalle zu erstellen)
      */
-    run() {
-        // Vereinfachte Game Loop
-        const gameLoopInterval = setInterval(() => {
-            if (!gameActive || !this.character || this.gameOver) {
-                clearInterval(gameLoopInterval);
-                return;
-            }
-            
-            this.collisionManager.checkAllCollisions();
-            this.gameManager.checkThrowObjects();
-            this.checkGameState();
-        }, 1000/60); // 60 FPS
-        
-        // Vereinfachte Draw Loop
-        const drawLoopInterval = setInterval(() => {
-            if (!gameActive || this.gameOver) {
-                clearInterval(drawLoopInterval);
-                return;
-            }
-            this.draw();
-        }, 1000/60); // 60 FPS
-        
-        // Intervals zur globalen Liste hinzufügen
-        if (typeof addInterval === 'function') {
-            addInterval(gameLoopInterval);
-            addInterval(drawLoopInterval);
+    runGameLogic() {
+        if (!this.character || this.gameOver) {
+            return;
         }
+        
+        this.collisionManager.checkAllCollisions();
+        this.gameManager.checkThrowObjects();
+        this.checkGameState();
     }
 
     /**

@@ -202,6 +202,11 @@ function showEndScreen() {
     // Game deaktivieren
     gameActive = false;
     
+    // World-Loops sofort stoppen
+    if (world) {
+        world.gameOver = true;
+    }
+    
     endScreen.style.display = 'flex';
     
     // End-Screen anzeigen und End-Sound abspielen
@@ -359,11 +364,26 @@ function stopAllEndSounds() {
  * Zurück zum Hauptmenü
  */
 function returnToMenu() {
-    stopAllGameSounds();
-    stopAllEndSounds(); // ALLE Sounds stoppen
+    // SOFORT alles stoppen
+    gameActive = false;
+    
+    // Alle Intervals und Timeouts sofort löschen
     clearAllIntervals();
+    
+    // ALLE Sounds sofort stoppen
+    stopAllGameSounds();
+    stopAllEndSounds();
+    
+    // Welt zurücksetzen falls vorhanden
+    if (world) {
+        world.gameOver = true; // Stoppt alle World-Loops
+        world = null; // Referenz entfernen
+    }
+    
+    // Spiel komplett zurücksetzen
     prepareRestart();
     
+    // Menü anzeigen
     showMenu();
     
     currentScreen = 'main-menu';
@@ -373,10 +393,26 @@ function returnToMenu() {
  * Spiel neu starten
  */
 function restart() {
-    stopAllGameSounds();
-    stopAllEndSounds(); // ALLE Sounds stoppen
+    // SOFORT alles stoppen
+    gameActive = false;
+    
+    // Alle Intervals und Timeouts sofort löschen
     clearAllIntervals();
+    
+    // ALLE Sounds sofort stoppen
+    stopAllGameSounds();
+    stopAllEndSounds();
+    
+    // Welt zurücksetzen falls vorhanden
+    if (world) {
+        world.gameOver = true; // Stoppt alle World-Loops
+        world = null; // Referenz entfernen
+    }
+    
+    // Spiel komplett zurücksetzen
     prepareRestart();
+    
+    // Neu initialisieren
     init();
 }
 
