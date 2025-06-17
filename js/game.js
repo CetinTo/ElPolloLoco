@@ -99,8 +99,8 @@ async function init() {
     }
     
     // Canvas Größe sicherstellen
-    canvas.width = 864;
-    canvas.height = 576;
+    canvas.width = 720;
+    canvas.height = 480;
     
     // Canvas-Test - zeichne ein Test-Rechteck
     const ctx = canvas.getContext('2d');

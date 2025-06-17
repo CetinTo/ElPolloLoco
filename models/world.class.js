@@ -43,8 +43,8 @@ class World {
         this.canvas = canvas;
         
         // Canvas Größe explizit setzen
-        this.canvas.width = 864;
-        this.canvas.height = 576;
+        this.canvas.width = 720;
+        this.canvas.height = 480;
         
         // Anti-Aliasing konfigurieren aber nicht deaktivieren
         this.ctx.imageSmoothingEnabled = true;
