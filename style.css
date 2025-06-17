@@ -308,25 +308,29 @@ h1 {
     display: none !important;
 }
 
-/* RESPONSIVE DESIGN - EINFACH UND FUNKTIONAL */
+/* RESPONSIVE DESIGN - KOMPLETT ÜBERARBEITET FÜR ALLE GERÄTE */
 
-/* Desktop - Keine Skalierung (über 1300px) */
+/* Desktop - Vollgröße (über 1300px) */
 @media only screen and (min-width: 1301px) {
     .impressum-text {
         font-size: 36px;
         bottom: 20px;
     }
+    
+    .touch-interface {
+        display: none !important;
+    }
 }
 
-/* Tablet (768px - 1300px) */
-@media only screen and (max-width: 1300px) and (min-width: 768px) {
+/* iPad Pro 12.9" Landscape (1024px+) */
+@media only screen and (max-width: 1300px) and (min-width: 1024px) {
     .game-wrapper,
     .main-menu-view,
     .finale-screen,
     .keys-info,
     .lore-panel,
     .config-panel {
-        transform: scale(0.85);
+        transform: scale(0.9);
         transform-origin: center center;
     }
     
@@ -335,20 +339,92 @@ h1 {
     }
     
     .button-M {
-        font-size: 14px;
-        padding: 12px 20px;
-        min-width: 120px;
-        font-weight: 700;
+        font-size: 16px;
+        padding: 14px 24px;
+        min-width: 130px;
+        font-weight: 800;
+    }
+    
+    .impressum-text {
+        font-size: 32px;
+        bottom: 18px;
+    }
+    
+    .touch-interface {
+        display: flex !important;
+    }
+}
+
+/* iPad Standard + iPad Pro Portrait (768px - 1023px) */
+@media only screen and (max-width: 1023px) and (min-width: 768px) {
+    .game-wrapper,
+    .main-menu-view,
+    .finale-screen,
+    .keys-info,
+    .lore-panel,
+    .config-panel {
+        transform: scale(0.8);
+        transform-origin: center center;
+    }
+    
+    .title {
+        display: none;
+    }
+    
+    .navigation-panel {
+        gap: 15px;
+        top: 35px;
+    }
+    
+    .button-M {
+        font-size: 15px !important;
+        padding: 13px 22px !important;
+        min-width: 125px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.7px !important;
+    }
+    
+    .back-button-top-left {
+        top: 12px;
+        left: 12px;
+        font-size: 13px !important;
+        padding: 11px 18px !important;
     }
     
     .impressum-text {
         font-size: 28px;
         bottom: 15px;
     }
+    
+    .touch-interface {
+        display: flex !important;
+        bottom: 18px !important;
+        left: 18px !important;
+        right: 18px !important;
+    }
+    
+    .touch-group {
+        gap: 15px !important;
+    }
+    
+    .touch-button {
+        width: 70px !important;
+        height: 70px !important;
+        border-radius: 12px !important;
+    }
+    
+    .game-controls {
+        top: 18px !important;
+    }
+    
+    .control-icon {
+        width: 42px !important;
+        height: 42px !important;
+    }
 }
 
-/* Alle iPhones (max 767px) */
-@media only screen and (max-width: 767px) {
+/* iPhone 14 Pro Max, iPhone 15 Plus (414px - 767px) */
+@media only screen and (max-width: 767px) and (min-width: 414px) {
     .game-wrapper,
     .main-menu-view,
     .finale-screen,
@@ -365,7 +441,7 @@ h1 {
     
     .navigation-panel {
         gap: 12px;
-        top: 30px;
+        top: 32px;
     }
     
     .button-M {
@@ -373,11 +449,6 @@ h1 {
         padding: 14px 22px !important;
         min-width: 120px !important;
         font-weight: 800 !important;
-        background-color: #FECC02 !important;
-        color: black !important;
-        border: 3px solid #8b3a0b !important;
-        border-radius: 10px !important;
-        cursor: pointer !important;
         letter-spacing: 0.8px !important;
     }
     
@@ -386,49 +457,42 @@ h1 {
         left: 10px;
         font-size: 12px !important;
         padding: 10px 16px !important;
-        font-weight: 700 !important;
-        background-color: #FECC02 !important;
-        color: black !important;
-        border: 3px solid #8b3a0b !important;
     }
     
     .impressum-text {
-        font-size: 22px;
-        bottom: 10px;
+        font-size: 24px;
+        bottom: 12px;
     }
     
     .touch-interface {
         display: flex !important;
-        position: fixed !important;
         bottom: 15px !important;
         left: 15px !important;
         right: 15px !important;
-        justify-content: space-between !important;
-        align-items: flex-end !important;
-        pointer-events: none !important;
-        z-index: 1000 !important;
     }
     
     .touch-group {
-        display: flex !important;
         gap: 12px !important;
-        pointer-events: auto !important;
     }
     
     .touch-button {
         width: 65px !important;
         height: 65px !important;
-        opacity: 0.9 !important;
-        cursor: pointer !important;
-        pointer-events: auto !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
         border-radius: 10px !important;
-        background: rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .game-controls {
+        top: 15px !important;
+    }
+    
+    .control-icon {
+        width: 40px !important;
+        height: 40px !important;
     }
 }
 
-/* iPhone SE und sehr kleine (max 375px) */
-@media only screen and (max-width: 375px) {
+/* iPhone 14, iPhone 15 Standard (375px - 413px) */
+@media only screen and (max-width: 413px) and (min-width: 375px) {
     .game-wrapper,
     .main-menu-view,
     .finale-screen,
@@ -439,9 +503,13 @@ h1 {
         transform-origin: center center;
     }
     
+    .title {
+        display: none;
+    }
+    
     .navigation-panel {
         gap: 10px;
-        top: 25px;
+        top: 28px;
     }
     
     .button-M {
@@ -449,10 +517,6 @@ h1 {
         padding: 12px 18px !important;
         min-width: 110px !important;
         font-weight: 800 !important;
-        background-color: #FECC02 !important;
-        color: black !important;
-        border: 3px solid #8b3a0b !important;
-        border-radius: 10px !important;
         letter-spacing: 0.6px !important;
     }
     
@@ -461,10 +525,74 @@ h1 {
         left: 8px;
         font-size: 11px !important;
         padding: 8px 14px !important;
-        font-weight: 700 !important;
-        background-color: #FECC02 !important;
-        color: black !important;
-        border: 3px solid #8b3a0b !important;
+    }
+    
+    .impressum-text {
+        font-size: 22px;
+        bottom: 10px;
+    }
+    
+    .touch-interface {
+        display: flex !important;
+        bottom: 12px !important;
+        left: 12px !important;
+        right: 12px !important;
+    }
+    
+    .touch-group {
+        gap: 10px !important;
+    }
+    
+    .touch-button {
+        width: 58px !important;
+        height: 58px !important;
+        border-radius: 8px !important;
+    }
+    
+    .game-controls {
+        top: 12px !important;
+    }
+    
+    .control-icon {
+        width: 35px !important;
+        height: 35px !important;
+    }
+}
+
+/* iPhone SE, iPhone Mini (max 374px) */
+@media only screen and (max-width: 374px) {
+    .game-wrapper,
+    .main-menu-view,
+    .finale-screen,
+    .keys-info,
+    .lore-panel,
+    .config-panel {
+        transform: scale(0.65);
+        transform-origin: center center;
+    }
+    
+    .title {
+        display: none;
+    }
+    
+    .navigation-panel {
+        gap: 8px;
+        top: 25px;
+    }
+    
+    .button-M {
+        font-size: 13px !important;
+        padding: 10px 16px !important;
+        min-width: 100px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .back-button-top-left {
+        top: 6px;
+        left: 6px;
+        font-size: 10px !important;
+        padding: 6px 12px !important;
     }
     
     .impressum-text {
@@ -474,35 +602,32 @@ h1 {
     
     .touch-interface {
         display: flex !important;
-        position: fixed !important;
-        bottom: 12px !important;
-        left: 12px !important;
-        right: 12px !important;
-        justify-content: space-between !important;
-        align-items: flex-end !important;
-        pointer-events: none !important;
-        z-index: 1000 !important;
+        bottom: 10px !important;
+        left: 10px !important;
+        right: 10px !important;
     }
     
     .touch-group {
-        display: flex !important;
-        gap: 10px !important;
-        pointer-events: auto !important;
+        gap: 8px !important;
     }
     
     .touch-button {
-        width: 58px !important;
-        height: 58px !important;
-        opacity: 0.9 !important;
-        cursor: pointer !important;
-        pointer-events: auto !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 8px !important;
-        background: rgba(0, 0, 0, 0.1) !important;
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 6px !important;
+    }
+    
+    .game-controls {
+        top: 10px !important;
+    }
+    
+    .control-icon {
+        width: 30px !important;
+        height: 30px !important;
     }
 }
 
-/* Querformat - Bildschirm drehen Warnung - NUR bei Portrait */
+/* Portrait-Modus Rotation Warnung für Mobile */
 @media only screen and (max-width: 1300px) and (orientation: portrait) and (max-height: 900px) {
     .rotate-container {
         position: fixed;
@@ -511,7 +636,7 @@ h1 {
         width: 100vw;
         height: 100vh;
         background-color: black;
-        z-index: 1000;
+        z-index: 2000;
         display: flex !important;
         justify-content: center;
         align-items: center;
@@ -519,11 +644,18 @@ h1 {
         color: white;
         font-size: 24px;
         text-align: center;
+        font-family: 'zabras', Arial, sans-serif;
     }
     
     .rotate img {
         width: 80px;
         margin-bottom: 20px;
+        animation: rotate 2s linear infinite;
+    }
+    
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
     
     .impressum-text {
@@ -531,17 +663,18 @@ h1 {
     }
 }
 
-/* Normale Querformat-Ansicht - KEINE Rotation-Warnung */
+/* Landscape-Modus - Normale Ansicht */
 @media only screen and (orientation: landscape) {
     .rotate-container {
         display: none !important;
     }
 }
 
-/* Vollbild-Modus */
+/* Vollbild-Modus Optimierungen */
 :fullscreen body {
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 :fullscreen .game-wrapper,
@@ -553,6 +686,53 @@ h1 {
     width: 100vw;
     height: 100vh;
     transform: none;
+    max-width: none;
+    max-height: none;
+}
+
+:fullscreen .touch-interface {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 20px !important;
+    right: 20px !important;
+    z-index: 1500 !important;
+}
+
+/* Touch Interface Basis-Styles für alle mobilen Geräte */
+@media only screen and (max-width: 1300px) {
+    .touch-interface {
+        display: flex !important;
+        position: fixed !important;
+        justify-content: space-between !important;
+        align-items: flex-end !important;
+        pointer-events: none !important;
+        z-index: 1000 !important;
+    }
+    
+    .touch-group {
+        display: flex !important;
+        pointer-events: auto !important;
+    }
+    
+    .touch-button {
+        opacity: 0.9 !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        background: rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .touch-button:active {
+        opacity: 1 !important;
+        transform: scale(0.95) !important;
+    }
+    
+    .game-controls {
+        display: flex !important;
+        z-index: 150 !important;
+    }
 }
 
 /* Hilfsklassen */
@@ -670,38 +850,4 @@ h1 {
 
 .control-icon:active {
     transform: scale(0.95);
-}
-
-/* Mobile Detection - Touch Interface automatisch anzeigen */
-@media only screen and (max-width: 1300px) {
-    .touch-interface {
-        display: flex !important;
-    }
-    
-    .game-controls {
-        top: 15px !important; /* Etwas mehr Abstand auf Mobile */
-        left: 50% !important; /* Mittig positioniert */
-        transform: translateX(-50%) !important; /* Zentrieren */
-        z-index: 150 !important; /* Noch höher auf Mobile */
-    }
-    
-    .control-icon {
-        width: 40px !important; /* Angemessene Größe auf Mobile */
-        height: 40px !important;
-        opacity: 1 !important; /* Vollständig sichtbar auf Mobile */
-    }
-}
-
-/* Sehr kleine Bildschirme */
-@media only screen and (max-width: 375px) {
-    .game-controls {
-        top: 12px !important;
-        left: 50% !important; /* Mittig */
-        transform: translateX(-50%) !important; /* Zentrieren */
-    }
-    
-    .control-icon {
-        width: 32px !important; /* Kleiner auf sehr kleinen Bildschirmen */
-        height: 32px !important;
-    }
 }
