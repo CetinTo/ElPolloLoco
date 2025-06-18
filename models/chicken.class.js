@@ -45,7 +45,7 @@ class Chicken extends MoveableObject {
         this.offset = {
             top: 5,
             right: 5,
-            bottom: -55,
+            bottom: 5,
             left: 5
         };
     }
@@ -61,7 +61,6 @@ class Chicken extends MoveableObject {
      * Initialisiert das Audio-Element mit verbesserter Fehlerbehandlung
      */
     initializeAudio() {
-        
         this.death_sound = createAudioElement('audio/chicken_hurt.mp3');
     }
 
@@ -105,26 +104,20 @@ class Chicken extends MoveableObject {
      * Passt die Lautstärke an und spielt den Soundeffekt ab
      */
     playSoundOnDeath() {
-        
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
             return; 
         }
-        
         if (this.death_sound) {
             try {
                 this.death_sound.volume = 0.4;
                 this.death_sound.currentTime = 0; 
-                
-                
                 if (typeof safePlay === 'function') {
                     safePlay(this.death_sound);
                 } else {
                     this.death_sound.play().catch(error => {
-                        
                     });
                 }
             } catch (error) {
-                
             }
         }
     }

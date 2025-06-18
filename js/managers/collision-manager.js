@@ -78,25 +78,38 @@ class CollisionManager {
      * Überprüft Kollisionen mit Gegnern
      */
     checkCollisionsWithEnemies() {
-        let killedEnemies = [];
-        let shouldTakeDamage = false;
-        
         this.world.level.enemies.forEach((enemy) => {
             if (this.world.character.isColliding(enemy) && enemy.energy > 0) {
-                if (this.world.character.isAboveGround() && this.world.character.speedY < 0) {
-                    this.handleCollisionAboveGround(enemy);
-                    killedEnemies.push(enemy);
-                } else if (this.world.character.energy > 0) {
-                    shouldTakeDamage = true;
+                // SUPER EINFACH: Nur prüfen ob Character springt
+                if (this.world.character.isAboveGround()) {
+                    // Character springt = Enemy stirbt
+                    enemy.energy = 0;
+                    enemy.playDeathAnimation();
+                    this.world.playGameSound('./audio/chicken_hurt.mp3', 0.8);
+                    this.world.character.jump(); // Avatar springt nochmal hoch!
+                    setTimeout(() => {
+                        const index = this.world.level.enemies.indexOf(enemy);
+                        if (index > -1) {
+                            this.world.level.enemies.splice(index, 1);
+                        }
+                    }, 500);
+                } else {
+                    // Character läuft = Character nimmt Schaden
+                    this.world.character.hit();
+                    this.world.statusBar.setPercentage(this.world.character.energy);
                 }
             }
         });
         
-        if (shouldTakeDamage && killedEnemies.length === 0) {
-            this.handleCollision();
-        }
-        
         this.checkBottleEnemyCollisions();
+    }
+
+    /**
+     * Behandelt normale Kollision (Schaden nehmen)
+     */
+    handleCollision() {
+        this.world.character.hit();
+        this.world.statusBar.setPercentage(this.world.character.energy);
     }
 
     /**
@@ -172,45 +185,6 @@ class CollisionManager {
     }
 
     /**
-     * Behandelt Kollision über dem Boden (Springen auf Gegner)
-     */
-    handleCollisionAboveGround(enemy) {
-        if (enemy instanceof Chicken || enemy instanceof ChickenSmall) {
-            enemy.energy = 0;
-        } else {
-            enemy.energy--;
-        }
-        
-        this.world.character.jump();
-        this.world.playGameSound('./audio/chicken_hurt.mp3', 0.8);
-        
-        if (enemy.energy === 0) {
-            enemy.playDeathAnimation();
-            setTimeout(() => {
-                this.removeEnemyFromLevel(enemy);
-            }, 500);
-        }
-    }
-
-    /**
-     * Behandelt normale Kollision (Schaden nehmen)
-     */
-    handleCollision() {
-        this.world.character.hit();
-        this.world.statusBar.setPercentage(this.world.character.energy);
-    }
-
-    /**
-     * Entfernt Gegner aus dem Level
-     */
-    removeEnemyFromLevel(enemy) {
-        const index = this.world.level.enemies.indexOf(enemy);
-        if (index > -1) {
-            this.world.level.enemies.splice(index, 1);
-        }
-    }
-
-    /**
      * Behandelt Kollision zwischen Flasche und Endboss
      */
     handleBottleEndbossCollision(bottle, index) {
@@ -229,6 +203,16 @@ class CollisionManager {
      */
     isBottleCollidingWithEndboss(bottle) {
         return this.world.level.endboss[0] && !bottle.hasCollided && this.world.level.endboss[0].isColliding(bottle);
+    }
+
+    /**
+     * Entfernt Gegner aus dem Level
+     */
+    removeEnemyFromLevel(enemy) {
+        const index = this.world.level.enemies.indexOf(enemy);
+        if (index > -1) {
+            this.world.level.enemies.splice(index, 1);
+        }
     }
 
     /**

@@ -3,9 +3,9 @@
  * @extends MoveableObject
  */
 class ChickenSmall extends MoveableObject {
-    y = 375;
+    y = 350;
     height = 60;
-    width = 50;
+    width = 60;
     energy = 1;
 
     IMAGES_WALKING = [
@@ -39,13 +39,13 @@ class ChickenSmall extends MoveableObject {
      */
     initializeProperties(x) {
         this.x = x;
-        this.speed = 0.15 + Math.random() * 0.25;
+        this.speed = 0.4 + Math.random() * 0.6;
         this.movementInterval = null;
         this.animationInterval = null;
         this.offset = {
             top: 5,
             right: 5,
-            bottom: -45,
+            bottom: 5,
             left: 5
         };
     }
@@ -61,7 +61,6 @@ class ChickenSmall extends MoveableObject {
      * Initialisiert das Audio-Element mit verbesserter Fehlerbehandlung
      */
     initializeAudio() {
-        
         this.death_sound = createAudioElement('audio/chicken_hurt.mp3');
     }
 
@@ -74,12 +73,11 @@ class ChickenSmall extends MoveableObject {
                 this.moveLeft();
             }
         }, 1000 / 60);
-
         this.animationInterval = setInterval(() => {
             if (this.energy > 0) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 250); 
+        }, 200);
     }
 
     /**
@@ -105,26 +103,20 @@ class ChickenSmall extends MoveableObject {
      * Passt die Lautstärke an und spielt den Soundeffekt ab
      */
     playSoundOnDeath() {
-        
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
             return; 
         }
-        
         if (this.death_sound) {
             try {
-                this.death_sound.volume = 0.3; 
+                this.death_sound.volume = 0.4;
                 this.death_sound.currentTime = 0; 
-                
-                
                 if (typeof safePlay === 'function') {
                     safePlay(this.death_sound);
                 } else {
                     this.death_sound.play().catch(error => {
-                        
                     });
                 }
             } catch (error) {
-                
             }
         }
     }

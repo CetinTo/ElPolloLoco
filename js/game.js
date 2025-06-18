@@ -20,36 +20,26 @@ function resetGame() {
  */
 function preloadImages() {
     const imagesToPreload = [
-        
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/1_idle/idle/I-1.png',
-        
-        
         'img/5_background/layers/air.png',
         'img/5_background/layers/3_third_layer/1.png',
         'img/5_background/layers/2_second_layer/1.png',
         'img/5_background/layers/1_first_layer/1.png',
-        
-        
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
-        
-        
         'img/8_coin/coin_1.png',
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png'
     ];
-    
     let loadedImages = 0;
     const totalImages = imagesToPreload.length;
-    
     return new Promise((resolve) => {
         if (totalImages === 0) {
             resolve();
             return;
         }
-        
         imagesToPreload.forEach(src => {
             const img = new Image();
             img.onload = () => {
@@ -73,53 +63,38 @@ function preloadImages() {
  * Spiel initialisieren und Spielwelt einrichten
  */
 async function init() {
-    // Erst alle Screens zurücksetzen
     const finaleScreen = document.getElementById('finale-screen');
     if (finaleScreen) {
         finaleScreen.style.display = 'none';
-        finaleScreen.className = 'finale-screen'; // Reset class
+        finaleScreen.className = 'finale-screen';
     }
-    
+    gameActive = false;
+    clearAllIntervals();
     resetGame();
     gameActive = true;
-    
-    // Bilder vorladen
     await preloadImages();
-    
     initLevel();
-    
     if (typeof playBackgroundMusic === 'function') {
         playBackgroundMusic();
     }
-    
     canvas = document.getElementById('game-canvas');
-    
     if (!canvas) {
         return;
     }
-    
-    // Canvas Größe sicherstellen
     canvas.width = 720;
     canvas.height = 480;
-    
-    // Canvas-Test - zeichne ein Test-Rechteck
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = 'green';
     ctx.fillRect(10, 10, 100, 100);
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
     ctx.fillText('CANVAS TEST', 20, 50);
-    
     world = new World(canvas, keyboard, level1);
-    
-    // WICHTIG: Spiel starten!
     startGame();
-    
     toggleRotateScreen();
     mobileButtonTouch();
     toggleIngameMenu();
     toggleMobileButtonContainer();
-    
     if (typeof muteSounds === 'function') {
         muteSounds();
     }
@@ -135,31 +110,24 @@ function showMenu() {
         }
         gameActive = false;
     }
-    
-    // Alle Screens verstecken
     const finaleScreen = document.getElementById('finale-screen');
     const gameArea = document.getElementById('game-area');
     const mainMenu = document.getElementById('main-menu');
     const navPanel = document.getElementById('navigation-panel');
     const gameControls = document.getElementById('game-controls');
-    
     if (finaleScreen) {
         finaleScreen.style.display = 'none';
-        finaleScreen.className = 'finale-screen'; // Reset class
+        finaleScreen.className = 'finale-screen';
     }
-    
     if (gameArea) {
         gameArea.style.display = 'none';
     }
-    
     if (mainMenu) {
         mainMenu.style.display = 'flex';
     }
-    
     if (navPanel) {
         navPanel.style.display = 'flex';
     }
-    
     if (gameControls) {
         gameControls.style.display = 'none';
     }
@@ -172,15 +140,12 @@ function startGame() {
     const mainMenu = document.getElementById('main-menu');
     const gameArea = document.getElementById('game-area');
     const finaleScreen = document.getElementById('finale-screen');
-    
     if (mainMenu) {
         mainMenu.style.display = 'none';
     }
-    
     if (gameArea) {
         gameArea.style.display = 'block';
     }
-    
     if (finaleScreen) {
         finaleScreen.style.display = 'none';
     }
@@ -190,34 +155,20 @@ function startGame() {
  * Endbildschirm mit entsprechendem Styling basierend auf Spielergebnis anzeigen
  */
 function showEndScreen() {
-    // ZUERST alle laufenden Spiel-Sounds stoppen - aber End-Sounds erlauben
     stopAllGameSounds();
-    
     const endScreen = document.getElementById('finale-screen');
-    
     if (!endScreen) {
         return;
     }
-    
-    // Game deaktivieren
     gameActive = false;
-    
-    // World-Loops sofort stoppen
     if (world) {
         world.gameOver = true;
     }
-    
     endScreen.style.display = 'flex';
-    
-    // End-Screen anzeigen und End-Sound abspielen
     if (world && world.character && world.character.energy <= 0) {
         endScreen.className = 'finale-screen game-lost-screen';
-        
-        // Game Lost Sound abspielen
         if (typeof gameLostSound === 'function') {
             gameLostSound();
-            
-            // Nach 3 Sekunden alles stoppen
             setTimeout(() => {
                 stopAllEndSounds();
                 clearAllIntervals();
@@ -225,12 +176,8 @@ function showEndScreen() {
         }
     } else {
         endScreen.className = 'finale-screen game-won-screen';
-        
-        // Game Won Sound abspielen
         if (typeof gameWonSound === 'function') {
             gameWonSound();
-            
-            // Nach 3 Sekunden alles stoppen
             setTimeout(() => {
                 stopAllEndSounds();
                 clearAllIntervals();
@@ -243,19 +190,14 @@ function showEndScreen() {
  * Stoppt alle laufenden Spiel-Sounds vollständig (außer End-Sounds)
  */
 function stopAllGameSounds() {
-    // Hintergrundmusik stoppen
     if (typeof stopBackgroundMusic === 'function') {
         stopBackgroundMusic();
     }
-    
-    // Globale Audio-Elemente stoppen (außer End-Sounds)
     if (typeof backgroundMusic !== 'undefined' && backgroundMusic) {
         backgroundMusic.pause();
         backgroundMusic.currentTime = 0;
         backgroundMusic.muted = true;
     }
-    
-    // Character Sounds stoppen
     if (world && world.character) {
         if (world.character.walking_sound) {
             world.character.walking_sound.pause();
@@ -273,8 +215,6 @@ function stopAllGameSounds() {
             world.character.jumping_sound.muted = true;
         }
     }
-    
-    // Endboss Sounds stoppen
     if (world && world.level && world.level.endboss) {
         world.level.endboss.forEach((boss) => {
             if (boss.alert_sound) {
@@ -299,8 +239,6 @@ function stopAllGameSounds() {
             }
         });
     }
-    
-    // Enemy Sounds stoppen  
     if (world && world.level && world.level.enemies) {
         world.level.enemies.forEach((enemy) => {
             if (enemy.death_sound) {
@@ -315,8 +253,6 @@ function stopAllGameSounds() {
             }
         });
     }
-    
-    // Throwable Object Sounds stoppen
     if (world && world.throwableObjects) {
         world.throwableObjects.forEach((bottle) => {
             if (bottle.bottle_shatter_sound) {
@@ -337,21 +273,16 @@ function stopAllGameSounds() {
  * Stoppt ALLE End-Sounds (Game Won/Lost) komplett
  */
 function stopAllEndSounds() {
-    // Game Won Sound stoppen
     if (typeof gameWon !== 'undefined' && gameWon) {
         gameWon.pause();
         gameWon.currentTime = 0;
         gameWon.muted = true;
     }
-    
-    // Game Lost Sound stoppen
     if (typeof gameLost !== 'undefined' && gameLost) {
         gameLost.pause();
         gameLost.currentTime = 0;
         gameLost.muted = true;
     }
-    
-    // Alle HTML Audio Elemente stoppen (komplett sicher)
     const allAudio = document.querySelectorAll('audio');
     allAudio.forEach(audio => {
         audio.pause();
@@ -364,28 +295,16 @@ function stopAllEndSounds() {
  * Zurück zum Hauptmenü
  */
 function returnToMenu() {
-    // SOFORT alles stoppen
     gameActive = false;
-    
-    // Alle Intervals und Timeouts sofort löschen
     clearAllIntervals();
-    
-    // ALLE Sounds sofort stoppen
     stopAllGameSounds();
     stopAllEndSounds();
-    
-    // Welt zurücksetzen falls vorhanden
     if (world) {
-        world.gameOver = true; // Stoppt alle World-Loops
-        world = null; // Referenz entfernen
+        world.gameOver = true;
+        world = null;
     }
-    
-    // Spiel komplett zurücksetzen
     prepareRestart();
-    
-    // Menü anzeigen
     showMenu();
-    
     currentScreen = 'main-menu';
 }
 
@@ -393,27 +312,29 @@ function returnToMenu() {
  * Spiel neu starten
  */
 function restart() {
-    // SOFORT alles stoppen
     gameActive = false;
-    
-    // Alle Intervals und Timeouts sofort löschen
     clearAllIntervals();
-    
-    // ALLE Sounds sofort stoppen
     stopAllGameSounds();
     stopAllEndSounds();
-    
-    // Welt zurücksetzen falls vorhanden
     if (world) {
-        world.gameOver = true; // Stoppt alle World-Loops
-        world = null; // Referenz entfernen
+        world.gameOver = true;
+        if (typeof world.resetWorld === 'function') {
+            try {
+                world.resetWorld();
+            } catch(e) {
+            }
+        }
+        world = null;
     }
-    
-    // Spiel komplett zurücksetzen
-    prepareRestart();
-    
-    // Neu initialisieren
-    init();
+    const canvas = document.getElementById('game-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    keyboard = new Keyboard();
+    setTimeout(() => {
+        init();
+    }, 100);
 }
 
 /**
@@ -469,7 +390,6 @@ function closeStory() {
  */
 function toggleFullScreen() {
     let container = document.getElementById('game-wrapper');
-    
     if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
         if (container.requestFullscreen) {
             container.requestFullscreen();
@@ -508,15 +428,25 @@ function prepareRestart() {
  * Alle Intervalle und Timeouts löschen
  */
 function clearAllIntervals() {
-    intervals.forEach(interval => clearInterval(interval));
+    intervals.forEach(interval => {
+        if (interval) {
+            clearInterval(interval);
+        }
+    });
     intervals = [];
-    
-    timeouts.forEach(timeout => clearTimeout(timeout));
+    timeouts.forEach(timeout => {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+    });
     timeouts = [];
-    
     if (typeof requestAnimationFrameId !== 'undefined' && requestAnimationFrameId) {
         cancelAnimationFrame(requestAnimationFrameId);
         requestAnimationFrameId = 0;
+    }
+    for (let i = 1; i < 99999; i++) {
+        clearInterval(i);
+        clearTimeout(i);
     }
 }
 
@@ -612,40 +542,30 @@ function hideScreens() {
     const mainMenu = document.getElementById('main-menu');
     const gameArea = document.getElementById('game-area');
     const finaleScreen = document.getElementById('finale-screen');
-    
-    if (mainMenu) {
-        mainMenu.style.display = 'none';
-    }
-    if (gameArea) {
-        gameArea.style.display = 'block';
-    }
-    if (finaleScreen) {
-        finaleScreen.style.display = 'none';
-    }
+    if (mainMenu) mainMenu.style.display = 'none';
+    if (gameArea) gameArea.style.display = 'none';
+    if (finaleScreen) finaleScreen.style.display = 'none';
 }
 
 /**
  * Rotations-Bildschirm basierend auf Fensterdimensionen umschalten
  */
 function toggleRotateScreen() {
-    const rotateContainer = document.querySelector('.rotate-container');
-
-    if (window.innerWidth <= 1300 && window.innerHeight > window.innerWidth) {
-        rotateContainer.style.display = 'flex';
-    } else {
-        rotateContainer.style.display = 'none';
-    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
 }
 
 /**
  * Mobile Button-Container basierend auf Fensterdimensionen umschalten
  */
 function toggleMobileButtonContainer() {
-    const touchInterface = document.querySelector('.touch-interface');
-    const isMobile = window.innerWidth <= 1300;
-    
+    let touchInterface = document.querySelector('.touch-interface');
     if (touchInterface) {
-        if (isMobile) {
+        if (window.innerWidth <= 1366) {
             touchInterface.style.display = 'flex';
         } else {
             touchInterface.style.display = 'none';
@@ -657,9 +577,9 @@ function toggleMobileButtonContainer() {
  * Spiel-Menü anzeigen
  */
 function toggleIngameMenu() {
-    const ingameMenu = document.getElementById('game-controls');
-    if (ingameMenu) {
-        ingameMenu.style.display = 'flex';
+    const gameControls = document.getElementById('game-controls');
+    if (gameControls) {
+        gameControls.style.display = 'block';
     }
 }
 
@@ -667,11 +587,11 @@ function toggleIngameMenu() {
  * Test-Funktionen für Browser-Konsole
  */
 function testMenuButton() {
-    returnToMenu();
+    console.log('Menu button clicked');
 }
 
 function testRestartButton() {
-    init();
+    console.log('Restart button clicked');
 }
 
 function testShowEndScreen() {
@@ -684,13 +604,5 @@ window.testRestartButton = testRestartButton;
 window.testShowEndScreen = testShowEndScreen;
 window.returnToMenu = returnToMenu;
 window.init = init;
-
-document.addEventListener('fullscreenchange', handleFullscreenChange);
-document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-window.addEventListener('orientationchange', handleOrientationChange);
-window.addEventListener('resize', handleOrientationChange);
 
 

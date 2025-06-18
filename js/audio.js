@@ -71,23 +71,17 @@ let isGameMuted = false;
 
 isGameMuted = localStorage.getItem('isGameMuted') === 'true';
 
-/**
- * Spielt den Spiel-Gewonnen-Sound ab (immer abspielen)
- */
 function gameWonSound() {
-    if (gameWon) {
-        gameWon.muted = false; // Immer abspielen
+    if (gameWon && !isGameMuted) {
+        gameWon.muted = false;
         gameWon.volume = 0.7;
         safePlay(gameWon);
     }
 }
 
-/**
- * Spielt den Spiel-Verloren-Sound ab (immer abspielen)
- */
 function gameLostSound() {
-    if (gameLost) {
-        gameLost.muted = false; // Immer abspielen
+    if (gameLost && !isGameMuted) {
+        gameLost.muted = false;
         gameLost.volume = 0.7;
         safePlay(gameLost);
     }

@@ -120,13 +120,11 @@ class Character extends MoveableObject {
      * Initialisiert alle Audio-Elemente mit verbesserter Fehlerbehandlung
      */
     initializeAudio() {
-        
         this.walking_sound = createAudioElement('audio/running_3.mp3');
         if (this.walking_sound) {
             this.walking_sound.loop = true;
             this.walking_sound.volume = 0.5;
         }
-        
         this.hurt_sound = createAudioElement('audio/hurt.mp3');
     }
 
@@ -134,22 +132,18 @@ class Character extends MoveableObject {
      * Sichere Audio-Wiedergabe mit Fehlerbehandlung
      */
     playAudioSafely(audioElement) {
-        
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
             return; 
         }
-        
         if (audioElement) {
             try {
                 if (typeof safePlay === 'function') {
                     safePlay(audioElement);
                 } else {
                     audioElement.play().catch(error => {
-                        
                     });
                 }
             } catch (error) {
-                
             }
         }
     }
@@ -161,7 +155,6 @@ class Character extends MoveableObject {
         intervals.push(setInterval(() => {
             this.animateCharacter();
         }, 1000 / 60));
-
         intervals.push(setInterval(() => {
             this.animateCharacterState();
         }, 50));
@@ -203,11 +196,10 @@ class Character extends MoveableObject {
      * Aktualisiert den Idle-Timer basierend auf Benutzereingaben
      */
     handleIdleTimer() {
-        if (!this.world || !this.world.keyboard) return;
-        if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
-            this.idleTimer += 1000 / 120;
-        } else {
+        if (this.world && this.world.keyboard && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.SPACE)) {
             this.idleTimer = 0;
+        } else {
+            this.idleTimer += 50;
         }
     }
 
@@ -215,26 +207,22 @@ class Character extends MoveableObject {
      * Behandelt Charakterbewegung (Gehen)
      */
     handleWalking() {
-        if (!this.world || !this.world.keyboard) return;
-        
-        
-        if (typeof isGameMuted !== 'undefined' && isGameMuted && this.walking_sound) {
-            this.walking_sound.pause();
-        }
-        
-        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-          this.moveRight();
-          this.otherDirection = false;
-          
-          this.playAudioSafely(this.walking_sound);
-        }
-        if (this.world.keyboard.LEFT && this.x > 0) {
-          this.moveLeft();
-          this.otherDirection = true;
-          
-          if (this.walking_sound) {
-              this.walking_sound.pause();
-          }
+        if (this.world && this.world.keyboard && !this.isDead()) {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                this.moveRight();
+                this.otherDirection = false;
+                this.playAudioSafely(this.walking_sound);
+            }
+            if (this.world.keyboard.LEFT && this.x > 0) {
+                this.moveLeft();
+                this.otherDirection = true;
+                this.playAudioSafely(this.walking_sound);
+            }
+            if (!this.world.keyboard.LEFT && !this.world.keyboard.RIGHT) {
+                if (this.walking_sound) {
+                    this.walking_sound.pause();
+                }
+            }
         }
     }
 
@@ -242,10 +230,8 @@ class Character extends MoveableObject {
      * Behandelt Charaktersprung
      */
     handleJumping() {
-        if (!this.world || !this.world.keyboard) return;
-        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+        if (this.world && this.world.keyboard && this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
             this.jump();
-            this.idleTimer = 0;
         }
     }
 
@@ -253,16 +239,18 @@ class Character extends MoveableObject {
      * Behandelt den Zustand des Charakters wenn er tot ist
      */
     handleDeadState() {
+        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_DEAD);
-        if (this.world) {
-            this.world.endGame();
-        }
+        setTimeout(() => {
+            showEndScreen();
+        }, 1000);
     }
 
     /**
      * Behandelt den Zustand des Charakters wenn er verletzt ist
      */
     handleHurtState() {
+        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_HURT);
         this.playAudioSafely(this.hurt_sound);
     }
@@ -271,6 +259,7 @@ class Character extends MoveableObject {
      * Behandelt den Zustand des Charakters beim Springen
      */
     handleJumpingState() {
+        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_JUMPING);
     }
 
@@ -278,6 +267,7 @@ class Character extends MoveableObject {
      * Behandelt den Zustand des Charakters während langer Idle-Perioden
      */
     handleLongIdleState() {
+        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_LONG_IDLE);
     }
 
@@ -287,12 +277,14 @@ class Character extends MoveableObject {
      */
     wakeUp() {
         this.idleTimer = 0;
+        this.playAnimation(this.IMAGES_IDLE);
     }
 
     /**
      * Behandelt den Zustand des Charakters während des Gehens
      */
     handleWalkingState() {
+        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_WALKING);
     }
 
@@ -300,6 +292,7 @@ class Character extends MoveableObject {
      * Behandelt den Zustand des Charakters wenn er untätig ist
      */
     handleIdleState() {
+        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_IDLE);
     }
 
@@ -307,25 +300,23 @@ class Character extends MoveableObject {
      * Prüft ob der Charakter tot ist
      */
     isDead() {
-        return this.energy <= 0;
+        return this.energy == 0;
     }
 
     /**
      * Behandelt die Kameraposition basierend auf der x-Koordinate des Charakters
      */
     handleCamera() {
-        if (!this.world) return;
-        
-        
-        let targetCamera = -this.x + 100;
-        let currentCamera = this.world.camera_x;
-        let difference = targetCamera - currentCamera;
-        
-        
-        let lerpFactor = Math.abs(difference) > 50 ? 0.15 : 0.08;
-        
-        
-        this.world.camera_x = Math.round(currentCamera + (difference * lerpFactor));
+        if (this.world) {
+            this.world.camera_x = -this.x + 100;
+        }
+    }
+
+    stopAnimationSound() {
+        if (this.walking_sound) {
+            this.walking_sound.pause();
+            this.walking_sound.currentTime = 0;
+        }
     }
 }
 
