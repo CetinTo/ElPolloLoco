@@ -100,8 +100,8 @@ class Character extends MoveableObject {
      * Initializes audio elements
      */
     initializeAudio() {
-        this.walking_sound = new Audio('audio/bottle_collect.mp3'); // Use audible sound
-        this.walking_sound.volume = 0.6;
+        this.walking_sound = new Audio('audio/running_3.mp3');
+        this.walking_sound.volume = 1.0; // Maximum volume
         this.walking_sound.loop = true;
         
         this.hurt_sound = new Audio('audio/hurt.mp3');
