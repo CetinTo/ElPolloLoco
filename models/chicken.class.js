@@ -1,5 +1,5 @@
 /**
- * Klasse die einen Hühner-Charakter im Spiel repräsentiert
+ * Class representing a chicken character in the game
  * @extends MoveableObject
  */
 class Chicken extends MoveableObject {
@@ -27,7 +27,7 @@ class Chicken extends MoveableObject {
     }
 
     /**
-     * Lädt alle Animations-Bilder für das Huhn
+     * Loads all animation images for the chicken
      */
     initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
@@ -35,7 +35,7 @@ class Chicken extends MoveableObject {
     }
 
     /**
-     * Initialisiert grundlegende Eigenschaften des Huhns
+     * Initializes basic properties of the chicken
      */
     initializeProperties(x) {
         this.x = x;
@@ -51,21 +51,21 @@ class Chicken extends MoveableObject {
     }
 
     /**
-     * Startet das Huhn-Verhalten
+     * Starts chicken behavior
      */
     startBehavior() {
         this.animate();
     }
 
     /**
-     * Initialisiert das Audio-Element mit verbesserter Fehlerbehandlung
+     * Initializes audio element with improved error handling
      */
     initializeAudio() {
         this.death_sound = createAudioElement('audio/chicken_hurt.mp3');
     }
 
     /**
-     * Startet Intervalle für Hühner-Bewegung und Animation
+     * Starts intervals for chicken movement and animation
      */
     animate() {
         this.movementInterval = setInterval(() => {
@@ -82,7 +82,7 @@ class Chicken extends MoveableObject {
     }
 
     /**
-     * Stoppt die Bewegungs- und Animations-Intervalle des Huhns
+     * Stops movement and animation intervals of the chicken
      */
     stopIntervals() {
         clearInterval(this.movementInterval);
@@ -90,8 +90,8 @@ class Chicken extends MoveableObject {
     }
 
     /**
-     * Startet die Todes-Animation für das Huhn
-     * Stoppt die Bewegung und spielt die Todes-Animation und den Sound ab
+     * Starts death animation for the chicken
+     * Stops movement and plays death animation and sound
      */
     playDeathAnimation() {
         this.stopIntervals();
@@ -100,8 +100,8 @@ class Chicken extends MoveableObject {
     }
 
     /**
-     * Spielt einen Soundeffekt ab wenn das Huhn stirbt
-     * Passt die Lautstärke an und spielt den Soundeffekt ab
+     * Plays sound effect when chicken dies
+     * Adjusts volume and plays sound effect
      */
     playSoundOnDeath() {
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {

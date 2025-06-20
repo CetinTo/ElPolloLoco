@@ -43,7 +43,7 @@ h1, h2, h3, .imprint-wrapper, span, li, p, .impressum-text {
     height: auto;
 }
 
-/* Responsive Design für kleine Bildschirme */
+/* Responsive Design for small screens */
 @media screen and (max-width: 480px) {
     main {
         padding: 20px;

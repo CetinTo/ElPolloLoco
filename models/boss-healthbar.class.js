@@ -1,5 +1,5 @@
 /**
- * Repräsentiert eine Gesundheitsleiste für den Endboss
+ * Represents a health bar for the end boss
  * @class
  * @extends DrawableObject
  */
@@ -25,7 +25,7 @@ class EndbossHealthbar extends DrawableObject {
     }
 
     /**
-     * Lädt alle Boss-Gesundheits-Bilder
+     * Loads all boss health images
      */
     initializeImages() {
         this.loadImages(this.IMAGES_BOSS_HEALTH_FULL);
@@ -33,7 +33,7 @@ class EndbossHealthbar extends DrawableObject {
     }
 
     /**
-     * Initialisiert Position und Eigenschaften der Boss-Gesundheitsleiste
+     * Initializes position and properties of the boss health bar
      */
     initializeProperties() {
         this.id = EndbossHealthbar.counter;
@@ -44,15 +44,15 @@ class EndbossHealthbar extends DrawableObject {
     }
 
     /**
-     * Initialisiert die Anzeige mit voller Boss-Energie
+     * Initializes the display with full boss energy
      */
     initializeDisplay() {
         this.setPercentage(this.bossEnergy);
     }
 
     /**
-     * Setzt den Energieprozentsatz des Bosses und aktualisiert das Gesundheitsleisten-Bild entsprechend
-     * @param {number} bossEnergy - Das aktuelle Energielevel des Endbosses
+     * Sets the boss energy percentage and updates the health bar image accordingly
+     * @param {number} bossEnergy - The current energy level of the end boss
      */
     setPercentage(bossEnergy) {
         this.bossEnergy = bossEnergy;

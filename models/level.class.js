@@ -1,5 +1,5 @@
 /**
- * Repräsentiert ein Spiellevel mit Gegnern, Wolken, Hintergrundobjekten, Münzen, Flaschen und einem Endboss
+ * Represents a game level with enemies, clouds, background objects, coins, bottles and an end boss
  * @class
  */
 
@@ -17,7 +17,7 @@ class Level {
     }
 
     /**
-     * Initialisiert alle Spielobjekte des Levels
+     * Initializes all game objects of the level
      */
     initializeGameObjects(enemies, clouds, backgroundObjects, coins, bottles, endboss) {
         this.enemies = enemies;

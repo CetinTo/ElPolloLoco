@@ -1,5 +1,5 @@
 /**
- * Verwaltet alle Animationen und Tod des Endbosses
+ * Manages all animations and death of the end boss
  * @class
  */
 class BossAnimations {
@@ -8,7 +8,7 @@ class BossAnimations {
     }
 
     /**
-     * Prüft ob die Alarm-Animation basierend auf bestimmten Bedingungen starten soll
+     * Checks if the alert animation should start based on certain conditions
      */
     shouldStartAlert() {
         const shouldStart = world && world.character.x >= 4500 && !this.boss.hadFirstContact;
@@ -16,7 +16,7 @@ class BossAnimations {
     }
 
     /**
-     * Startet die Alarm-Animation für den Endboss-Charakter
+     * Starts the alert animation for the end boss character
      */
     startAlertAnimation(interval) {
         if (!this.boss.alertAnimationPlayed) {
@@ -34,7 +34,7 @@ class BossAnimations {
     }
 
     /**
-     * Startet die Verletzungs-Animation für den Endboss-Charakter
+     * Starts the hurt animation for the end boss character
      */
     startHurtAnimation() {
         if (this.boss.hurtAnimationInterval) {
@@ -62,7 +62,7 @@ class BossAnimations {
     }
 
     /**
-     * Setzt den Endboss nach der Verletzungs-Animation in den Geh-Zustand zurück
+     * Resets the end boss to walking state after hurt animation
      */
     resetToWalkingState() {
         clearInterval(this.boss.hurtAnimationInterval);
@@ -74,7 +74,7 @@ class BossAnimations {
     }
 
     /**
-     * Prüft ob der Endboss tot ist und startet den Todesprozess
+     * Checks if the end boss is dead and starts the death process
      */
     bossIsDead() {
         if (this.boss.energy <= 0 && !this.boss.isDead) {
@@ -90,7 +90,7 @@ class BossAnimations {
     }
 
     /**
-     * Stoppt alle Animationen für den Endboss
+     * Stops all animations for the end boss
      */
     stopAllAnimations() {
         clearInterval(this.boss.hurtAnimationInterval);
@@ -100,7 +100,7 @@ class BossAnimations {
     }
 
     /**
-     * Startet die Todes-Animation für den Endboss
+     * Starts the death animation for the end boss
      */
     startDeathAnimation() {
         this.boss.deathAnimationInterval = this.startAnimationInterval(this.boss.IMAGES_DEAD, 250, () => {
@@ -109,7 +109,7 @@ class BossAnimations {
     }
 
     /**
-     * Beendet die Todes-Animation für den Endboss
+     * Ends the death animation for the end boss
      */
     endDeathAnimation() {
         clearInterval(this.boss.deathAnimationInterval);
@@ -118,7 +118,7 @@ class BossAnimations {
     }
 
     /**
-     * Löscht alle Animations-Intervalle
+     * Clears all animation intervals
      */
     clearIntervals() {
         this.boss.animationIntervals.forEach(interval => clearInterval(interval));
@@ -132,7 +132,7 @@ class BossAnimations {
     }
 
     /**
-     * Startet ein Animations-Intervall für eine Reihe von Bildern
+     * Starts an animation interval for a series of images
      */
     startAnimationInterval(images, intervalTime, onComplete = null) {
         let currentFrame = 0;
@@ -151,7 +151,7 @@ class BossAnimations {
     }
 
     /**
-     * Aktualisiert die Gesundheitsleiste des Endbosses
+     * Updates the health bar of the end boss
      */
     updateHealthBar() {
         world.endbossHealthbar.setPercentage((this.boss.energy / 180) * 100);

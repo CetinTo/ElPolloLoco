@@ -1,5 +1,5 @@
 /**
- * Verwaltet die Bewegung und Geschwindigkeit des Endbosses
+ * Manages the movement and speed of the end boss
  * @class
  */
 class BossMovement {
@@ -8,7 +8,7 @@ class BossMovement {
     }
 
     /**
-     * Aktualisiert das Aggressions-Level basierend auf der Energie
+     * Updates the aggression level based on energy
      */
     updateAggressionLevel() {
         if (this.boss.energy <= 40) {
@@ -21,7 +21,7 @@ class BossMovement {
     }
 
     /**
-     * Balancierte Boss-Geschwindigkeit
+     * Balanced boss speed
      */
     updateAggressiveSpeed() {
         this.boss.speed = 40 + this.boss.aggressionLevel * 15;
@@ -42,7 +42,7 @@ class BossMovement {
     }
 
     /**
-     * Startet das Geh-Verhalten für den Endboss-Charakter
+     * Starts the walking behavior for the end boss character
      */
     startWalking() {
         if (this.boss.walkingInterval) {
@@ -83,14 +83,14 @@ class BossMovement {
     }
 
     /**
-     * Stoppt die Bewegung des Endbosses durch Setzen der Geschwindigkeit auf 0
+     * Stops the movement of the end boss by setting speed to 0
      */
     stopMovement() {
         this.boss.speed = 0;
     }
 
     /**
-     * Setzt die Bewegung des Endbosses nach einer bestimmten Verzögerung fort
+     * Resumes the movement of the end boss after a certain delay
      */
     resumeMovementAfterDelay(delay) {
         setTimeout(() => {

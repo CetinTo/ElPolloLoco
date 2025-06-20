@@ -1,5 +1,5 @@
 /**
- * Repräsentiert ein Flaschen-Objekt im Spiel
+ * Represents a bottle object in the game
  * @extends MoveableObject
  */
 class Bottles extends MoveableObject {
@@ -17,14 +17,14 @@ class Bottles extends MoveableObject {
     }
 
     /**
-     * Lädt ein zufälliges Flaschen-Bild
+     * Loads a random bottle image
      */
     initializeImage() {
         this.loadImage(this.IMAGES_BOTTLE[Math.round(Math.random())]);
     }
 
     /**
-     * Initialisiert Position und Eigenschaften der Flasche
+     * Initializes position and properties of the bottle
      */
     initializeProperties(x, y) {
         this.x = x + 450;
@@ -39,7 +39,7 @@ class Bottles extends MoveableObject {
     }
     
     /**
-     * Überschreibt die draw()-Methode, damit eingesammelte Flaschen nicht gezeichnet werden
+     * Overrides the draw() method so that collected bottles are not drawn
      */
     draw(ctx) {
         if (this.collected) return;

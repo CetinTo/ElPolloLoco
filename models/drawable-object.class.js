@@ -1,5 +1,5 @@
 /**
- * Repräsentiert ein zeichenbares Objekt im Spiel
+ * Represents a drawable object in the game
  * @class
  */
 class DrawableObject {
@@ -18,8 +18,8 @@ class DrawableObject {
     };
 
     /**
-     * Lädt ein Bild vom angegebenen Pfad und weist es der 'img'-Eigenschaft des Objekts zu
-     * @param {string} path - Der Pfad zur Bilddatei
+     * Loads an image from the specified path and assigns it to the object's 'img' property
+     * @param {string} path - The path to the image file
      */
     loadImage(path) {
         this.img = new Image();
@@ -27,8 +27,8 @@ class DrawableObject {
     }
 
     /**
-     * Lädt ein Array von Bildern und speichert sie im Bild-Cache
-     * @param {string[]} array - Ein Array von Bildpfaden zum Laden
+     * Loads an array of images and stores them in the image cache
+     * @param {string[]} array - An array of image paths to load
      */
     loadImages(array) {
         array.forEach((path) => {
@@ -39,8 +39,8 @@ class DrawableObject {
     }
 
     /**
-     * Zeichnet das Objekt auf den Canvas-Kontext
-     * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
+     * Draws the object on the canvas context
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
      */
     draw(ctx) {
         try {
@@ -49,8 +49,8 @@ class DrawableObject {
     }
 
     /**
-     * Zeichnet einen Rahmen um das Objekt für Debugging-Zwecke
-     * @param {CanvasRenderingContext2D} ctx - Der Canvas-Rendering-Kontext
+     * Draws a frame around the object for debugging purposes
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
      */
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottles || this instanceof ThrowableObject) {
@@ -69,9 +69,9 @@ class DrawableObject {
     }
 
     /**
-     * Bestimmt den Index des zu verwendenden Bildes basierend auf einem gegebenen Prozentsatz
-     * @param {number} percentage - Der Prozentsatz (0-100) zur Bestimmung des Bild-Index
-     * @returns {number} - Der Index des zu verwendenden Bildes
+     * Determines the index of the image to use based on a given percentage
+     * @param {number} percentage - The percentage (0-100) to determine the image index
+     * @returns {number} - The index of the image to use
      */
     resolveImagesIndex(percentage) {
         if (percentage >= 100) {

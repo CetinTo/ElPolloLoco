@@ -1,5 +1,5 @@
 /**
- * Repräsentiert den Endboss des Spiels
+ * Represents the end boss of the game
  * @extends MoveableObject
  */
 class Endboss extends MoveableObject {
@@ -73,7 +73,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Lädt alle Bild-Arrays für verschiedene Animationen
+     * Loads all image arrays for different animations
      */
     initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
@@ -84,7 +84,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Initialisiert grundlegende Eigenschaften des Endbosses
+     * Initializes basic properties of the end boss
      */
     initializeProperties() {
         this.x = 5000;
@@ -96,7 +96,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Initialisiert alle Handler-Klassen für Boss-Verhalten
+     * Initializes all handler classes for boss behavior
      */
     initializeHandlers() {
         this.movementHandler = new BossMovement(this);
@@ -106,14 +106,14 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Startet das Boss-Verhalten
+     * Starts the boss behavior
      */
     startBehavior() {
         this.animate();
     }
 
     /**
-     * Animiert das Verhalten des Endbosses
+     * Animates the behavior of the end boss
      */
     animate() {
         const animationInterval = setInterval(() => {
@@ -143,7 +143,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Behandelt wenn der Endboss getroffen wird
+     * Handles when the end boss is hit
      */
     bossIsHit() {
         this.reduceEnergy();
@@ -152,7 +152,7 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Reduziert die Energie des Endbosses um 30
+     * Reduces the energy of the end boss by 30
      */
     reduceEnergy() {
         this.energy -= 30;

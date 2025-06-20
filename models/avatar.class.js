@@ -1,5 +1,5 @@
 /**
- * Repräsentiert den Hauptcharakter im Spiel
+ * Represents the main character in the game
  * @extends MoveableObject
  */
 class Character extends MoveableObject {
@@ -84,7 +84,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Lädt alle Bild-Arrays für verschiedene Animationen
+     * Loads all image arrays for different animations
      */
     initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
@@ -96,7 +96,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Initialisiert grundlegende Eigenschaften des Charakters
+     * Initializes basic properties of the character
      */
     initializeProperties() {
         this.jumping = false;
@@ -109,7 +109,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Startet alle Animationen und Physik
+     * Starts all animations and physics
      */
     startAnimations() {
         this.animate();
@@ -117,7 +117,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Initialisiert alle Audio-Elemente mit verbesserter Fehlerbehandlung
+     * Initializes all audio elements with improved error handling
      */
     initializeAudio() {
         this.walking_sound = createAudioElement('audio/running_3.mp3');
@@ -129,7 +129,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Sichere Audio-Wiedergabe mit Fehlerbehandlung
+     * Safe audio playback with error handling
      */
     playAudioSafely(audioElement) {
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
@@ -149,7 +149,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Animiert die Bewegungen und Zustandsübergänge des Charakters
+     * Animates character movements and state transitions
      */
     animate() {
         intervals.push(setInterval(() => {
@@ -161,7 +161,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Animiert die grundlegenden Bewegungen des Charakters
+     * Animates basic character movements
      */
     animateCharacter() {
         this.handleIdleTimer();
@@ -171,7 +171,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt Zustandsübergänge basierend auf dem aktuellen Zustand des Charakters
+     * Handles state transitions based on current character state
      */
     animateCharacterState() {
         if (!this.world) return;
@@ -193,7 +193,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Aktualisiert den Idle-Timer basierend auf Benutzereingaben
+     * Updates idle timer based on user input
      */
     handleIdleTimer() {
         if (this.world && this.world.keyboard && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.SPACE)) {
@@ -204,7 +204,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt Charakterbewegung (Gehen)
+     * Handles character movement (walking)
      */
     handleWalking() {
         if (this.world && this.world.keyboard && !this.isDead()) {
@@ -227,7 +227,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt Charaktersprung
+     * Handles character jumping
      */
     handleJumping() {
         if (this.world && this.world.keyboard && this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
@@ -236,7 +236,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt den Zustand des Charakters wenn er tot ist
+     * Handles character state when dead
      */
     handleDeadState() {
         this.stopAnimationSound();
@@ -247,7 +247,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt den Zustand des Charakters wenn er verletzt ist
+     * Handles character state when hurt
      */
     handleHurtState() {
         this.stopAnimationSound();
@@ -256,7 +256,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt den Zustand des Charakters beim Springen
+     * Handles character state when jumping
      */
     handleJumpingState() {
         this.stopAnimationSound();
@@ -264,7 +264,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt den Zustand des Charakters während langer Idle-Perioden
+     * Handles character state during long idle periods
      */
     handleLongIdleState() {
         this.stopAnimationSound();
@@ -272,8 +272,8 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Weckt den Charakter auf, indem der Idle-Timer zurückgesetzt wird
-     * Wird aufgerufen wenn der Spieler eine Aktion durchführt während der Charakter schläft
+     * Wakes up character by resetting idle timer
+     * Called when player performs action while character is sleeping
      */
     wakeUp() {
         this.idleTimer = 0;
@@ -281,7 +281,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt den Zustand des Charakters während des Gehens
+     * Handles character state while walking
      */
     handleWalkingState() {
         this.stopAnimationSound();
@@ -289,7 +289,7 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Behandelt den Zustand des Charakters wenn er untätig ist
+     * Handles character state when idle
      */
     handleIdleState() {
         this.stopAnimationSound();
@@ -297,14 +297,14 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Prüft ob der Charakter tot ist
+     * Checks if character is dead
      */
     isDead() {
         return this.energy == 0;
     }
 
     /**
-     * Behandelt die Kameraposition basierend auf der x-Koordinate des Charakters
+     * Handles camera position based on character x-coordinate
      */
     handleCamera() {
         if (this.world) {

@@ -1,5 +1,5 @@
 /**
- * Repräsentiert ein werfbares Objekt das geworfen und animiert werden kann
+ * Represents a throwable object that can be thrown and animated
  * @class
  * @extends MoveableObject
  */
@@ -35,7 +35,7 @@ class ThrowableObject extends MoveableObject {
     }
 
     /**
-     * Lädt alle Animations-Bilder für das werfbare Objekt
+     * Loads all animation images for the throwable object
      */
     initializeImages() {
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);
@@ -43,7 +43,7 @@ class ThrowableObject extends MoveableObject {
     }
 
     /**
-     * Initialisiert Position und Eigenschaften des werfbaren Objekts
+     * Initializes position and properties of the throwable object
      */
     initializeProperties(x, y) {
         this.x = x;
@@ -60,7 +60,7 @@ class ThrowableObject extends MoveableObject {
     }
 
     /**
-     * Startet das Wurf- und Animations-Verhalten
+     * Starts throwing and animation behavior
      */
     startBehavior() {
         this.throw();
@@ -68,7 +68,7 @@ class ThrowableObject extends MoveableObject {
     }
 
     /**
-     * Wirft das Objekt mit einer bestimmten Flugbahn und startet die Animation
+     * Throws object with specific trajectory and starts animation
      */
     throw() {
         this.speedY = 15;
@@ -80,9 +80,8 @@ class ThrowableObject extends MoveableObject {
         this.playThrowSound();
     }
 
-
     /**
-     * Animiert die Rotation des werfbaren Objekts
+     * Animates rotation of the throwable object
      */
     animate() {
         this.rotationInterval = setInterval(() => {
@@ -90,9 +89,8 @@ class ThrowableObject extends MoveableObject {
         }, 50);
     }
 
-
     /**
-     * Animiert den Spritz-Effekt wenn das werfbare Objekt ein Ziel trifft
+     * Animates splash effect when throwable object hits target
      */
     animateBottleSplash() {
         clearInterval(this.rotationInterval);
@@ -103,9 +101,8 @@ class ThrowableObject extends MoveableObject {
         this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
     }
 
-
     /**
-     * Spielt den Soundeffekt ab wenn das werfbare Objekt geworfen wird
+     * Plays sound effect when throwable object is thrown
      */
     playThrowSound() {
         if (!isGameMuted) {

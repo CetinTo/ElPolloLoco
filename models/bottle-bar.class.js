@@ -1,5 +1,5 @@
 /**
- * Repräsentiert eine grafische Leiste die gesammelte Flaschen anzeigt
+ * Represents a graphical bar that displays collected bottles
  * @extends DrawableObject
  */
 class BottleBar extends DrawableObject {
@@ -21,14 +21,14 @@ class BottleBar extends DrawableObject {
     }
 
     /**
-     * Lädt alle Flaschen-Status-Bilder
+     * Loads all bottle status images
      */
     initializeImages() {
         this.loadImages(this.IMAGES_BOTTLES);
     }
 
     /**
-     * Initialisiert Position und Eigenschaften der Flaschenleiste
+     * Initializes position and properties of the bottle bar
      */
     initializeProperties() {
         this.MAX_BOTTLES = 10;
@@ -40,15 +40,15 @@ class BottleBar extends DrawableObject {
     }
 
     /**
-     * Initialisiert die Anzeige mit null Flaschen
+     * Initializes the display with zero bottles
      */
     initializeDisplay() {
         this.setCollectedBottles(0);
     }
 
     /**
-     * Setzt die Anzahl der gesammelten Flaschen und aktualisiert das Bild der Flaschenleiste
-     * @param {number} count - Die Anzahl der gesammelten Flaschen
+     * Sets the number of collected bottles and updates the bottle bar image
+     * @param {number} count - The number of collected bottles
      */
     setCollectedBottles(count) {
         let percentage = (count / this.MAX_BOTTLES) * 100;

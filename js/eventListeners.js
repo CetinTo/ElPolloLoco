@@ -32,7 +32,7 @@ document.addEventListener("keyup", (event) => {
 });
 
 /**
- * Behandelt Touch-Ereignisse für mobile Buttons
+ * Handles touch events for mobile buttons
  */
 function mobileButtonTouch() {
     const leftButton = document.getElementById("touch-left");

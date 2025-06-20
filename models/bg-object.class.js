@@ -1,5 +1,5 @@
 /**
- * Klasse die ein Hintergrund-Objekt im Spiel repräsentiert
+ * Class that represents a background object in the game
  * @extends MoveableObject
  */
 
@@ -14,7 +14,7 @@ class BackgroundObject extends MoveableObject {
     }
 
     /**
-     * Initialisiert Position des Hintergrund-Objekts
+     * Initializes position of the background object
      */
     initializeProperties(x) {
         this.x = x;

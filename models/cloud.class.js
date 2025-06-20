@@ -1,6 +1,6 @@
 /**
- * Repräsentiert ein Wolken-Objekt das sich über den Bildschirm bewegt
- * Erweitert die MoveableObject-Klasse
+ * Represents a cloud object that moves across the screen
+ * Extends the MoveableObject class
  */
 class Cloud extends MoveableObject {
     y = 25;
@@ -14,21 +14,21 @@ class Cloud extends MoveableObject {
     }
 
     /**
-     * Initialisiert die Position der Wolke
+     * Initializes the position of the cloud
      */
     initializeProperties(x) {
         this.x = x;
     }
 
     /**
-     * Startet die Wolken-Bewegung
+     * Starts the cloud movement
      */
     startMovement() {
         this.animate();
     }
 
     /**
-     * Animiert die Wolkenbewegung
+     * Animates the cloud movement
      */
     animate() {
         setInterval(() => {

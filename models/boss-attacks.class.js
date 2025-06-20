@@ -1,5 +1,5 @@
 /**
- * Verwaltet Angriffe und Sprung-Attacken des Endbosses
+ * Manages attacks and jump attacks of the end boss
  * @class
  */
 class BossAttacks {
@@ -8,7 +8,7 @@ class BossAttacks {
     }
 
     /**
-     * Startet balancierte Angriffs-Animation
+     * Starts balanced attack animation
      */
     startAttackAnimation() {
         if (!this.boss.isAttacking && this.boss.energy > 0) {
@@ -32,7 +32,7 @@ class BossAttacks {
     }
 
     /**
-     * Prüft ob der Boss angreifen soll - Aggressiver
+     * Checks if the boss should attack - More aggressive
      */
     shouldAttack() {
         if (!world || !world.character || this.boss.isAttacking || this.boss.isJumping) return false;
@@ -48,7 +48,7 @@ class BossAttacks {
 }
 
 /**
- * Verwaltet Sprung-Attacken des Endbosses
+ * Manages jump attacks of the end boss
  * @class
  */
 class BossJumpAttacks {
@@ -57,7 +57,7 @@ class BossJumpAttacks {
     }
 
     /**
-     * Prüft ob Boss eine Sprung-Attacke machen soll - Häufiger und aggressiver
+     * Checks if boss should perform a jump attack - More frequent and aggressive
      */
     shouldJumpAttack() {
         if (!world || !world.character || this.boss.isJumping || this.boss.isAttacking) return false;
@@ -72,7 +72,7 @@ class BossJumpAttacks {
     }
 
     /**
-     * Startet große Sprung-Attacke auf den Spieler zu
+     * Starts large jump attack towards the player
      */
     startJumpAttack() {
         if (!this.boss.isJumping && world && world.character) {
@@ -107,7 +107,7 @@ class BossJumpAttacks {
     }
 
     /**
-     * Sprung-Physik mit horizontaler Bewegung zum Spieler
+     * Jump physics with horizontal movement towards the player
      */
     applyJumpPhysics() {
         this.boss.speedY += 2.5;

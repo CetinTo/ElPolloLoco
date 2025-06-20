@@ -7,7 +7,7 @@ let intervals = [];
 let timeouts = [];
 
 /**
- * Spiel zurücksetzen
+ * Reset game
  */
 function resetGame() {
     keyboard = new Keyboard();
@@ -16,7 +16,7 @@ function resetGame() {
 }
 
 /**
- * Alle wichtigen Spielbilder vorladen um schwarzen Bildschirm zu verhindern
+ * Preload all important game images to prevent black screen
  */
 function preloadImages() {
     const imagesToPreload = [
@@ -60,7 +60,7 @@ function preloadImages() {
 }
 
 /**
- * Spiel initialisieren und Spielwelt einrichten
+ * Initialize game and set up game world
  */
 async function init() {
     const finaleScreen = document.getElementById('finale-screen');
@@ -101,7 +101,7 @@ async function init() {
 }
 
 /**
- * Hauptmenü anzeigen
+ * Show main menu
  */
 function showMenu() {
     if (gameActive) {
@@ -134,7 +134,7 @@ function showMenu() {
 }
 
 /**
- * Startbildschirm verstecken und Spielinhalt anzeigen
+ * Hide start screen and show game content
  */
 function startGame() {
     const mainMenu = document.getElementById('main-menu');
@@ -152,7 +152,7 @@ function startGame() {
 }
 
 /**
- * Endbildschirm mit entsprechendem Styling basierend auf Spielergebnis anzeigen
+ * Show end screen with appropriate styling based on game result
  */
 function showEndScreen() {
     stopAllGameSounds();
@@ -187,7 +187,7 @@ function showEndScreen() {
 }
 
 /**
- * Stoppt alle laufenden Spiel-Sounds vollständig (außer End-Sounds)
+ * Stops all running game sounds completely (except end sounds)
  */
 function stopAllGameSounds() {
     if (typeof stopBackgroundMusic === 'function') {
@@ -270,7 +270,7 @@ function stopAllGameSounds() {
 }
 
 /**
- * Stoppt ALLE End-Sounds (Game Won/Lost) komplett
+ * Stops ALL end sounds (Game Won/Lost) completely
  */
 function stopAllEndSounds() {
     if (typeof gameWon !== 'undefined' && gameWon) {
@@ -292,7 +292,7 @@ function stopAllEndSounds() {
 }
 
 /**
- * Zurück zum Hauptmenü
+ * Return to main menu
  */
 function returnToMenu() {
     gameActive = false;
@@ -309,7 +309,7 @@ function returnToMenu() {
 }
 
 /**
- * Spiel neu starten
+ * Restart game
  */
 function restart() {
     gameActive = false;
@@ -338,7 +338,7 @@ function restart() {
 }
 
 /**
- * Steuerungsbildschirm öffnen und Menü verstecken
+ * Open controls screen and hide menu
  */
 function openControls() {
     document.getElementById('keys-info').style.display = 'block';
@@ -346,7 +346,7 @@ function openControls() {
 }
 
 /**
- * Steuerungsbildschirm schließen und Menü wieder anzeigen
+ * Close controls screen and show menu again
  */
 function closeControls() {
     document.getElementById('keys-info').style.display = 'none';
@@ -354,7 +354,7 @@ function closeControls() {
 }
 
 /**
- * Einstellungsbildschirm öffnen und Menü verstecken
+ * Open settings screen and hide menu
  */
 function openSettings() {
     document.getElementById('config-panel').style.display = 'block';
@@ -362,7 +362,7 @@ function openSettings() {
 }
 
 /**
- * Einstellungsbildschirm schließen und Menü wieder anzeigen
+ * Close settings screen and show menu again
  */
 function closeSettings() {
     document.getElementById('config-panel').style.display = 'none';
@@ -370,7 +370,7 @@ function closeSettings() {
 }
 
 /**
- * Story-Bildschirm öffnen und Menü verstecken
+ * Open story screen and hide menu
  */
 function openStory() {
     document.getElementById('lore-panel').style.display = 'flex';
@@ -378,7 +378,7 @@ function openStory() {
 }
 
 /**
- * Story-Bildschirm schließen und Menü wieder anzeigen
+ * Close story screen and show menu again
  */
 function closeStory() {
     document.getElementById('lore-panel').style.display = 'none';
@@ -386,7 +386,7 @@ function closeStory() {
 }
 
 /**
- * Vollbildmodus für das Spiel umschalten
+ * Toggle fullscreen mode for the game
  */
 function toggleFullScreen() {
     let container = document.getElementById('game-wrapper');
@@ -416,7 +416,7 @@ function toggleFullScreen() {
 }
 
 /**
- * Neustart vorbereiten
+ * Prepare restart
  */
 function prepareRestart() {
     if (world) {
@@ -425,7 +425,7 @@ function prepareRestart() {
 }
 
 /**
- * Alle Intervalle und Timeouts löschen
+ * Clear all intervals and timeouts
  */
 function clearAllIntervals() {
     intervals.forEach(interval => {
@@ -451,42 +451,42 @@ function clearAllIntervals() {
 }
 
 /**
- * Mobile Steuerungsbuttons anzeigen
+ * Show mobile control buttons
  */
 function showMobileButtons() {
     document.querySelector('.touch-interface').style.display = 'flex';
 }
 
 /**
- * Mobile Steuerungsbuttons verstecken
+ * Hide mobile control buttons
  */
 function hideMobileButtons() {
     document.querySelector('.touch-interface').style.display = 'none';
 }
 
 /**
- * Intervall zur Liste hinzufügen
+ * Add interval to list
  */
 function addInterval(interval) {
     intervals.push(interval);
 }
 
 /**
- * Timeout zur Liste hinzufügen
+ * Add timeout to list
  */
 function addTimeout(timeout) {
     timeouts.push(timeout);
 }
 
 /**
- * Prüfen ob Gerät im Hochformat ist
+ * Check if device is in portrait mode
  */
 function isPortraitMode() {
     return window.innerHeight > window.innerWidth;
 }
 
 /**
- * Vollbild-Änderungsereignisse behandeln
+ * Handle fullscreen change events
  */
 function handleFullscreenChange() {
     if (document.fullscreenElement || document.webkitFullscreenElement || 
@@ -504,21 +504,21 @@ function handleFullscreenChange() {
 }
 
 /**
- * Bildschirm-Rotations-Nachricht anzeigen
+ * Show screen rotation message
  */
 function showRotateScreen() {
     document.querySelector('.rotate-container').style.display = 'flex';
 }
 
 /**
- * Bildschirm-Rotations-Nachricht verstecken
+ * Hide screen rotation message
  */
 function hideRotateScreen() {
     document.querySelector('.rotate-container').style.display = 'none';
 }
 
 /**
- * Orientierungsänderungsereignisse behandeln
+ * Handle orientation change events
  */
 function handleOrientationChange() {
     setTimeout(() => {
@@ -536,7 +536,7 @@ function handleOrientationChange() {
 }
 
 /**
- * Verschiedene Bildschirme verstecken
+ * Hide various screens
  */
 function hideScreens() {
     const mainMenu = document.getElementById('main-menu');
@@ -548,7 +548,7 @@ function hideScreens() {
 }
 
 /**
- * Rotations-Bildschirm basierend auf Fensterdimensionen umschalten
+ * Toggle rotation screen based on window dimensions
  */
 function toggleRotateScreen() {
     document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -560,7 +560,7 @@ function toggleRotateScreen() {
 }
 
 /**
- * Mobile Button-Container basierend auf Fensterdimensionen umschalten
+ * Toggle mobile button container based on window dimensions
  */
 function toggleMobileButtonContainer() {
     let touchInterface = document.querySelector('.touch-interface');
@@ -574,7 +574,7 @@ function toggleMobileButtonContainer() {
 }
 
 /**
- * Spiel-Menü anzeigen
+ * Show game menu
  */
 function toggleIngameMenu() {
     const gameControls = document.getElementById('game-controls');
@@ -584,7 +584,7 @@ function toggleIngameMenu() {
 }
 
 /**
- * Test-Funktionen für Browser-Konsole
+ * Test functions for browser console
  */
 function testMenuButton() {
     console.log('Menu button clicked');
@@ -598,7 +598,7 @@ function testShowEndScreen() {
     showEndScreen();
 }
 
-// Globale Funktionen verfügbar machen
+
 window.testMenuButton = testMenuButton;
 window.testRestartButton = testRestartButton;
 window.testShowEndScreen = testShowEndScreen;

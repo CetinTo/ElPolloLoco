@@ -1,7 +1,7 @@
 let requestAnimationFrameId = 0;
 
 /**
- * Repräsentiert die Spielwelt, in der Charaktere und Objekte interagieren
+ * Represents the game world where characters and objects interact
  * @class
  */
 class World {
@@ -36,28 +36,28 @@ class World {
     }
 
     /**
-     * Initialisiert Canvas und Kontext-Eigenschaften
+     * Initializes canvas and context properties
      */
     initializeCanvasContext(canvas) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         
-        // Canvas Größe explizit setzen
+
         this.canvas.width = 720;
         this.canvas.height = 480;
         
-        // Anti-Aliasing konfigurieren aber nicht deaktivieren
+
         this.ctx.imageSmoothingEnabled = true;
         this.ctx.imageSmoothingQuality = 'high';
         
-        // Canvas leeren und testen
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = 'blue';
         this.ctx.fillRect(0, 0, 50, 50);
     }
 
     /**
-     * Initialisiert grundlegende Eigenschaften
+     * Initializes basic properties
      */
     initializeProperties(keyboard, level1) {
         this.keyboard = keyboard;
@@ -65,7 +65,7 @@ class World {
     }
 
     /**
-     * Initialisiert alle Manager-Klassen
+     * Initializes all manager classes
      */
     initializeManagers() {
         this.collisionManager = new CollisionManager(this);
@@ -79,7 +79,7 @@ class World {
     setupWorld() {
         this.setWorld();
         
-        // Initiale Zeichnungen für bessere Performance
+
         this.draw();
         setTimeout(() => this.draw(), 10);
         setTimeout(() => this.draw(), 50);
@@ -124,14 +124,14 @@ class World {
     }
 
     /**
-     * Setzt die Welt-Referenz für den Charakter
+     * Sets the world reference for the character
      */
     setWorld() {
         this.character.world = this;
     }
 
     /**
-     * Führt die Hauptspiel-Logik aus (OHNE neue Intervalle zu erstellen)
+     * Executes the main game logic (WITHOUT creating new intervals)
      */
     runGameLogic() {
         if (!this.character || this.gameOver) {
@@ -144,7 +144,7 @@ class World {
     }
 
     /**
-     * Überprüft den Spielzustand (Gewinn/Verlust)
+     * Checks the game state (win/loss)
      */
     checkGameState() {
         if (this.gameManager.isEndbossDefeated() || this.gameManager.isCharacterDead()) {
@@ -153,7 +153,7 @@ class World {
     }
 
     /**
-     * Setzt die Spielwelt zurück
+     * Resets the game world
      */
     resetWorld() {
         this.availableBottles = 0;
@@ -186,7 +186,7 @@ class World {
     }
 
     /**
-     * Spielt das Flaschen-Zerbrechgeräusch ab - delegiert an GameManager
+     * Plays the bottle breaking sound - delegates to GameManager
      */
     playBottleShatterSound() {
         this.gameManager.playBottleShatterSound();

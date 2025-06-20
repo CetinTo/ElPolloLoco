@@ -3,12 +3,12 @@
     src: url('./fonts/zabras.ttf') format('truetype');
 }
 
-/* GRUNDLEGENDES LAYOUT */
+/* BASIC LAYOUT */
 * {
     box-sizing: border-box;
 }
 
-/* GLOBALE KEYFRAMES FÜR ROTATION */
+/* GLOBAL KEYFRAMES FOR ROTATION */
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(-360deg); }
@@ -25,7 +25,7 @@ html, body {
     scrollbar-width: none;
 }
 
-/* Scrollbars komplett entfernen */
+/* Remove scrollbars completely */
 *::-webkit-scrollbar {
     display: none;
 }
@@ -40,7 +40,7 @@ body {
     background-position: center;
 }
 
-/* HAUPTCONTAINER */
+/* MAIN CONTAINER */
 .game-wrapper {
     width: 720px;
     height: 480px;
@@ -65,7 +65,7 @@ canvas {
     height: 100%;
 }
 
-/* HAUPTMENÜ */
+/* MAIN MENU */
 .main-menu-view {
     background: url('img/9_intro_outro_screens/start/startscreen_2.png');
     background-size: 100% 100%;
@@ -329,16 +329,16 @@ h1 {
     color: white;
 }
 
-/* Finale Screen hat Vorrang über Impressum */
+/* Finale Screen has priority over Impressum */
 .finale-screen.game-lost-screen ~ .impressum-text,
 .finale-screen.game-won-screen ~ .impressum-text {
     display: none !important;
 }
 
-/* ===== RESPONSIVE DESIGN - SEPARATE MEDIA QUERIES FÜR JEDE GERÄTEGRÖSSE ===== */
+/* ===== RESPONSIVE DESIGN - SEPARATE MEDIA QUERIES FOR EACH DEVICE SIZE ===== */
 
-/* Desktop - Hintergrund-Bild bleibt */
-/* iPad Pro 12.9" (1366x1024) - SPEZIFISCH */
+/* Desktop - Background image remains */
+/* iPad Pro 12.9" (1366x1024) - SPECIFIC */
 @media only screen and (min-width: 1301px) and (max-width: 1366px) {
     .rotate-container {
         position: fixed;
@@ -432,7 +432,7 @@ h1 {
     }
 }
 
-/* Desktop - Echte Desktop-Auflösungen (1367px+) */
+/* Desktop - Real desktop resolutions (1367px+) */
 @media only screen and (min-width: 1367px) {
     .rotate-container {
         position: fixed;
@@ -876,7 +876,7 @@ h1 {
     .impressum-text { font-size: 20px; bottom: 8px; }
 }
 
-/* iPhone 8/7/6s/6 (375px breit) - SPEZIFISCH */
+/* iPhone 8/7/6s/6 (375px wide) - SPECIFIC */
 @media only screen and (min-width: 375px) and (max-width: 375px) {
     .rotate-container {
         position: fixed;
@@ -924,7 +924,7 @@ h1 {
     .impressum-text { font-size: 22px !important; bottom: 10px !important; }
 }
 
-/* Touch Interface für alle mobilen Geräte */
+/* Touch Interface for all mobile devices */
 @media only screen and (max-width: 1300px) {
     .touch-interface {
         display: flex !important;
@@ -1096,7 +1096,7 @@ h1 {
     transform: scale(0.95);
 }
 
-/* Portrait-Modus Rotation Warnung für ALLE Geräte */
+/* Portrait mode rotation warning for ALL devices */
 @media only screen and (max-width: 1366px) and (orientation: portrait) {
     .rotate-container {
         position: fixed !important;
@@ -1127,7 +1127,7 @@ h1 {
     }
 }
 
-/* Portrait-Modus für Desktop (1367px+) */
+/* Portrait mode for desktop (1367px+) */
 @media only screen and (min-width: 1367px) and (orientation: portrait) {
     .rotate-container {
         position: fixed !important;
@@ -1190,7 +1190,7 @@ h1 {
     z-index: 1500 !important;
 }
 
-/* ===== HÖCHSTE PRIORITÄT: iPhone 8/7/6s/6 SPEZIFISCH ===== */
+/* ===== HIGHEST PRIORITY: iPhone 8/7/6s/6 SPECIFIC ===== */
 @media only screen and (device-width: 375px) and (device-height: 667px) {
     .finale-screen {
         top: -47px !important;
@@ -1212,13 +1212,13 @@ h1 {
     }
 }
 
-/* ===== NEUE MEDIA QUERY FÜR GROSSE BILDSCHIRME ===== */
+/* ===== NEW MEDIA QUERY FOR LARGE SCREENS ===== */
 
 @media (max-height: 1000px) {
 
 }
 
-/* Alle mobilen Geräte inkl. iPad Pro - Ganzer Bildschirm wird Spiel-Bildschirm */
+/* All mobile devices incl. iPad Pro - Full screen becomes game screen */
 @media only screen and (max-width: 1366px) {
     .main-menu-view {
         background: url('img/9_intro_outro_screens/start/startscreen_2.png') !important;

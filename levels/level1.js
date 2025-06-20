@@ -1,9 +1,9 @@
 /**
- * Initialisiert das Spiellevel mit spezifizierten Entitäten und Objekten
+ * Initializes game level with specified entities and objects
  */
 function initLevel() {
     /**
-     * Das Spiellevel, enthält Hühner, Wolken, Hintergrundobjekte, Münzen, Flaschen und einen Endboss
+     * The game level, contains chickens, clouds, background objects, coins, bottles and an endboss
      * @type {Level}
      */
     level1 = new Level(

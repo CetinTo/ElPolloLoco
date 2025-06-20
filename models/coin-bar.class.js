@@ -1,10 +1,10 @@
 /**
- * Die maximale Anzahl von Münzen die die CoinBar anzeigen kann
+ * The maximum number of coins that the CoinBar can display
  */
 const MAX_COINS = 20;
 
 /**
- * Repräsentiert eine grafische Leiste die gesammelte Münzen anzeigt
+ * Represents a graphical bar that displays collected coins
  * @extends DrawableObject
  */
 class CoinBar extends DrawableObject {
@@ -27,14 +27,14 @@ class CoinBar extends DrawableObject {
     }
 
     /**
-     * Lädt alle Münz-Status-Bilder
+     * Loads all coin status images
      */
     initializeImages() {
         this.loadImages(this.IMAGES_COINS);
     }
 
     /**
-     * Initialisiert Position und Größe der Münzleiste
+     * Initializes position and size of the coin bar
      */
     initializeProperties() {
         this.x = 15;
@@ -44,15 +44,15 @@ class CoinBar extends DrawableObject {
     }
 
     /**
-     * Initialisiert die Anzeige mit null Münzen
+     * Initializes the display with zero coins
      */
     initializeDisplay() {
         this.setCollectedCoins(0);
     }
 
     /**
-     * Setzt die Anzahl der gesammelten Münzen und aktualisiert die visuelle Darstellung der Münzleiste
-     * @param {number} count - Die Anzahl der gesammelten Münzen
+     * Sets the number of collected coins and updates the visual representation of the coin bar
+     * @param {number} count - The number of collected coins
      */
     setCollectedCoins(count) {
         this.collectedCoins = count;

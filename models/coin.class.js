@@ -1,5 +1,5 @@
 /**
- * Repräsentiert ein Münz-Objekt das vom Charakter gesammelt werden kann
+ * Represents a coin object that can be collected by the character
  * @extends MoveableObject
  */
 
@@ -19,7 +19,7 @@ class Coin extends MoveableObject {
     }
 
     /**
-     * Lädt alle Münz-Bilder
+     * Loads all coin images
      */
     initializeImages() {
         this.loadImages(this.IMAGES_COINS);
@@ -27,7 +27,7 @@ class Coin extends MoveableObject {
     }
 
     /**
-     * Initialisiert Position und Eigenschaften der Münze
+     * Initializes position and properties of the coin
      */
     initializeProperties(x, y) {
         this.x = x + 500;
@@ -43,14 +43,14 @@ class Coin extends MoveableObject {
     }
 
     /**
-     * Startet die Münz-Animation
+     * Starts the coin animation
      */
     startAnimation() {
         this.animate();
     }
 
     /**
-     * Animiert das Aussehen der Münze durch Durchlaufen ihrer Animations-Frames
+     * Animates the appearance of the coin by cycling through its animation frames
      */
     animate() {
         setInterval(() => {
@@ -59,7 +59,7 @@ class Coin extends MoveableObject {
     }
 
     /**
-     * Stoppt die Animation der Münze
+     * Stops the animation of the coin
      */
     stopAnimation() {
         clearInterval(this.animationInterval);

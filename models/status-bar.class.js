@@ -1,5 +1,5 @@
 /**
- * Repräsentiert eine Statusleiste die verschiedene Status mit Bildern basierend auf Prozentsätzen anzeigt
+ * Represents a status bar that displays different statuses with images based on percentages
  * @class
  * @extends DrawableObject
  */
@@ -25,14 +25,14 @@ class Statusbar extends DrawableObject {
     }
 
     /**
-     * Lädt alle Status-Bilder
+     * Loads all status images
      */
     initializeImages() {
         this.loadImages(this.IMAGES_HEALTH);
     }
 
     /**
-     * Initialisiert Position und Größe der Statusleiste
+     * Initializes position and size of the status bar
      */
     initializeProperties() {
         this.x = 15;
@@ -42,15 +42,15 @@ class Statusbar extends DrawableObject {
     }
 
     /**
-     * Initialisiert die Anzeige mit vollem Status
+     * Initializes the display with full status
      */
     initializeDisplay() {
         this.setPercentage(100);
     }
 
     /**
-     * Setzt den Prozentsatz für die Statusleiste und aktualisiert das angezeigte Bild entsprechend
-     * @param {number} percentage - Der zu setzende Prozentsatz
+     * Sets the percentage for the status bar and updates the displayed image accordingly
+     * @param {number} percentage - The percentage to set
      */
     setPercentage(percentage) {
         this.percentage = percentage;

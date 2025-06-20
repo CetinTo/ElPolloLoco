@@ -1,5 +1,5 @@
 /**
- * Klasse für bewegliche Objekte im Spiel
+ * Class for movable objects in the game
  * @extends DrawableObject
  */
 class MoveableObject extends DrawableObject {
@@ -12,7 +12,7 @@ class MoveableObject extends DrawableObject {
     hitCooldown = 250;
 
     /**
-     * Wendet Schwerkraft auf das bewegliche Objekt an, wodurch es fällt oder sich nach oben bewegt
+     * Applies gravity to the movable object, causing it to fall or move upward
      */
     applyGravity() {
         setInterval(() => {
@@ -23,8 +23,8 @@ class MoveableObject extends DrawableObject {
     }
 
     /**
-     * Prüft ob das bewegliche Objekt über dem Boden ist oder fällt
-     * @returns {boolean} True wenn über dem Boden, andernfalls false
+     * Checks if the movable object is above ground or falling
+     * @returns {boolean} True if above ground, otherwise false
      */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
@@ -35,30 +35,30 @@ class MoveableObject extends DrawableObject {
     }
 
     /**
-     * Bewegt das bewegliche Objekt nach rechts
+     * Moves the movable object to the right
      */
     moveRight() {
         this.x += this.speed;
     }
 
     /**
-     * Bewegt das bewegliche Objekt nach links
+     * Moves the movable object to the left
      */
     moveLeft() {
         this.x -= this.speed;
     }
 
     /**
-     * Lässt das bewegliche Objekt springen
+     * Makes the movable object jump
      */
     jump() {
         this.speedY = 30;
     }
 
     /**
-     * Prüft ob das bewegliche Objekt mit einem anderen beweglichen Objekt kollidiert
-     * @param {MoveableObject} mo - Das andere bewegliche Objekt für die Kollisionsprüfung
-     * @returns {boolean} True wenn kollidierend, andernfalls false
+     * Checks if the movable object collides with another movable object
+     * @param {MoveableObject} mo - The other movable object for collision checking
+     * @returns {boolean} True if colliding, otherwise false
      */
     isColliding(mo) {
         return (
@@ -70,7 +70,7 @@ class MoveableObject extends DrawableObject {
     }
 
     /**
-     * Behandelt das Treffer-Ereignis auf dem beweglichen Objekt und reduziert seine Energie
+     * Handles hit event on the movable object and reduces its energy
      */
     hit() {
         const currentTime = new Date().getTime();
@@ -85,8 +85,8 @@ class MoveableObject extends DrawableObject {
     }
 
     /**
-     * Prüft ob das bewegliche Objekt verletzt ist basierend auf der Treffer-Abklingzeit
-     * @returns {boolean} True wenn verletzt, andernfalls false
+     * Checks if the movable object is hurt based on hit cooldown
+     * @returns {boolean} True if hurt, otherwise false
      */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHitTime;
@@ -95,16 +95,16 @@ class MoveableObject extends DrawableObject {
     }
 
     /**
-     * Prüft ob das bewegliche Objekt tot ist basierend auf der Energie
-     * @returns {boolean} True wenn tot, andernfalls false
+     * Checks if the movable object is dead based on energy
+     * @returns {boolean} True if dead, otherwise false
      */
     isDead() {
         return this.energy == 0;
     }
 
     /**
-     * Spielt eine Animation auf dem beweglichen Objekt ab durch Aktualisierung seines Bildes
-     * @param {string[]} images - Ein Array von Bildpfaden für die Animation
+     * Plays an animation on the movable object by updating its image
+     * @param {string[]} images - An array of image paths for the animation
      */
     playAnimation(images) {
         let i = this.currentImage % images.length;

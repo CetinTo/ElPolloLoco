@@ -1,5 +1,5 @@
 /**
- * Verwaltet alle Kollisionen im Spiel
+ * Manages all collisions in the game
  * @class
  */
 class CollisionManager {
@@ -8,7 +8,7 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft alle Kollisionen
+     * Checks all collisions
      */
     checkAllCollisions() {
         this.checkCoinCollisions();
@@ -19,7 +19,7 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft Münz-Kollisionen
+     * Checks coin collisions
      */
     checkCoinCollisions() {
         for (let i = this.world.level.coins.length - 1; i >= 0; i--) {
@@ -35,7 +35,7 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft Flaschen-Kollisionen
+     * Checks bottle collisions
      */
     checkBottleCollisions() {
         for (let i = this.world.level.bottles.length - 1; i >= 0; i--) {
@@ -52,7 +52,7 @@ class CollisionManager {
     }
 
     /**
-     * Verbesserte Kollisionserkennung für Flaschen-Sammlung
+     * Improved collision detection for bottle collection
      */
     isCharacterNearBottle(bottle) {
         const buffer = 20;
@@ -75,37 +75,91 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft Kollisionen mit Gegnern
+     * Checks collisions with enemies
      */
     checkCollisionsWithEnemies() {
+        let hasJumpedOnAnyEnemy = false;
+        let enemiesToKill = [];
+        
         this.world.level.enemies.forEach((enemy) => {
             if (this.world.character.isColliding(enemy) && enemy.energy > 0) {
-                // SUPER EINFACH: Nur prüfen ob Character springt
-                if (this.world.character.isAboveGround()) {
-                    // Character springt = Enemy stirbt
-                    enemy.energy = 0;
-                    enemy.playDeathAnimation();
-                    this.world.playGameSound('./audio/chicken_hurt.mp3', 0.8);
-                    this.world.character.jump(); // Avatar springt nochmal hoch!
-                    setTimeout(() => {
-                        const index = this.world.level.enemies.indexOf(enemy);
-                        if (index > -1) {
-                            this.world.level.enemies.splice(index, 1);
-                        }
-                    }, 500);
-                } else {
-                    // Character läuft = Character nimmt Schaden
-                    this.world.character.hit();
-                    this.world.statusBar.setPercentage(this.world.character.energy);
+                if (this.isCharacterJumpingOnEnemy(enemy)) {
+                    enemiesToKill.push(enemy);
+                    hasJumpedOnAnyEnemy = true;
                 }
             }
         });
+        
+        if (hasJumpedOnAnyEnemy) {
+            this.world.level.enemies.forEach((enemy) => {
+                if (enemy.energy > 0 && this.isEnemyNearJumpingCharacter(enemy)) {
+                    if (!enemiesToKill.includes(enemy)) {
+                        enemiesToKill.push(enemy);
+                    }
+                }
+            });
+            
+            enemiesToKill.forEach((enemy) => {
+                enemy.energy = 0;
+                enemy.playDeathAnimation();
+                setTimeout(() => {
+                    const index = this.world.level.enemies.indexOf(enemy);
+                    if (index > -1) {
+                        this.world.level.enemies.splice(index, 1);
+                    }
+                }, 500);
+            });
+            
+            this.world.playGameSound('./audio/chicken_hurt.mp3', 0.8);
+            this.world.character.jump();
+        } else {
+            this.world.level.enemies.forEach((enemy) => {
+                if (this.world.character.isColliding(enemy) && enemy.energy > 0) {
+                    this.world.character.hit();
+                    this.world.statusBar.setPercentage(this.world.character.energy);
+                }
+            });
+        }
         
         this.checkBottleEnemyCollisions();
     }
 
     /**
-     * Behandelt normale Kollision (Schaden nehmen)
+     * Checks if character is jumping on enemy from above
+     * @param {Object} enemy - The enemy
+     * @returns {boolean} - True if character is jumping from above
+     */
+    isCharacterJumpingOnEnemy(enemy) {
+        const character = this.world.character;
+        
+        const isFalling = character.speedY < 0;
+        
+        const isInAir = character.isAboveGround();
+        
+        const characterBottom = character.y + character.height;
+        const enemyTop = enemy.y;
+        const enemyMiddle = enemy.y + (enemy.height / 2);
+        
+        const comingFromAbove = characterBottom < enemyMiddle + 40;
+        
+        return isFalling && isInAir && comingFromAbove;
+    }
+
+    /**
+     * Checks if enemy is near jumping character
+     * @param {Object} enemy - The enemy to check
+     * @returns {boolean} - True if enemy is close enough
+     */
+    isEnemyNearJumpingCharacter(enemy) {
+        const character = this.world.character;
+        const distance = Math.abs(character.x - enemy.x);
+        const verticalDistance = Math.abs(character.y - enemy.y);
+        
+        return distance <= 100 && verticalDistance <= 80;
+    }
+
+    /**
+     * Handles normal collision (taking damage)
      */
     handleCollision() {
         this.world.character.hit();
@@ -113,7 +167,7 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft Kollisionen zwischen Flaschen und Gegnern
+     * Checks collisions between bottles and enemies
      */
     checkBottleEnemyCollisions() {
         this.world.throwableObjects.forEach((bottle, bottleIndex) => {
@@ -126,7 +180,7 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft Kollisionen zwischen Flaschen und Endboss
+     * Checks collisions between bottles and endboss
      */
     checkBottleHitEndbossCollisions() {
         this.world.throwableObjects.forEach((bottle, index) => {
@@ -137,7 +191,7 @@ class CollisionManager {
     }
 
     /**
-     * Behandelt Kollision zwischen Flasche und Gegner
+     * Handles collision between bottle and enemy
      */
     handleBottleEnemyCollision(bottle, bottleIndex, enemy) {
         bottle.hasCollided = true;
@@ -149,7 +203,7 @@ class CollisionManager {
     }
 
     /**
-     * Spielt Gegner-Tod-Animation ab
+     * Plays enemy death animation
      */
     playEnemyDeathAnimation(enemy) {
         if (enemy.energy === 0) {
@@ -158,7 +212,7 @@ class CollisionManager {
     }
 
     /**
-     * Entfernt Flasche und Gegner nach Kollision
+     * Removes bottle and enemy after collision
      */
     removeBottleAndEnemyAfterCollision(bottleIndex, enemy) {
         if (enemy.energy === 0) {
@@ -172,7 +226,7 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft Kollision mit Endboss
+     * Checks collision with endboss
      */
     checkCollisionWithEndboss() {
         if (this.world.level.endboss && this.world.level.endboss.length > 0) {
@@ -185,7 +239,7 @@ class CollisionManager {
     }
 
     /**
-     * Behandelt Kollision zwischen Flasche und Endboss
+     * Handles collision between bottle and endboss
      */
     handleBottleEndbossCollision(bottle, index) {
         bottle.hasCollided = true;
@@ -199,14 +253,14 @@ class CollisionManager {
     }
 
     /**
-     * Überprüft ob Flasche mit Endboss kollidiert
+     * Checks if bottle is colliding with endboss
      */
     isBottleCollidingWithEndboss(bottle) {
         return this.world.level.endboss[0] && !bottle.hasCollided && this.world.level.endboss[0].isColliding(bottle);
     }
 
     /**
-     * Entfernt Gegner aus dem Level
+     * Removes enemy from level
      */
     removeEnemyFromLevel(enemy) {
         const index = this.world.level.enemies.indexOf(enemy);
@@ -216,7 +270,7 @@ class CollisionManager {
     }
 
     /**
-     * Entfernt Flasche nach Kollision
+     * Removes bottle after collision
      */
     removeBottleAfterCollision(bottleIndex) {
         if (this.world.throwableObjects[bottleIndex]) {

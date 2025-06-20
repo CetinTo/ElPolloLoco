@@ -1,5 +1,5 @@
 /**
- * Verwaltet das Rendering aller Spielobjekte
+ * Manages rendering of all game objects
  * @class
  */
 class RenderManager {
@@ -8,7 +8,7 @@ class RenderManager {
     }
 
     /**
-     * Rendert alle Spielobjekte
+     * Renders all game objects
      */
     draw() {
         this.world.ctx.clearRect(0, 0, this.world.canvas.width, this.world.canvas.height);
@@ -42,7 +42,7 @@ class RenderManager {
     }
 
     /**
-     * Fügt Objekt zur Karte hinzu
+     * Adds object to map
      */
     addToMap(mo) {
         if (mo.otherDirection) {
@@ -57,7 +57,7 @@ class RenderManager {
     }
 
     /**
-     * Fügt Array von Objekten zur Karte hinzu
+     * Adds array of objects to map
      */
     addObjectsToMap(objects) {
         objects.forEach(o => {
@@ -66,7 +66,7 @@ class RenderManager {
     }
 
     /**
-     * Spiegelt Bild horizontal
+     * Flips image horizontally
      */
     flipImage(mo) {
         this.world.ctx.save();
@@ -76,7 +76,7 @@ class RenderManager {
     }
 
     /**
-     * Stellt Bildorientierung wieder her
+     * Restores image orientation
      */
     flipImageBack(mo) {
         mo.x = mo.x * -1;

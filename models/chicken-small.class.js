@@ -1,5 +1,5 @@
 /**
- * Klasse die einen kleinen Hühner-Charakter im Spiel repräsentiert
+ * Class that represents a small chicken character in the game
  * @extends MoveableObject
  */
 class ChickenSmall extends MoveableObject {
@@ -27,7 +27,7 @@ class ChickenSmall extends MoveableObject {
     }
 
     /**
-     * Lädt alle Animations-Bilder für das kleine Huhn
+     * Loads all animation images for the small chicken
      */
     initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
@@ -35,7 +35,7 @@ class ChickenSmall extends MoveableObject {
     }
 
     /**
-     * Initialisiert grundlegende Eigenschaften des kleinen Huhns
+     * Initializes basic properties of the small chicken
      */
     initializeProperties(x) {
         this.x = x;
@@ -51,21 +51,21 @@ class ChickenSmall extends MoveableObject {
     }
 
     /**
-     * Startet das kleine Huhn-Verhalten
+     * Starts the small chicken behavior
      */
     startBehavior() {
         this.animate();
     }
 
     /**
-     * Initialisiert das Audio-Element mit verbesserter Fehlerbehandlung
+     * Initializes the audio element with improved error handling
      */
     initializeAudio() {
         this.death_sound = createAudioElement('audio/chicken_hurt.mp3');
     }
 
     /**
-     * Startet Intervalle für kleine Hühner-Bewegung und Animation
+     * Starts intervals for small chicken movement and animation
      */
     animate() {
         this.movementInterval = setInterval(() => {
@@ -81,7 +81,7 @@ class ChickenSmall extends MoveableObject {
     }
 
     /**
-     * Stoppt die Bewegungs- und Animations-Intervalle des kleinen Huhns
+     * Stops the movement and animation intervals of the small chicken
      */
     stopIntervals() {
         clearInterval(this.movementInterval);
@@ -89,8 +89,8 @@ class ChickenSmall extends MoveableObject {
     }
 
     /**
-     * Startet die Todes-Animation für das kleine Huhn
-     * Stoppt die Bewegung und spielt die Todes-Animation und den Sound ab
+     * Starts the death animation for the small chicken
+     * Stops movement and plays the death animation and sound
      */
     playDeathAnimation() {
         this.stopIntervals();
@@ -99,8 +99,8 @@ class ChickenSmall extends MoveableObject {
     }
 
     /**
-     * Spielt einen Soundeffekt ab wenn das kleine Huhn stirbt
-     * Passt die Lautstärke an und spielt den Soundeffekt ab
+     * Plays a sound effect when the small chicken dies
+     * Adjusts volume and plays the sound effect
      */
     playSoundOnDeath() {
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {

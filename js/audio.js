@@ -1,7 +1,7 @@
 /**
- * Hilfsfunktion um ein Audio-Element sicher abzuspielen, nur wenn es pausiert ist.
- * Falls das Audio bereits läuft, wird kein erneuter Play-Aufruf gestartet.
- * Fehler mit dem Namen "AbortError" werden gezielt unterdrückt.
+ * Helper function to safely play an audio element, only when it is paused.
+ * If the audio is already playing, no new play call is started.
+ * Errors with the name "AbortError" are specifically suppressed.
  * @param {HTMLAudioElement} audioElement
  * @returns {Promise}
  */
@@ -17,9 +17,9 @@ function safePlay(audioElement) {
 }
 
 /**
- * Erstellt ein neues Audio-Element mit verbesserter Cache-Behandlung
- * @param {string} src - Der Pfad zur Audio-Datei
- * @returns {HTMLAudioElement|null} - Das Audio-Element oder null bei Fehlern
+ * Creates a new audio element with improved cache handling
+ * @param {string} src - The path to the audio file
+ * @returns {HTMLAudioElement|null} - The audio element or null on errors
  */
 function createAudioElement(src) {
     try {
@@ -45,25 +45,25 @@ function createAudioElement(src) {
 }
 
 /**
- * Hintergrundmusik Audio-Element
+ * Background music audio element
  * @type {HTMLAudioElement}
  */
 let backgroundMusic = createAudioElement('audio/game.mp3');
 
 /**
- * Audio-Element für den Spiel-Gewonnen-Sound
+ * Audio element for the game won sound
  * @type {HTMLAudioElement}
  */
 let gameWon = createAudioElement('audio/game_won.mp3');
 
 /**
- * Audio-Element für den Spiel-Verloren-Sound
+ * Audio element for the game lost sound
  * @type {HTMLAudioElement}
  */
 let gameLost = createAudioElement('audio/game_lost.mp3');
 
 /**
- * Zeigt an, ob das Spiel-Audio stummgeschaltet ist
+ * Indicates whether the game audio is muted
  * @type {boolean}
  */
 let isGameMuted = false;
@@ -88,7 +88,7 @@ function gameLostSound() {
 }
 
 /**
- * Setzt die Lautstärke und den Stummschaltungsstatus für die Hintergrundmusik und spielt sie ab
+ * Sets the volume and mute status for the background music and plays it
  */
 function playBackgroundMusic() {
     backgroundMusic.volume = 0.1;
@@ -97,7 +97,7 @@ function playBackgroundMusic() {
 }
 
 /**
- * Stoppt die Hintergrundmusik und setzt die Wiedergabeposition auf den Anfang zurück
+ * Stops the background music and resets the playback position to the beginning
  */
 function stopBackgroundMusic() {
     backgroundMusic.pause();
@@ -105,7 +105,7 @@ function stopBackgroundMusic() {
 }
 
 /**
- * Schaltet den Stummschaltungsstatus der Hintergrundmusik um und aktualisiert die UI entsprechend
+ * Toggles the mute status of the background music and updates the UI accordingly
  */
 function updateSoundStatus() {
     backgroundMusic.muted = isGameMuted;
@@ -126,8 +126,8 @@ function updateSoundStatus() {
 }
 
 /**
- * Schaltet den Stummschaltungsstatus des Spiel-Audios um und aktualisiert die UI
- * MASTER AUDIO CONTROL - Kontrolliert alle Sounds im Spiel
+ * Toggles the mute status of the game audio and updates the UI
+ * MASTER AUDIO CONTROL - Controls all sounds in the game
  */
 function toggleSoundAndImage() {
     isGameMuted = !isGameMuted;
@@ -138,16 +138,16 @@ function toggleSoundAndImage() {
 }
 
 /**
- * MASTER MUTE FUNKTION - Steuert alle Audios im Spiel
+ * MASTER MUTE FUNCTION - Controls all audios in the game
  */
 function masterMuteAllSounds() {
-    // Hintergrundmusik steuern
+
     if (backgroundMusic) {
         backgroundMusic.muted = isGameMuted;
         if (isGameMuted) {
             backgroundMusic.pause();
         } else {
-            // Nur wieder starten wenn das Spiel aktiv ist
+    
             if (gameActive) {
                 backgroundMusic.muted = false;
                 safePlay(backgroundMusic);
@@ -155,7 +155,7 @@ function masterMuteAllSounds() {
         }
     }
     
-    // End-Sounds komplett kontrollieren (auch stoppen)
+
     if (gameWon) {
         gameWon.muted = isGameMuted;
         if (isGameMuted) {
@@ -172,9 +172,9 @@ function masterMuteAllSounds() {
         }
     }
     
-    // Alle World-Sounds kontrollieren
+    
     if (world) {
-        // Character Sounds
+        
         if (world.character) {
             if (world.character.walking_sound) {
                 world.character.walking_sound.muted = isGameMuted;
@@ -190,7 +190,7 @@ function masterMuteAllSounds() {
             }
         }
         
-        // Enemy Sounds
+        
         if (world.level && world.level.enemies) {
             world.level.enemies.forEach((enemy) => {
                 if (enemy.death_sound) {
@@ -204,7 +204,7 @@ function masterMuteAllSounds() {
             });
         }
         
-        // Endboss Sounds
+        
         if (world.level && world.level.endboss) {
             world.level.endboss.forEach((endboss) => {
                 if (endboss.alert_sound) {
@@ -222,7 +222,7 @@ function masterMuteAllSounds() {
             });
         }
         
-        // Throwable Object Sounds
+        
         if (world.throwableObjects) {
             world.throwableObjects.forEach((bottle) => {
                 if (bottle.bottle_shatter_sound) {
@@ -237,7 +237,7 @@ function masterMuteAllSounds() {
         }
     }
     
-    // Alle HTML Audio Elemente auf der Seite kontrollieren
+    
     const allAudio = document.querySelectorAll('audio');
     allAudio.forEach(audio => {
         audio.muted = isGameMuted;
@@ -248,16 +248,16 @@ function masterMuteAllSounds() {
 }
 
 /**
- * Schaltet alle Spiel-Audio-Elemente basierend auf dem Spiel-Stummschaltungsstatus stumm oder laut
- * (Veraltete Funktion - wird von masterMuteAllSounds() ersetzt)
+ * Mutes or unmutes all game audio elements based on the game mute status
+ * (Deprecated function - replaced by masterMuteAllSounds())
  */
 function muteSounds() {
     masterMuteAllSounds();
 }
 
 /**
- * Schaltet Hühner-Gegner-Sounds basierend auf dem Spiel-Stummschaltungsstatus stumm oder laut
- * (Teil der Master-Mute-Funktion)
+ * Mutes or unmutes chicken enemy sounds based on the game mute status
+ * (Part of the master mute function)
  */
 function muteChickenSounds() {
     if (world && world.level && world.level.enemies) {
@@ -271,8 +271,8 @@ function muteChickenSounds() {
 }
 
 /**
- * Schaltet Endboss-Gegner-Sounds basierend auf dem Spiel-Stummschaltungsstatus stumm oder laut
- * (Teil der Master-Mute-Funktion)
+ * Mutes or unmutes end boss enemy sounds based on the game mute status
+ * (Part of the master mute function)
  */
 function muteEndbossSounds() {
     if (world && world.level && world.level.endboss) {
@@ -294,8 +294,8 @@ function muteEndbossSounds() {
 }
 
 /**
- * Schaltet Charakter-Sounds basierend auf dem Spiel-Stummschaltungsstatus stumm oder laut
- * (Teil der Master-Mute-Funktion)
+ * Mutes or unmutes character sounds based on the game mute status
+ * (Part of the master mute function)
  */
 function muteCharacterSounds() {
     if (world && world.character) {
@@ -311,7 +311,7 @@ function muteCharacterSounds() {
 }
 
 /**
- * Initialisiert den Sound-Status beim Seitenladen anhand von localStorage
+ * Initializes the sound status when the page loads based on localStorage
  */
 function initSoundStatusUI() {
     let musicToggleButton = document.getElementById('audio-control-btn');

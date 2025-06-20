@@ -1,5 +1,5 @@
 /**
- * Verwaltet Spiellogik und Audio
+ * Manages game logic and audio
  * @class
  */
 class GameManager {
@@ -8,7 +8,7 @@ class GameManager {
     }
 
     /**
-     * Behandelt das Werfen von Objekten
+     * Handles throwing of objects
      */
     handleThrowing() {
         if (this.world.keyboard.D && this.world.availableBottles > 0) {
@@ -22,7 +22,7 @@ class GameManager {
     }
 
     /**
-     * Überprüft die Wurflogik für Flaschen
+     * Checks throwing logic for bottles
      */
     checkThrowObjects() {
         if (this.world.keyboard.D && this.world.canThrowBottle && this.world.availableBottles > 0 && !this.world.character.otherDirection) {
@@ -46,21 +46,21 @@ class GameManager {
     }
 
     /**
-     * Überprüft ob der Endboss besiegt wurde
+     * Checks if endboss is defeated
      */
     isEndbossDefeated() {
         return this.world.level.endboss[0] && this.world.level.endboss[0].isDead;
     }
 
     /**
-     * Überprüft ob der Charakter tot ist
+     * Checks if character is dead
      */
     isCharacterDead() {
         return this.world.character && this.world.character.energy <= 0;
     }
 
     /**
-     * Beendet das Spiel
+     * Ends the game
      */
     endGame() {
         if (!this.world.gameOver) {
@@ -72,7 +72,7 @@ class GameManager {
     }
 
     /**
-     * Spielt Spiel-Audio ab
+     * Plays game audio
      */
     playGameSound(audioPath, volume = 1.0, loop = false) {
         if (isGameMuted) {
@@ -95,7 +95,7 @@ class GameManager {
     }
 
     /**
-     * Spielt Flaschen-Zerbrechungsgeräusch ab
+     * Plays bottle shatter sound
      */
     playBottleShatterSound() {
         this.playGameSound('./audio/bottle_shatter.mp3', 0.5);

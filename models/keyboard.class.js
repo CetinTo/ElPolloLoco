@@ -1,5 +1,5 @@
 /**
- * Repräsentiert einen Tastatur-Eingabe-Handler
+ * Represents a keyboard input handler
  * @class
  */
 
