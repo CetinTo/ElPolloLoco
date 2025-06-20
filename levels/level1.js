@@ -36,14 +36,62 @@ function createClouds() {
 }
 
 /**
- * Creates background layer objects
+ * Creates background objects for first half of level
  */
-function createBackgroundLayer(x) {
+function createBackgroundObjectsFirstHalf() {
     return [
-        new BackgroundObject('img/5_background/layers/air.png', x),
-        new BackgroundObject('img/5_background/layers/3_third_layer/' + (x >= 0 ? '1' : '2') + '.png', x),
-        new BackgroundObject('img/5_background/layers/2_second_layer/' + (x >= 0 ? '1' : '2') + '.png', x),
-        new BackgroundObject('img/5_background/layers/1_first_layer/' + (x >= 0 ? '1' : '2') + '.png', x)
+        new BackgroundObject('img/5_background/layers/air.png', -719),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', -719),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', -719),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', -719),
+        new BackgroundObject('img/5_background/layers/air.png', 0),
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0),
+        new BackgroundObject('img/5_background/layers/air.png', 718),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 718),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 718),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 718),
+        new BackgroundObject('img/5_background/layers/air.png', 718 * 2),
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 718 * 2),
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 718 * 2),
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 718 * 2)
+    ];
+}
+
+/**
+ * Creates background objects for second half of level
+ */
+function createBackgroundObjectsSecondHalf() {
+    return [
+        new BackgroundObject('img/5_background/layers/air.png', 718 * 3),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 718 * 3),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 718 * 3),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 718 * 3),
+        new BackgroundObject('img/5_background/layers/air.png', 718 * 4),
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 718 * 4),
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 718 * 4),
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 718 * 4),
+        new BackgroundObject('img/5_background/layers/air.png', 718 * 5),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 718 * 5),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 718 * 5),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 718 * 5),
+        new BackgroundObject('img/5_background/layers/air.png', 718 * 6),
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 718 * 6),
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 718 * 6),
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 718 * 6)
+    ];
+}
+
+/**
+ * Creates background objects for end area of level
+ */
+function createBackgroundObjectsEnd() {
+    return [
+        new BackgroundObject('img/5_background/layers/air.png', 718 * 7),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 718 * 7),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 718 * 7),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 718 * 7)
     ];
 }
 
@@ -51,11 +99,11 @@ function createBackgroundLayer(x) {
  * Creates array of background objects for the level
  */
 function createBackgroundObjects() {
-    let backgrounds = [];
-    for (let i = -1; i <= 7; i++) {
-        backgrounds = backgrounds.concat(createBackgroundLayer(718 * i));
-    }
-    return backgrounds;
+    return [
+        ...createBackgroundObjectsFirstHalf(),
+        ...createBackgroundObjectsSecondHalf(),
+        ...createBackgroundObjectsEnd()
+    ];
 }
 
 /**
