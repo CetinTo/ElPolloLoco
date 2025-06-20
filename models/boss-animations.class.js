@@ -39,27 +39,36 @@ class BossAnimations {
     }
 
     /**
+     * Handle alert animation completion
+     */
+    completeAlertAnimation() {
+        clearInterval(this.boss.alertAnimationInterval);
+        this.boss.alertAnimationPlayed = true;
+        setTimeout(() => {
+            this.boss.hadFirstContact = true;
+            this.boss.movementHandler.startWalking();
+        }, 1000);
+    }
+
+    /**
      * Starts the alert animation for the end boss character
      */
     startAlertAnimation(interval) {
         if (!this.boss.alertAnimationPlayed) {
             this.playBossSound(this.boss.alert_sound);
-            this.boss.alertAnimationInterval = this.startAnimationInterval(this.boss.IMAGES_ALERT, 275, () => {
-                clearInterval(this.boss.alertAnimationInterval);
-                this.boss.alertAnimationPlayed = true;
-                setTimeout(() => {
-                    this.boss.hadFirstContact = true;
-                    this.boss.movementHandler.startWalking();
-                }, 1000);
-            });
+            this.boss.alertAnimationInterval = this.startAnimationInterval(
+                this.boss.IMAGES_ALERT, 
+                275, 
+                () => this.completeAlertAnimation()
+            );
             clearInterval(interval);
         }
     }
 
     /**
-     * Starts the hurt animation for the end boss character
+     * Stop existing animations for hurt
      */
-    startHurtAnimation() {
+    stopAnimationsForHurt() {
         if (this.boss.hurtAnimationInterval) {
             clearInterval(this.boss.hurtAnimationInterval);
         }
@@ -67,10 +76,13 @@ class BossAnimations {
             clearInterval(this.boss.walkingInterval);
             this.boss.walkingInterval = null;
         }
-        
         this.boss.movementHandler.stopMovement();
-        this.playBossSound(this.boss.hurt_sound);
-        
+    }
+
+    /**
+     * Create hurt animation interval
+     */
+    createHurtInterval() {
         let hurtFrameIndex = 0;
         this.boss.hurtAnimationInterval = setInterval(() => {
             if (hurtFrameIndex < this.boss.IMAGES_HURT.length) {
@@ -82,6 +94,15 @@ class BossAnimations {
                 this.resetToWalkingState();
             }
         }, 150);
+    }
+
+    /**
+     * Starts the hurt animation for the end boss character
+     */
+    startHurtAnimation() {
+        this.stopAnimationsForHurt();
+        this.playBossSound(this.boss.hurt_sound);
+        this.createHurtInterval();
     }
 
     /**

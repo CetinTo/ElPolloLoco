@@ -8,15 +8,18 @@ class RenderManager {
     }
 
     /**
-     * Renders all game objects
+     * Clear canvas and setup camera
      */
-    draw() {
+    setupCanvas() {
         this.world.ctx.clearRect(0, 0, this.world.canvas.width, this.world.canvas.height);
-        
         this.world.camera_x = -this.world.character.x + 100;
-        
         this.world.ctx.translate(this.world.camera_x, 0);
-        
+    }
+
+    /**
+     * Render world objects with camera
+     */
+    renderWorldObjects() {
         this.addObjectsToMap(this.world.level.backgroundObjects);
         this.addObjectsToMap(this.world.level.clouds);
         this.addObjectsToMap(this.world.level.coins);
@@ -25,20 +28,38 @@ class RenderManager {
         this.addObjectsToMap(this.world.level.endboss);
         this.addToMap(this.world.character);
         this.addObjectsToMap(this.world.throwableObjects);
-        
+    }
+
+    /**
+     * Render UI elements without camera
+     */
+    renderUI() {
         this.world.ctx.translate(-this.world.camera_x, 0);
-        
         this.addToMap(this.world.statusBar);
         this.addToMap(this.world.coinBar);
         this.addToMap(this.world.bottleBar);
-        
+    }
+
+    /**
+     * Render endboss healthbar if needed
+     */
+    renderEndbossHealthbar() {
         if (this.world.character.x >= 4500) {
             this.world.showEndbossHealthbar = true;
         }
-        
         if (this.world.showEndbossHealthbar && this.world.level.endboss && this.world.level.endboss.length > 0) {
             this.addToMap(this.world.endbossHealthbar);
         }
+    }
+
+    /**
+     * Renders all game objects
+     */
+    draw() {
+        this.setupCanvas();
+        this.renderWorldObjects();
+        this.renderUI();
+        this.renderEndbossHealthbar();
     }
 
     /**

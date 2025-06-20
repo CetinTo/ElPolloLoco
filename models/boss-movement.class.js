@@ -42,44 +42,69 @@ class BossMovement {
     }
 
     /**
+     * Check if boss can move
+     */
+    canBossMove() {
+        return this.boss.energy > 0 && 
+               !this.boss.isDead && 
+               !this.boss.isAttacking && 
+               !this.boss.hurtAnimationInterval;
+    }
+
+    /**
+     * Handle boss movement and attacks
+     */
+    handleBossMovement() {
+        this.updateAggressionLevel();
+        this.updateAggressiveSpeed();
+        this.boss.x -= this.boss.speed;
+        
+        if (this.boss.isJumping) {
+            this.boss.jumpHandler.applyJumpPhysics();
+        }
+        if (this.boss.jumpHandler.shouldJumpAttack()) {
+            this.boss.jumpHandler.startJumpAttack();
+        }
+        if (this.boss.attackHandler.shouldAttack()) {
+            this.boss.attackHandler.startAttackAnimation();
+            return;
+        }
+        if (!this.boss.hurtAnimationInterval) {
+            this.boss.playAnimation(this.boss.IMAGES_WALKING);
+        }
+    }
+
+    /**
+     * Create walking interval
+     */
+    createWalkingInterval() {
+        this.boss.walkingInterval = setInterval(() => {
+            if (this.canBossMove()) {
+                this.handleBossMovement();
+            } else if (this.boss.animationHandler.bossIsDead()) {
+                clearInterval(this.boss.walkingInterval);
+                this.boss.walkingInterval = null;
+            }
+        }, 30);
+    }
+
+    /**
+     * Register walking interval
+     */
+    registerWalkingInterval() {
+        this.boss.animationIntervals.push(this.boss.walkingInterval);
+        addInterval(this.boss.walkingInterval);
+    }
+
+    /**
      * Starts the walking behavior for the end boss character
      */
     startWalking() {
         if (this.boss.walkingInterval) {
             clearInterval(this.boss.walkingInterval);
         }
-        
-        this.boss.walkingInterval = setInterval(() => {
-            if (this.boss.energy > 0 && !this.boss.isDead && !this.boss.isAttacking && !this.boss.hurtAnimationInterval) {
-                this.updateAggressionLevel();
-                
-                this.updateAggressiveSpeed();
-                this.boss.x -= this.boss.speed;
-                
-                if (this.boss.isJumping) {
-                    this.boss.jumpHandler.applyJumpPhysics();
-                }
-                
-                if (this.boss.jumpHandler.shouldJumpAttack()) {
-                    this.boss.jumpHandler.startJumpAttack();
-                }
-                
-                if (this.boss.attackHandler.shouldAttack()) {
-                    this.boss.attackHandler.startAttackAnimation();
-                    return;
-                }
-                
-                if (!this.boss.hurtAnimationInterval) {
-                    this.boss.playAnimation(this.boss.IMAGES_WALKING);
-                }
-            } else if (this.boss.animationHandler.bossIsDead()) {
-                clearInterval(this.boss.walkingInterval);
-                this.boss.walkingInterval = null;
-            }
-        }, 30);
-        
-        this.boss.animationIntervals.push(this.boss.walkingInterval);
-        addInterval(this.boss.walkingInterval);
+        this.createWalkingInterval();
+        this.registerWalkingInterval();
     }
 
     /**
