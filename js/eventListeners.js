@@ -32,61 +32,44 @@ document.addEventListener("keyup", (event) => {
 });
 
 /**
+ * Setup touch events for a specific button
+ */
+function setupButtonTouch(button, keyProperty) {
+    if (button) {
+        button.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            keyboard[keyProperty] = true;
+        });
+
+        button.addEventListener("touchend", (e) => {
+            e.preventDefault();
+            keyboard[keyProperty] = false;
+        });
+    }
+}
+
+/**
+ * Get mobile button elements
+ */
+function getMobileButtons() {
+    return {
+        leftButton: document.getElementById("touch-left"),
+        rightButton: document.getElementById("touch-right"),
+        jumpButton: document.getElementById("touch-jump"),
+        throwButton: document.getElementById("touch-throw")
+    };
+}
+
+/**
  * Handles touch events for mobile buttons
  */
 function mobileButtonTouch() {
-    const leftButton = document.getElementById("touch-left");
-    const rightButton = document.getElementById("touch-right");
-    const jumpButton = document.getElementById("touch-jump");
-    const throwButton = document.getElementById("touch-throw");
-
-    if (leftButton) {
-        leftButton.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            keyboard.LEFT = true;
-        });
-
-        leftButton.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            keyboard.LEFT = false;
-        });
-    }
-
-    if (rightButton) {
-        rightButton.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            keyboard.RIGHT = true;
-        });
-
-        rightButton.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            keyboard.RIGHT = false;
-        });
-    }
-
-    if (jumpButton) {
-        jumpButton.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            keyboard.SPACE = true;
-        });
-
-        jumpButton.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            keyboard.SPACE = false;
-        });
-    }
-
-    if (throwButton) {
-        throwButton.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            keyboard.D = true;
-        });
-
-        throwButton.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            keyboard.D = false;
-        });
-    }
+    const buttons = getMobileButtons();
+    
+    setupButtonTouch(buttons.leftButton, 'LEFT');
+    setupButtonTouch(buttons.rightButton, 'RIGHT');
+    setupButtonTouch(buttons.jumpButton, 'SPACE');
+    setupButtonTouch(buttons.throwButton, 'D');
 }
 
 
