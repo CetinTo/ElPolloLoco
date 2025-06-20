@@ -60,16 +60,36 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    alert_sound = new Audio('audio/boss_intro_sound.mp3');
-    hurt_sound = new Audio('audio/chicken_hurt.mp3');
-    dead_sound = new Audio('audio/boss_dead.mp3');
-
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
         this.initializeImages();
         this.initializeProperties();
+        this.initializeAudio();
         this.initializeHandlers();
         this.startBehavior();
+    }
+
+    /**
+     * Initializes all audio elements for the boss
+     */
+    initializeAudio() {
+        this.alert_sound = createAudioElement('audio/boss_intro_sound.mp3');
+        if (this.alert_sound) {
+            this.alert_sound.volume = 0.4;
+            this.alert_sound.preload = 'auto';
+        }
+        
+        this.hurt_sound = createAudioElement('audio/chicken_hurt.mp3');
+        if (this.hurt_sound) {
+            this.hurt_sound.volume = 0.5;
+            this.hurt_sound.preload = 'auto';
+        }
+        
+        this.dead_sound = createAudioElement('audio/boss_dead.mp3');
+        if (this.dead_sound) {
+            this.dead_sound.volume = 0.7;
+            this.dead_sound.preload = 'auto';
+        }
     }
 
     /**

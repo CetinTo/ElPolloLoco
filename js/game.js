@@ -74,9 +74,6 @@ async function init() {
     gameActive = true;
     await preloadImages();
     initLevel();
-    if (typeof playBackgroundMusic === 'function') {
-        playBackgroundMusic();
-    }
     canvas = document.getElementById('game-canvas');
     if (!canvas) {
         return;
@@ -148,6 +145,11 @@ function startGame() {
     }
     if (finaleScreen) {
         finaleScreen.style.display = 'none';
+    }
+    
+    // Start background music only when the actual game starts
+    if (typeof playBackgroundMusic === 'function') {
+        playBackgroundMusic();
     }
 }
 

@@ -8,6 +8,29 @@ class BossAnimations {
     }
 
     /**
+     * Safely plays boss audio with error handling
+     */
+    playBossSound(audioElement) {
+        if (typeof isGameMuted !== 'undefined' && isGameMuted) {
+            return; 
+        }
+        if (audioElement) {
+            try {
+                audioElement.currentTime = 0;
+                if (typeof safePlay === 'function') {
+                    safePlay(audioElement);
+                } else {
+                    audioElement.play().catch(error => {
+                        console.warn('Boss audio playback failed:', error);
+                    });
+                }
+            } catch (error) {
+                console.warn('Boss audio error:', error);
+            }
+        }
+    }
+
+    /**
      * Checks if the alert animation should start based on certain conditions
      */
     shouldStartAlert() {
@@ -20,7 +43,7 @@ class BossAnimations {
      */
     startAlertAnimation(interval) {
         if (!this.boss.alertAnimationPlayed) {
-            this.boss.alert_sound.play();
+            this.playBossSound(this.boss.alert_sound);
             this.boss.alertAnimationInterval = this.startAnimationInterval(this.boss.IMAGES_ALERT, 275, () => {
                 clearInterval(this.boss.alertAnimationInterval);
                 this.boss.alertAnimationPlayed = true;
@@ -46,7 +69,7 @@ class BossAnimations {
         }
         
         this.boss.movementHandler.stopMovement();
-        this.boss.hurt_sound.play();
+        this.playBossSound(this.boss.hurt_sound);
         
         let hurtFrameIndex = 0;
         this.boss.hurtAnimationInterval = setInterval(() => {
@@ -80,7 +103,7 @@ class BossAnimations {
         if (this.boss.energy <= 0 && !this.boss.isDead) {
             this.boss.isDead = true;
             this.stopAllAnimations();
-            this.boss.dead_sound.play();
+            this.playBossSound(this.boss.dead_sound);
             this.startDeathAnimation();
             setTimeout(() => {
                 showEndScreen();

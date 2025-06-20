@@ -17,7 +17,7 @@ function safePlay(audioElement) {
 }
 
 /**
- * Creates a new audio element with improved cache handling
+ * Creates a new audio element with improved cache handling and performance
  * @param {string} src - The path to the audio file
  * @returns {HTMLAudioElement|null} - The audio element or null on errors
  */
@@ -25,6 +25,8 @@ function createAudioElement(src) {
     try {
         const audio = new Audio();
         audio.preload = 'auto';
+        audio.crossOrigin = 'anonymous';
+        audio.load();
         
         
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -35,11 +37,17 @@ function createAudioElement(src) {
         }
         
         audio.addEventListener('error', (e) => {
-            
+            console.warn(`Audio loading failed for: ${src}`);
+        });
+        
+        // Improve audio performance
+        audio.addEventListener('canplaythrough', () => {
+            // Audio is ready to play through without buffering
         });
         
         return audio;
     } catch (error) {
+        console.warn(`Failed to create audio element for: ${src}`, error);
         return null;
     }
 }
@@ -91,9 +99,14 @@ function gameLostSound() {
  * Sets the volume and mute status for the background music and plays it
  */
 function playBackgroundMusic() {
-    backgroundMusic.volume = 0.1;
-    backgroundMusic.muted = isGameMuted;
-    safePlay(backgroundMusic);
+    // Only play background music during actual gameplay, not in menu
+    if (gameActive && world) {
+        backgroundMusic.volume = 0.1;
+        backgroundMusic.muted = isGameMuted;
+        if (!isGameMuted) {
+            safePlay(backgroundMusic);
+        }
+    }
 }
 
 /**
@@ -147,8 +160,8 @@ function masterMuteAllSounds() {
         if (isGameMuted) {
             backgroundMusic.pause();
         } else {
-    
-            if (gameActive) {
+            // Only play background music if game is active AND currently in game (not in menu)
+            if (gameActive && world && document.getElementById('game-area').style.display === 'block') {
                 backgroundMusic.muted = false;
                 safePlay(backgroundMusic);
             }

@@ -8,6 +8,29 @@ class BossAttacks {
     }
 
     /**
+     * Safely plays boss audio with error handling
+     */
+    playBossSound(audioElement) {
+        if (typeof isGameMuted !== 'undefined' && isGameMuted) {
+            return; 
+        }
+        if (audioElement) {
+            try {
+                audioElement.currentTime = 0;
+                if (typeof safePlay === 'function') {
+                    safePlay(audioElement);
+                } else {
+                    audioElement.play().catch(error => {
+                        console.warn('Boss audio playback failed:', error);
+                    });
+                }
+            } catch (error) {
+                console.warn('Boss audio error:', error);
+            }
+        }
+    }
+
+    /**
      * Starts balanced attack animation
      */
     startAttackAnimation() {
@@ -91,11 +114,7 @@ class BossJumpAttacks {
                 this.boss.horizontalJumpSpeed = (12 + this.boss.aggressionLevel * 3);
             }
             
-            if (this.boss.alert_sound) {
-                this.boss.alert_sound.volume = 0.4;
-                this.boss.alert_sound.currentTime = 0;
-                this.boss.alert_sound.play();
-            }
+            this.playBossSound(this.boss.alert_sound);
             
             setTimeout(() => {
                 this.boss.isJumping = false;

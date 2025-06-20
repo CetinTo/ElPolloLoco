@@ -9,6 +9,7 @@ class Character extends MoveableObject {
     speed = 6;
     idleTimer = 0;
     IDLE_THRESHOLD = 2000;
+    isWalkingSoundPlaying = false;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -77,28 +78,15 @@ class Character extends MoveableObject {
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
-        this.initializeImages();
-        this.initializeProperties();
-        this.initializeAudio();
-        this.startAnimations();
-    }
-
-    /**
-     * Loads all image arrays for different animations
-     */
-    initializeImages() {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
-    }
-
-    /**
-     * Initializes basic properties of the character
-     */
-    initializeProperties() {
+        this.initializeAudio();
+        this.animate();
+        this.applyGravity();
         this.jumping = false;
         this.offset = {
             top: 60,
@@ -109,43 +97,15 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Starts all animations and physics
-     */
-    startAnimations() {
-        this.animate();
-        this.applyGravity();
-    }
-
-    /**
-     * Initializes all audio elements with improved error handling
+     * Initializes audio elements
      */
     initializeAudio() {
-        this.walking_sound = createAudioElement('audio/running_3.mp3');
-        if (this.walking_sound) {
-            this.walking_sound.loop = true;
-            this.walking_sound.volume = 0.5;
-        }
-        this.hurt_sound = createAudioElement('audio/hurt.mp3');
-    }
-
-    /**
-     * Safe audio playback with error handling
-     */
-    playAudioSafely(audioElement) {
-        if (typeof isGameMuted !== 'undefined' && isGameMuted) {
-            return; 
-        }
-        if (audioElement) {
-            try {
-                if (typeof safePlay === 'function') {
-                    safePlay(audioElement);
-                } else {
-                    audioElement.play().catch(error => {
-                    });
-                }
-            } catch (error) {
-            }
-        }
+        this.walking_sound = new Audio('audio/bottle_collect.mp3'); // Use audible sound
+        this.walking_sound.volume = 0.6;
+        this.walking_sound.loop = true;
+        
+        this.hurt_sound = new Audio('audio/hurt.mp3');
+        this.hurt_sound.volume = 0.8;
     }
 
     /**
@@ -208,21 +168,55 @@ class Character extends MoveableObject {
      */
     handleWalking() {
         if (this.world && this.world.keyboard && !this.isDead()) {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            const isMovingRight = this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+            const isMovingLeft = this.world.keyboard.LEFT && this.x > 0;
+            const isMoving = isMovingRight || isMovingLeft;
+            const isOnGround = !this.isAboveGround();
+            
+            if (isMovingRight) {
                 this.moveRight();
                 this.otherDirection = false;
-                this.playAudioSafely(this.walking_sound);
             }
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (isMovingLeft) {
                 this.moveLeft();
                 this.otherDirection = true;
-                this.playAudioSafely(this.walking_sound);
             }
-            if (!this.world.keyboard.LEFT && !this.world.keyboard.RIGHT) {
-                if (this.walking_sound) {
-                    this.walking_sound.pause();
+            
+            // Simple walking sound control
+            if (isMoving && isOnGround) {
+                if (!this.isWalkingSoundPlaying) {
+                    this.startWalkingSound();
+                }
+            } else {
+                if (this.isWalkingSoundPlaying) {
+                    this.stopWalkingSound();
                 }
             }
+        } else {
+            if (this.isWalkingSoundPlaying) {
+                this.stopWalkingSound();
+            }
+        }
+    }
+
+    /**
+     * Starts walking sound
+     */
+    startWalkingSound() {
+        if (this.walking_sound && typeof isGameMuted !== 'undefined' && !isGameMuted) {
+            this.walking_sound.play().catch(e => console.log('Walking sound play failed:', e));
+            this.isWalkingSoundPlaying = true;
+        }
+    }
+
+    /**
+     * Stops walking sound
+     */
+    stopWalkingSound() {
+        if (this.walking_sound) {
+            this.walking_sound.pause();
+            this.walking_sound.currentTime = 0;
+            this.isWalkingSoundPlaying = false;
         }
     }
 
@@ -239,7 +233,9 @@ class Character extends MoveableObject {
      * Handles character state when dead
      */
     handleDeadState() {
-        this.stopAnimationSound();
+        if (this.isWalkingSoundPlaying) {
+            this.stopWalkingSound();
+        }
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
             showEndScreen();
@@ -250,16 +246,22 @@ class Character extends MoveableObject {
      * Handles character state when hurt
      */
     handleHurtState() {
-        this.stopAnimationSound();
+        if (this.isWalkingSoundPlaying) {
+            this.stopWalkingSound();
+        }
         this.playAnimation(this.IMAGES_HURT);
-        this.playAudioSafely(this.hurt_sound);
+        if (this.hurt_sound && typeof isGameMuted !== 'undefined' && !isGameMuted) {
+            this.hurt_sound.play().catch(e => console.log('Hurt sound play failed:', e));
+        }
     }
 
     /**
      * Handles character state when jumping
      */
     handleJumpingState() {
-        this.stopAnimationSound();
+        if (this.isWalkingSoundPlaying) {
+            this.stopWalkingSound();
+        }
         this.playAnimation(this.IMAGES_JUMPING);
     }
 
@@ -267,13 +269,14 @@ class Character extends MoveableObject {
      * Handles character state during long idle periods
      */
     handleLongIdleState() {
-        this.stopAnimationSound();
+        if (this.isWalkingSoundPlaying) {
+            this.stopWalkingSound();
+        }
         this.playAnimation(this.IMAGES_LONG_IDLE);
     }
 
     /**
      * Wakes up character by resetting idle timer
-     * Called when player performs action while character is sleeping
      */
     wakeUp() {
         this.idleTimer = 0;
@@ -284,7 +287,6 @@ class Character extends MoveableObject {
      * Handles character state while walking
      */
     handleWalkingState() {
-        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_WALKING);
     }
 
@@ -292,7 +294,6 @@ class Character extends MoveableObject {
      * Handles character state when idle
      */
     handleIdleState() {
-        this.stopAnimationSound();
         this.playAnimation(this.IMAGES_IDLE);
     }
 
@@ -300,23 +301,14 @@ class Character extends MoveableObject {
      * Checks if character is dead
      */
     isDead() {
-        return this.energy == 0;
+        return this.energy <= 0;
     }
 
     /**
-     * Handles camera position based on character x-coordinate
+     * Handles camera position based on character's x-coordinate
      */
     handleCamera() {
-        if (this.world) {
-            this.world.camera_x = -this.x + 100;
-        }
-    }
-
-    stopAnimationSound() {
-        if (this.walking_sound) {
-            this.walking_sound.pause();
-            this.walking_sound.currentTime = 0;
-        }
+        this.world.camera_x = -this.x + 100;
     }
 }
 
