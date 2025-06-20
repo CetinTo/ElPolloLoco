@@ -31,26 +31,46 @@ class BossAttacks {
     }
 
     /**
+     * Initialize attack state
+     */
+    initializeAttack() {
+        this.boss.isAttacking = true;
+        this.boss.movementHandler.stopMovement();
+        this.boss.lastAttackTime = Date.now();
+    }
+
+    /**
+     * Calculate attack speed based on aggression
+     */
+    getAttackSpeed() {
+        return Math.max(120 - (this.boss.aggressionLevel * 20), 80);
+    }
+
+    /**
+     * Handle attack completion
+     */
+    completeAttack() {
+        this.boss.animationHandler.resetToWalkingState();
+        this.boss.isAttacking = false;
+        clearInterval(this.boss.attackAnimationInterval);
+        this.boss.speed = 15 + this.boss.aggressionLevel * 3;
+        setTimeout(() => {
+            this.boss.movementHandler.updateAggressiveSpeed();
+        }, 400);
+    }
+
+    /**
      * Starts balanced attack animation
      */
     startAttackAnimation() {
         if (!this.boss.isAttacking && this.boss.energy > 0) {
-            this.boss.isAttacking = true;
-            this.boss.movementHandler.stopMovement();
-            this.boss.lastAttackTime = Date.now();
-            
-            const attackSpeed = Math.max(120 - (this.boss.aggressionLevel * 20), 80);
-            
-            this.boss.attackAnimationInterval = this.boss.animationHandler.startAnimationInterval(this.boss.IMAGES_ATTACK, attackSpeed, () => {
-                this.boss.animationHandler.resetToWalkingState();
-                this.boss.isAttacking = false;
-                clearInterval(this.boss.attackAnimationInterval);
-                
-                this.boss.speed = 15 + this.boss.aggressionLevel * 3;
-                setTimeout(() => {
-                    this.boss.movementHandler.updateAggressiveSpeed();
-                }, 400);
-            });
+            this.initializeAttack();
+            const attackSpeed = this.getAttackSpeed();
+            this.boss.attackAnimationInterval = this.boss.animationHandler.startAnimationInterval(
+                this.boss.IMAGES_ATTACK, 
+                attackSpeed, 
+                () => this.completeAttack()
+            );
         }
     }
 
@@ -95,33 +115,48 @@ class BossJumpAttacks {
     }
 
     /**
+     * Calculate jump direction towards player
+     */
+    calculateJumpDirection() {
+        const playerX = world.character.x;
+        const bossX = this.boss.x;
+        if (playerX < bossX) {
+            return -(12 + this.boss.aggressionLevel * 3);
+        } else {
+            return (12 + this.boss.aggressionLevel * 3);
+        }
+    }
+
+    /**
+     * Initialize jump parameters
+     */
+    initializeJump() {
+        this.boss.isJumping = true;
+        this.boss.lastJumpTime = Date.now();
+        this.boss.speedY = -25 - (this.boss.aggressionLevel * 3);
+        this.boss.horizontalJumpSpeed = this.calculateJumpDirection();
+    }
+
+    /**
+     * Setup jump completion timer
+     */
+    setupJumpCompletion() {
+        setTimeout(() => {
+            this.boss.isJumping = false;
+            this.boss.speedY = 0;
+            this.boss.horizontalJumpSpeed = 0;
+            this.boss.y = 55;
+        }, 1000);
+    }
+
+    /**
      * Starts large jump attack towards the player
      */
     startJumpAttack() {
         if (!this.boss.isJumping && world && world.character) {
-            this.boss.isJumping = true;
-            this.boss.lastJumpTime = Date.now();
-            
-            const playerX = world.character.x;
-            const bossX = this.boss.x;
-            const distance = Math.abs(playerX - bossX);
-            
-            this.boss.speedY = -25 - (this.boss.aggressionLevel * 3);
-            
-            if (playerX < bossX) {
-                this.boss.horizontalJumpSpeed = -(12 + this.boss.aggressionLevel * 3);
-            } else {
-                this.boss.horizontalJumpSpeed = (12 + this.boss.aggressionLevel * 3);
-            }
-            
+            this.initializeJump();
             this.playBossSound(this.boss.alert_sound);
-            
-            setTimeout(() => {
-                this.boss.isJumping = false;
-                this.boss.speedY = 0;
-                this.boss.horizontalJumpSpeed = 0;
-                this.boss.y = 55;
-            }, 1000);
+            this.setupJumpCompletion();
         }
     }
 

@@ -153,22 +153,33 @@ class World {
     }
 
     /**
-     * Resets the game world
+     * Reset world properties to initial state
      */
-    resetWorld() {
+    resetWorldProperties() {
         this.availableBottles = 0;
         this.throwableObjects = [];
         this.gameOver = false;
         this.camera_x = 0;
         this.collectedCoins = 0;
         this.showEndbossHealthbar = false;
+    }
 
-        
+    /**
+     * Reset level and character
+     */
+    resetLevelAndCharacter() {
         initLevel();
         this.level = level1;
-        
         this.character = new Character();
         this.character.world = this;
+    }
+
+    /**
+     * Resets the game world
+     */
+    resetWorld() {
+        this.resetWorldProperties();
+        this.resetLevelAndCharacter();
     }
 
     /**

@@ -16,10 +16,10 @@ function resetGame() {
 }
 
 /**
- * Preload all important game images to prevent black screen
+ * Get list of critical game images to preload
  */
-function preloadImages() {
-    const imagesToPreload = [
+function getCriticalImages() {
+    return [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/5_background/layers/air.png',
@@ -33,7 +33,34 @@ function preloadImages() {
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png'
     ];
-    let loadedImages = 0;
+}
+
+/**
+ * Load single image and track progress
+ */
+function loadSingleImage(src, loadedImages, totalImages, resolve) {
+    const img = new Image();
+    img.onload = () => handleImageLoad(loadedImages, totalImages, resolve);
+    img.onerror = () => handleImageLoad(loadedImages, totalImages, resolve);
+    img.src = src;
+}
+
+/**
+ * Handle individual image load completion
+ */
+function handleImageLoad(loadedImages, totalImages, resolve) {
+    loadedImages.count++;
+    if (loadedImages.count === totalImages) {
+        resolve();
+    }
+}
+
+/**
+ * Preload all important game images to prevent black screen
+ */
+function preloadImages() {
+    const imagesToPreload = getCriticalImages();
+    const loadedImages = { count: 0 };
     const totalImages = imagesToPreload.length;
     return new Promise((resolve) => {
         if (totalImages === 0) {
@@ -41,53 +68,52 @@ function preloadImages() {
             return;
         }
         imagesToPreload.forEach(src => {
-            const img = new Image();
-            img.onload = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    resolve();
-                }
-            };
-            img.onerror = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    resolve();
-                }
-            };
-            img.src = src;
+            loadSingleImage(src, loadedImages, totalImages, resolve);
         });
     });
 }
 
 /**
- * Initialize game and set up game world
+ * Reset finale screen to default state
  */
-async function init() {
+function resetFinaleScreen() {
     const finaleScreen = document.getElementById('finale-screen');
     if (finaleScreen) {
         finaleScreen.style.display = 'none';
         finaleScreen.className = 'finale-screen';
     }
-    gameActive = false;
-    clearAllIntervals();
-    resetGame();
-    gameActive = true;
-    await preloadImages();
-    initLevel();
+}
+
+/**
+ * Set up canvas for game rendering
+ */
+function setupCanvas() {
     canvas = document.getElementById('game-canvas');
     if (!canvas) {
-        return;
+        return false;
     }
     canvas.width = 720;
     canvas.height = 480;
+    drawCanvasTest();
+    return true;
+}
+
+/**
+ * Draw test content on canvas
+ */
+function drawCanvasTest() {
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = 'green';
     ctx.fillRect(10, 10, 100, 100);
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
     ctx.fillText('CANVAS TEST', 20, 50);
-    world = new World(canvas, keyboard, level1);
-    startGame();
+}
+
+/**
+ * Initialize UI components and controls
+ */
+function initializeUI() {
     toggleRotateScreen();
     mobileButtonTouch();
     toggleIngameMenu();
@@ -98,36 +124,78 @@ async function init() {
 }
 
 /**
- * Show main menu
+ * Initialize game and set up game world
  */
-function showMenu() {
+async function init() {
+    resetFinaleScreen();
+    gameActive = false;
+    clearAllIntervals();
+    resetGame();
+    gameActive = true;
+    await preloadImages();
+    initLevel();
+    if (!setupCanvas()) {
+        return;
+    }
+    world = new World(canvas, keyboard, level1);
+    startGame();
+    initializeUI();
+}
+
+/**
+ * Stop game and music when returning to menu
+ */
+function stopGameForMenu() {
     if (gameActive) {
         if (typeof stopBackgroundMusic === 'function') {
             stopBackgroundMusic();
         }
         gameActive = false;
     }
-    const finaleScreen = document.getElementById('finale-screen');
-    const gameArea = document.getElementById('game-area');
-    const mainMenu = document.getElementById('main-menu');
-    const navPanel = document.getElementById('navigation-panel');
-    const gameControls = document.getElementById('game-controls');
-    if (finaleScreen) {
-        finaleScreen.style.display = 'none';
-        finaleScreen.className = 'finale-screen';
+}
+
+/**
+ * Get menu screen elements
+ */
+function getMenuElements() {
+    return {
+        finaleScreen: document.getElementById('finale-screen'),
+        gameArea: document.getElementById('game-area'),
+        mainMenu: document.getElementById('main-menu'),
+        navPanel: document.getElementById('navigation-panel'),
+        gameControls: document.getElementById('game-controls')
+    };
+}
+
+/**
+ * Update menu screen visibility
+ */
+function updateMenuVisibility(elements) {
+    if (elements.finaleScreen) {
+        elements.finaleScreen.style.display = 'none';
+        elements.finaleScreen.className = 'finale-screen';
     }
-    if (gameArea) {
-        gameArea.style.display = 'none';
+    if (elements.gameArea) {
+        elements.gameArea.style.display = 'none';
     }
-    if (mainMenu) {
-        mainMenu.style.display = 'flex';
+    if (elements.mainMenu) {
+        elements.mainMenu.style.display = 'flex';
     }
-    if (navPanel) {
-        navPanel.style.display = 'flex';
+    if (elements.navPanel) {
+        elements.navPanel.style.display = 'flex';
     }
-    if (gameControls) {
-        gameControls.style.display = 'none';
+    if (elements.gameControls) {
+        elements.gameControls.style.display = 'none';
     }
+}
+
+/**
+ * Show main menu
+ */
+function showMenu() {
+    stopGameForMenu();
+    const elements = getMenuElements();
+    updateMenuVisibility(elements);
 }
 
 /**
@@ -154,6 +222,34 @@ function startGame() {
 }
 
 /**
+ * Handle game loss scenario
+ */
+function handleGameLoss(endScreen) {
+    endScreen.className = 'finale-screen game-lost-screen';
+    if (typeof gameLostSound === 'function') {
+        gameLostSound();
+        setTimeout(() => {
+            stopAllEndSounds();
+            clearAllIntervals();
+        }, 3000);
+    }
+}
+
+/**
+ * Handle game won scenario
+ */
+function handleGameWon(endScreen) {
+    endScreen.className = 'finale-screen game-won-screen';
+    if (typeof gameWonSound === 'function') {
+        gameWonSound();
+        setTimeout(() => {
+            stopAllEndSounds();
+            clearAllIntervals();
+        }, 3000);
+    }
+}
+
+/**
  * Show end screen with appropriate styling based on game result
  */
 function showEndScreen() {
@@ -168,30 +264,16 @@ function showEndScreen() {
     }
     endScreen.style.display = 'flex';
     if (world && world.character && world.character.energy <= 0) {
-        endScreen.className = 'finale-screen game-lost-screen';
-        if (typeof gameLostSound === 'function') {
-            gameLostSound();
-            setTimeout(() => {
-                stopAllEndSounds();
-                clearAllIntervals();
-            }, 3000);
-        }
+        handleGameLoss(endScreen);
     } else {
-        endScreen.className = 'finale-screen game-won-screen';
-        if (typeof gameWonSound === 'function') {
-            gameWonSound();
-            setTimeout(() => {
-                stopAllEndSounds();
-                clearAllIntervals();
-            }, 3000);
-        }
+        handleGameWon(endScreen);
     }
 }
 
 /**
- * Stops all running game sounds completely (except end sounds)
+ * Stop background music and main audio
  */
-function stopAllGameSounds() {
+function stopBackgroundAudio() {
     if (typeof stopBackgroundMusic === 'function') {
         stopBackgroundMusic();
     }
@@ -200,6 +282,12 @@ function stopAllGameSounds() {
         backgroundMusic.currentTime = 0;
         backgroundMusic.muted = true;
     }
+}
+
+/**
+ * Stop character audio sounds
+ */
+function stopCharacterAudio() {
     if (world && world.character) {
         if (world.character.walking_sound) {
             world.character.walking_sound.pause();
@@ -217,58 +305,66 @@ function stopAllGameSounds() {
             world.character.jumping_sound.muted = true;
         }
     }
+}
+
+/**
+ * Stop single audio element
+ */
+function stopSingleAudio(audio) {
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.muted = true;
+    }
+}
+
+/**
+ * Stop boss audio sounds
+ */
+function stopBossAudio() {
     if (world && world.level && world.level.endboss) {
         world.level.endboss.forEach((boss) => {
-            if (boss.alert_sound) {
-                boss.alert_sound.pause();
-                boss.alert_sound.currentTime = 0;
-                boss.alert_sound.muted = true;
-            }
-            if (boss.hurt_sound) {
-                boss.hurt_sound.pause();
-                boss.hurt_sound.currentTime = 0;
-                boss.hurt_sound.muted = true;
-            }
-            if (boss.dead_sound) {
-                boss.dead_sound.pause();
-                boss.dead_sound.currentTime = 0;
-                boss.dead_sound.muted = true;
-            }
-            if (boss.attack_sound) {
-                boss.attack_sound.pause();
-                boss.attack_sound.currentTime = 0;
-                boss.attack_sound.muted = true;
-            }
+            stopSingleAudio(boss.alert_sound);
+            stopSingleAudio(boss.hurt_sound);
+            stopSingleAudio(boss.dead_sound);
+            stopSingleAudio(boss.attack_sound);
         });
     }
+}
+
+/**
+ * Stop enemy audio sounds
+ */
+function stopEnemyAudio() {
     if (world && world.level && world.level.enemies) {
         world.level.enemies.forEach((enemy) => {
-            if (enemy.death_sound) {
-                enemy.death_sound.pause();
-                enemy.death_sound.currentTime = 0;
-                enemy.death_sound.muted = true;
-            }
-            if (enemy.walking_sound) {
-                enemy.walking_sound.pause();
-                enemy.walking_sound.currentTime = 0;
-                enemy.walking_sound.muted = true;
-            }
+            stopSingleAudio(enemy.death_sound);
+            stopSingleAudio(enemy.walking_sound);
         });
     }
+}
+
+/**
+ * Stop throwable object audio sounds
+ */
+function stopThrowableAudio() {
     if (world && world.throwableObjects) {
         world.throwableObjects.forEach((bottle) => {
-            if (bottle.bottle_shatter_sound) {
-                bottle.bottle_shatter_sound.pause();
-                bottle.bottle_shatter_sound.currentTime = 0;
-                bottle.bottle_shatter_sound.muted = true;
-            }
-            if (bottle.throw_sound) {
-                bottle.throw_sound.pause();
-                bottle.throw_sound.currentTime = 0;
-                bottle.throw_sound.muted = true;
-            }
+            stopSingleAudio(bottle.bottle_shatter_sound);
+            stopSingleAudio(bottle.throw_sound);
         });
     }
+}
+
+/**
+ * Stops all running game sounds completely (except end sounds)
+ */
+function stopAllGameSounds() {
+    stopBackgroundAudio();
+    stopCharacterAudio();
+    stopBossAudio();
+    stopEnemyAudio();
+    stopThrowableAudio();
 }
 
 /**
@@ -311,13 +407,9 @@ function returnToMenu() {
 }
 
 /**
- * Restart game
+ * Reset world state for restart
  */
-function restart() {
-    gameActive = false;
-    clearAllIntervals();
-    stopAllGameSounds();
-    stopAllEndSounds();
+function resetWorldState() {
     if (world) {
         world.gameOver = true;
         if (typeof world.resetWorld === 'function') {
@@ -328,11 +420,29 @@ function restart() {
         }
         world = null;
     }
+}
+
+/**
+ * Clear canvas for restart
+ */
+function clearCanvas() {
     const canvas = document.getElementById('game-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
+}
+
+/**
+ * Restart game
+ */
+function restart() {
+    gameActive = false;
+    clearAllIntervals();
+    stopAllGameSounds();
+    stopAllEndSounds();
+    resetWorldState();
+    clearCanvas();
     keyboard = new Keyboard();
     setTimeout(() => {
         init();
@@ -606,5 +716,7 @@ window.testRestartButton = testRestartButton;
 window.testShowEndScreen = testShowEndScreen;
 window.returnToMenu = returnToMenu;
 window.init = init;
+
+
 
 

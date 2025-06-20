@@ -75,9 +75,9 @@ class CollisionManager {
     }
 
     /**
-     * Checks collisions with enemies
+     * Find enemies to kill from jumping
      */
-    checkCollisionsWithEnemies() {
+    findEnemiesToKill() {
         let hasJumpedOnAnyEnemy = false;
         let enemiesToKill = [];
         
@@ -90,35 +90,70 @@ class CollisionManager {
             }
         });
         
+        return { hasJumpedOnAnyEnemy, enemiesToKill };
+    }
+
+    /**
+     * Add nearby enemies to kill list
+     */
+    addNearbyEnemiesToKill(enemiesToKill) {
+        this.world.level.enemies.forEach((enemy) => {
+            if (enemy.energy > 0 && this.isEnemyNearJumpingCharacter(enemy)) {
+                if (!enemiesToKill.includes(enemy)) {
+                    enemiesToKill.push(enemy);
+                }
+            }
+        });
+    }
+
+    /**
+     * Execute enemy deaths from jumping
+     */
+    executeEnemyDeaths(enemiesToKill) {
+        enemiesToKill.forEach((enemy) => {
+            enemy.energy = 0;
+            enemy.playDeathAnimation();
+            setTimeout(() => {
+                const index = this.world.level.enemies.indexOf(enemy);
+                if (index > -1) {
+                    this.world.level.enemies.splice(index, 1);
+                }
+            }, 500);
+        });
+    }
+
+    /**
+     * Handle jump attacks on enemies
+     */
+    handleJumpAttacks(enemiesToKill) {
+        this.addNearbyEnemiesToKill(enemiesToKill);
+        this.executeEnemyDeaths(enemiesToKill);
+        this.world.playGameSound('./audio/chicken_hurt.mp3', 0.8);
+        this.world.character.jump();
+    }
+
+    /**
+     * Handle normal enemy collisions
+     */
+    handleNormalEnemyCollisions() {
+        this.world.level.enemies.forEach((enemy) => {
+            if (this.world.character.isColliding(enemy) && enemy.energy > 0) {
+                this.world.character.hit();
+                this.world.statusBar.setPercentage(this.world.character.energy);
+            }
+        });
+    }
+
+    /**
+     * Checks collisions with enemies
+     */
+    checkCollisionsWithEnemies() {
+        const { hasJumpedOnAnyEnemy, enemiesToKill } = this.findEnemiesToKill();
+        
         if (hasJumpedOnAnyEnemy) {
-            this.world.level.enemies.forEach((enemy) => {
-                if (enemy.energy > 0 && this.isEnemyNearJumpingCharacter(enemy)) {
-                    if (!enemiesToKill.includes(enemy)) {
-                        enemiesToKill.push(enemy);
-                    }
-                }
-            });
-            
-            enemiesToKill.forEach((enemy) => {
-                enemy.energy = 0;
-                enemy.playDeathAnimation();
-                setTimeout(() => {
-                    const index = this.world.level.enemies.indexOf(enemy);
-                    if (index > -1) {
-                        this.world.level.enemies.splice(index, 1);
-                    }
-                }, 500);
-            });
-            
-            this.world.playGameSound('./audio/chicken_hurt.mp3', 0.8);
-            this.world.character.jump();
+            this.handleJumpAttacks(enemiesToKill);
         } else {
-            this.world.level.enemies.forEach((enemy) => {
-                if (this.world.character.isColliding(enemy) && enemy.energy > 0) {
-                    this.world.character.hit();
-                    this.world.statusBar.setPercentage(this.world.character.energy);
-                }
-            });
+            this.handleNormalEnemyCollisions();
         }
         
         this.checkBottleEnemyCollisions();

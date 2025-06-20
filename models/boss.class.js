@@ -133,26 +133,39 @@ class Endboss extends MoveableObject {
     }
 
     /**
-     * Animates the behavior of the end boss
+     * Check if character triggers first contact
      */
-    animate() {
+    checkFirstContact() {
+        if (world && world.character.x >= 4500 && !this.hadFirstContact && !this.alertAnimationPlayed) {
+            this.hadFirstContact = true;
+            this.alertAnimationPlayed = true;
+            this.movementHandler.startWalking();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Start animation loop for boss behavior
+     */
+    startAnimationLoop() {
         const animationInterval = setInterval(() => {
             if (this.animationHandler.shouldStartAlert()) {
                 this.animationHandler.startAlertAnimation(animationInterval);
             }
             
-            
-            if (world && world.character.x >= 4500 && !this.hadFirstContact && !this.alertAnimationPlayed) {
-                this.hadFirstContact = true;
-                this.alertAnimationPlayed = true;
-                this.movementHandler.startWalking();
+            if (this.checkFirstContact()) {
                 clearInterval(animationInterval);
             }
         }, 120);
         this.animationIntervals.push(animationInterval);
         addInterval(animationInterval);
-        
-        
+    }
+
+    /**
+     * Setup delayed contact trigger
+     */
+    setupDelayedContact() {
         setTimeout(() => {
             if (!this.hadFirstContact && world && world.character.x >= 4000) {
                 this.hadFirstContact = true;
@@ -160,6 +173,14 @@ class Endboss extends MoveableObject {
                 this.movementHandler.startWalking();
             }
         }, 2000);
+    }
+
+    /**
+     * Animates the behavior of the end boss
+     */
+    animate() {
+        this.startAnimationLoop();
+        this.setupDelayedContact();
     }
 
     /**

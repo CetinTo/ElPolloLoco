@@ -151,24 +151,26 @@ function toggleSoundAndImage() {
 }
 
 /**
- * MASTER MUTE FUNCTION - Controls all audios in the game
+ * Mute background music
  */
-function masterMuteAllSounds() {
-
+function muteBackgroundMusic() {
     if (backgroundMusic) {
         backgroundMusic.muted = isGameMuted;
         if (isGameMuted) {
             backgroundMusic.pause();
         } else {
-            // Only play background music if game is active AND currently in game (not in menu)
             if (gameActive && world && document.getElementById('game-area').style.display === 'block') {
                 backgroundMusic.muted = false;
                 safePlay(backgroundMusic);
             }
         }
     }
-    
+}
 
+/**
+ * Mute end game sounds
+ */
+function muteEndGameSounds() {
     if (gameWon) {
         gameWon.muted = isGameMuted;
         if (isGameMuted) {
@@ -176,7 +178,6 @@ function masterMuteAllSounds() {
             gameWon.currentTime = 0;
         }
     }
-    
     if (gameLost) {
         gameLost.muted = isGameMuted;
         if (isGameMuted) {
@@ -184,73 +185,90 @@ function masterMuteAllSounds() {
             gameLost.currentTime = 0;
         }
     }
-    
-    
-    if (world) {
-        
-        if (world.character) {
-            if (world.character.walking_sound) {
-                world.character.walking_sound.muted = isGameMuted;
-                if (isGameMuted) world.character.walking_sound.pause();
-            }
-            if (world.character.hurt_sound) {
-                world.character.hurt_sound.muted = isGameMuted;
-                if (isGameMuted) world.character.hurt_sound.pause();
-            }
-            if (world.character.jumping_sound) {
-                world.character.jumping_sound.muted = isGameMuted;
-                if (isGameMuted) world.character.jumping_sound.pause();
-            }
+}
+
+/**
+ * Mute world character sounds
+ */
+function muteWorldCharacterSounds() {
+    if (world && world.character) {
+        if (world.character.walking_sound) {
+            world.character.walking_sound.muted = isGameMuted;
+            if (isGameMuted) world.character.walking_sound.pause();
         }
-        
-        
-        if (world.level && world.level.enemies) {
-            world.level.enemies.forEach((enemy) => {
-                if (enemy.death_sound) {
-                    enemy.death_sound.muted = isGameMuted;
-                    if (isGameMuted) enemy.death_sound.pause();
-                }
-                if (enemy.walking_sound) {
-                    enemy.walking_sound.muted = isGameMuted;
-                    if (isGameMuted) enemy.walking_sound.pause();
-                }
-            });
+        if (world.character.hurt_sound) {
+            world.character.hurt_sound.muted = isGameMuted;
+            if (isGameMuted) world.character.hurt_sound.pause();
         }
-        
-        
-        if (world.level && world.level.endboss) {
-            world.level.endboss.forEach((endboss) => {
-                if (endboss.alert_sound) {
-                    endboss.alert_sound.muted = isGameMuted;
-                    if (isGameMuted) endboss.alert_sound.pause();
-                }
-                if (endboss.hurt_sound) {
-                    endboss.hurt_sound.muted = isGameMuted;
-                    if (isGameMuted) endboss.hurt_sound.pause();
-                }
-                if (endboss.dead_sound) {
-                    endboss.dead_sound.muted = isGameMuted;
-                    if (isGameMuted) endboss.dead_sound.pause();
-                }
-            });
-        }
-        
-        
-        if (world.throwableObjects) {
-            world.throwableObjects.forEach((bottle) => {
-                if (bottle.bottle_shatter_sound) {
-                    bottle.bottle_shatter_sound.muted = isGameMuted;
-                    if (isGameMuted) bottle.bottle_shatter_sound.pause();
-                }
-                if (bottle.throw_sound) {
-                    bottle.throw_sound.muted = isGameMuted;
-                    if (isGameMuted) bottle.throw_sound.pause();
-                }
-            });
+        if (world.character.jumping_sound) {
+            world.character.jumping_sound.muted = isGameMuted;
+            if (isGameMuted) world.character.jumping_sound.pause();
         }
     }
-    
-    
+}
+
+/**
+ * Mute world enemy sounds
+ */
+function muteWorldEnemySounds() {
+    if (world && world.level && world.level.enemies) {
+        world.level.enemies.forEach((enemy) => {
+            if (enemy.death_sound) {
+                enemy.death_sound.muted = isGameMuted;
+                if (isGameMuted) enemy.death_sound.pause();
+            }
+            if (enemy.walking_sound) {
+                enemy.walking_sound.muted = isGameMuted;
+                if (isGameMuted) enemy.walking_sound.pause();
+            }
+        });
+    }
+}
+
+/**
+ * Mute world boss sounds
+ */
+function muteWorldBossSounds() {
+    if (world && world.level && world.level.endboss) {
+        world.level.endboss.forEach((endboss) => {
+            if (endboss.alert_sound) {
+                endboss.alert_sound.muted = isGameMuted;
+                if (isGameMuted) endboss.alert_sound.pause();
+            }
+            if (endboss.hurt_sound) {
+                endboss.hurt_sound.muted = isGameMuted;
+                if (isGameMuted) endboss.hurt_sound.pause();
+            }
+            if (endboss.dead_sound) {
+                endboss.dead_sound.muted = isGameMuted;
+                if (isGameMuted) endboss.dead_sound.pause();
+            }
+        });
+    }
+}
+
+/**
+ * Mute world throwable sounds
+ */
+function muteWorldThrowableSounds() {
+    if (world && world.throwableObjects) {
+        world.throwableObjects.forEach((bottle) => {
+            if (bottle.bottle_shatter_sound) {
+                bottle.bottle_shatter_sound.muted = isGameMuted;
+                if (isGameMuted) bottle.bottle_shatter_sound.pause();
+            }
+            if (bottle.throw_sound) {
+                bottle.throw_sound.muted = isGameMuted;
+                if (isGameMuted) bottle.throw_sound.pause();
+            }
+        });
+    }
+}
+
+/**
+ * Mute all HTML audio elements
+ */
+function muteAllHTMLAudio() {
     const allAudio = document.querySelectorAll('audio');
     allAudio.forEach(audio => {
         audio.muted = isGameMuted;
@@ -258,6 +276,19 @@ function masterMuteAllSounds() {
             audio.pause();
         }
     });
+}
+
+/**
+ * MASTER MUTE FUNCTION - Controls all audios in the game
+ */
+function masterMuteAllSounds() {
+    muteBackgroundMusic();
+    muteEndGameSounds();
+    muteWorldCharacterSounds();
+    muteWorldEnemySounds();
+    muteWorldBossSounds();
+    muteWorldThrowableSounds();
+    muteAllHTMLAudio();
 }
 
 /**

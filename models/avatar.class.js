@@ -164,34 +164,56 @@ class Character extends MoveableObject {
     }
 
     /**
+     * Check movement conditions
+     */
+    getMovementState() {
+        const isMovingRight = this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+        const isMovingLeft = this.world.keyboard.LEFT && this.x > 0;
+        return {
+            isMovingRight,
+            isMovingLeft,
+            isMoving: isMovingRight || isMovingLeft,
+            isOnGround: !this.isAboveGround()
+        };
+    }
+
+    /**
+     * Handle character movement directions
+     */
+    handleMovementDirections(movement) {
+        if (movement.isMovingRight) {
+            this.moveRight();
+            this.otherDirection = false;
+        }
+        if (movement.isMovingLeft) {
+            this.moveLeft();
+            this.otherDirection = true;
+        }
+    }
+
+    /**
+     * Control walking sound based on movement
+     */
+    controlWalkingSound(movement) {
+        if (movement.isMoving && movement.isOnGround) {
+            if (!this.isWalkingSoundPlaying) {
+                this.startWalkingSound();
+            }
+        } else {
+            if (this.isWalkingSoundPlaying) {
+                this.stopWalkingSound();
+            }
+        }
+    }
+
+    /**
      * Handles character movement (walking)
      */
     handleWalking() {
         if (this.world && this.world.keyboard && !this.isDead()) {
-            const isMovingRight = this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
-            const isMovingLeft = this.world.keyboard.LEFT && this.x > 0;
-            const isMoving = isMovingRight || isMovingLeft;
-            const isOnGround = !this.isAboveGround();
-            
-            if (isMovingRight) {
-                this.moveRight();
-                this.otherDirection = false;
-            }
-            if (isMovingLeft) {
-                this.moveLeft();
-                this.otherDirection = true;
-            }
-            
-            // Simple walking sound control
-            if (isMoving && isOnGround) {
-                if (!this.isWalkingSoundPlaying) {
-                    this.startWalkingSound();
-                }
-            } else {
-                if (this.isWalkingSoundPlaying) {
-                    this.stopWalkingSound();
-                }
-            }
+            const movement = this.getMovementState();
+            this.handleMovementDirections(movement);
+            this.controlWalkingSound(movement);
         } else {
             if (this.isWalkingSoundPlaying) {
                 this.stopWalkingSound();
