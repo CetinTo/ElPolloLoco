@@ -46,7 +46,6 @@ let timeouts = [];
  * Initialize game and set up game world
  */
 async function init() {
-    console.log('init() called');
     resetFinaleScreen();
     gameActive = false;
     clearAllIntervals();
@@ -55,7 +54,6 @@ async function init() {
     await preloadImages();
     initLevel();
     if (!setupCanvas()) {
-        console.error('Canvas setup failed');
         return;
     }
     world = new World(canvas, keyboard, level1);
@@ -63,8 +61,6 @@ async function init() {
     
     if (typeof initializeUI === 'function') {
         initializeUI();
-    } else {
-        console.error('initializeUI is not a function');
     }
 }
 
