@@ -4,13 +4,32 @@
  */
 
 class Coin extends MoveableObject {
+    /**
+     * Array of coin animation images
+     * @type {string[]}
+     */
     IMAGES_COINS = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png'
     ];
+    
+    /**
+     * Percentage value for coin status
+     * @type {number}
+     */
     percentage = 100;
+    
+    /**
+     * Animation interval reference
+     * @type {number}
+     */
     animationInterval;
 
+    /**
+     * Creates a new Coin instance
+     * @param {number} x - X-coordinate position
+     * @param {number} y - Y-coordinate position
+     */
     constructor(x, y) {
         super();
         this.initializeImages();
@@ -28,6 +47,8 @@ class Coin extends MoveableObject {
 
     /**
      * Initializes position and properties of the coin
+     * @param {number} x - X-coordinate position
+     * @param {number} y - Y-coordinate position
      */
     initializeProperties(x, y) {
         this.x = x + 500;

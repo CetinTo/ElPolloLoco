@@ -5,6 +5,10 @@
  */
 
 class Statusbar extends DrawableObject {
+    /**
+     * Array of health status bar images
+     * @type {string[]}
+     */
     IMAGES_HEALTH = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',   
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',  
@@ -14,9 +18,15 @@ class Statusbar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'  
     ];
     
-
+    /**
+     * Current percentage value of the status bar
+     * @type {number}
+     */
     percentage = 100;
 
+    /**
+     * Creates a new Statusbar instance
+     */
     constructor() {
         super();
         this.initializeImages();

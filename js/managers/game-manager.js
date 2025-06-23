@@ -3,12 +3,16 @@
  * @class
  */
 class GameManager {
+    /**
+     * Creates a new GameManager instance
+     * @param {World} world - Reference to the game world
+     */
     constructor(world) {
         this.world = world;
     }
 
     /**
-     * Handles throwing of objects
+     * Handles throwing of objects (legacy method)
      */
     handleThrowing() {
         if (this.world.keyboard.D && this.world.availableBottles > 0) {
@@ -23,6 +27,7 @@ class GameManager {
 
     /**
      * Check if throw conditions are met
+     * @returns {boolean} - True if character can throw bottle
      */
     canThrow() {
         return this.world.keyboard.D && 
@@ -32,7 +37,7 @@ class GameManager {
     }
 
     /**
-     * Create and throw bottle
+     * Create and throw bottle with sound effects
      */
     executeThrow() {
         if (this.world.character.idleTimer > this.world.character.IDLE_THRESHOLD) {
@@ -47,7 +52,7 @@ class GameManager {
     }
 
     /**
-     * Set throw cooldown
+     * Set throw cooldown to prevent spam throwing
      */
     setThrowCooldown() {
         this.world.canThrowBottle = false;
@@ -68,6 +73,7 @@ class GameManager {
 
     /**
      * Checks if endboss is defeated
+     * @returns {boolean} - True if endboss is dead
      */
     isEndbossDefeated() {
         return this.world.level.endboss[0] && this.world.level.endboss[0].isDead;
@@ -75,13 +81,14 @@ class GameManager {
 
     /**
      * Checks if character is dead
+     * @returns {boolean} - True if character has no energy left
      */
     isCharacterDead() {
         return this.world.character && this.world.character.energy <= 0;
     }
 
     /**
-     * Ends the game
+     * Ends the game and shows end screen
      */
     endGame() {
         if (!this.world.gameOver) {
@@ -93,7 +100,10 @@ class GameManager {
     }
 
     /**
-     * Plays game audio
+     * Plays game audio with error handling
+     * @param {string} audioPath - Path to the audio file
+     * @param {number} [volume=1.0] - Volume level (0.0 to 1.0)
+     * @param {boolean} [loop=false] - Whether to loop the audio
      */
     playGameSound(audioPath, volume = 1.0, loop = false) {
         if (isGameMuted) {
@@ -116,7 +126,7 @@ class GameManager {
     }
 
     /**
-     * Plays bottle shatter sound
+     * Plays bottle shatter sound effect
      */
     playBottleShatterSound() {
         this.playGameSound('./audio/bottle_shatter.mp3', 0.5);

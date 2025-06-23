@@ -5,11 +5,34 @@
  */
 
 class ThrowableObject extends MoveableObject {
+    /**
+     * Vertical speed of the throwable object
+     * @type {number}
+     */
     speedY = 30;
+    
+    /**
+     * Horizontal speed of the throwable object
+     * @type {number}
+     */
     speedX = 20;
+    
+    /**
+     * Whether the object has collided with something
+     * @type {boolean}
+     */
     hasCollided;
+    
+    /**
+     * Interval reference for rotation animation
+     * @type {number}
+     */
     rotationInterval;
 
+    /**
+     * Array of bottle rotation animation images
+     * @type {string[]}
+     */
     IMAGES_BOTTLE_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -17,6 +40,10 @@ class ThrowableObject extends MoveableObject {
         'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
     ];
 
+    /**
+     * Array of bottle splash animation images
+     * @type {string[]}
+     */
     IMAGES_BOTTLE_SPLASH = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
@@ -27,6 +54,11 @@ class ThrowableObject extends MoveableObject {
 
     ];
 
+    /**
+     * Creates a new ThrowableObject instance
+     * @param {number} x - X-coordinate position
+     * @param {number} y - Y-coordinate position
+     */
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.initializeImages();
@@ -44,6 +76,8 @@ class ThrowableObject extends MoveableObject {
 
     /**
      * Initializes position and properties of the throwable object
+     * @param {number} x - X-coordinate position
+     * @param {number} y - Y-coordinate position
      */
     initializeProperties(x, y) {
         this.x = x;

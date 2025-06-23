@@ -3,12 +3,46 @@
  * @extends DrawableObject
  */
 class MoveableObject extends DrawableObject {
+    /**
+     * Movement speed of the object
+     * @type {number}
+     */
     speed = 0.2;
+    
+    /**
+     * Whether the object is facing the other direction
+     * @type {boolean}
+     */
     otherDirection = false;
+    
+    /**
+     * Vertical speed for gravity and jumping
+     * @type {number}
+     */
     speedY = 0;
+    
+    /**
+     * Gravity acceleration value
+     * @type {number}
+     */
     acceleration = 2;
+    
+    /**
+     * Health/energy points of the object
+     * @type {number}
+     */
     energy = 100;
+    
+    /**
+     * Timestamp of the last hit received
+     * @type {number}
+     */
     lastHitTime = 0;
+    
+    /**
+     * Cooldown time between hits in milliseconds
+     * @type {number}
+     */
     hitCooldown = 250;
 
     /**

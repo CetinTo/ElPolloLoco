@@ -3,21 +3,52 @@
  * @extends MoveableObject
  */
 class ChickenSmall extends MoveableObject {
+    /**
+     * Y-coordinate position of the small chicken
+     * @type {number}
+     */
     y = 350;
+    
+    /**
+     * Height of the small chicken in pixels
+     * @type {number}
+     */
     height = 60;
+    
+    /**
+     * Width of the small chicken in pixels
+     * @type {number}
+     */
     width = 60;
+    
+    /**
+     * Energy/health points of the small chicken
+     * @type {number}
+     */
     energy = 1;
 
+    /**
+     * Array of walking animation images
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/3_w.png',
     ];
 
+    /**
+     * Array of death animation images
+     * @type {string[]}
+     */
     IMAGES_DEAD = [
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
+    /**
+     * Creates a new ChickenSmall instance
+     * @param {number} x - X-coordinate position
+     */
     constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.initializeImages();
@@ -36,6 +67,7 @@ class ChickenSmall extends MoveableObject {
 
     /**
      * Initializes basic properties of the small chicken
+     * @param {number} x - X-coordinate position
      */
     initializeProperties(x) {
         this.x = x;

@@ -1,5 +1,6 @@
 /**
  * The maximum number of coins that the CoinBar can display
+ * @type {number}
  */
 const MAX_COINS = 20;
 
@@ -8,6 +9,10 @@ const MAX_COINS = 20;
  * @extends DrawableObject
  */
 class CoinBar extends DrawableObject {
+    /**
+     * Array of coin status bar images
+     * @type {string[]}
+     */
     IMAGES_COINS = [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
@@ -17,8 +22,15 @@ class CoinBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ];
 
+    /**
+     * Number of collected coins
+     * @type {number}
+     */
     collectedCoins = 0;
 
+    /**
+     * Creates a new CoinBar instance
+     */
     constructor() {
         super();
         this.initializeImages();

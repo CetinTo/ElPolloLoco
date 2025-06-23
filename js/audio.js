@@ -76,9 +76,15 @@ let gameLost = createAudioElement('audio/game_lost.mp3');
  */
 let isGameMuted = false;
 
-
+/**
+ * Initialize mute status from localStorage
+ */
 isGameMuted = localStorage.getItem('isGameMuted') === 'true';
 
+/**
+ * Plays the game won sound effect
+ * Sets volume and plays the victory sound if not muted
+ */
 function gameWonSound() {
     if (gameWon && !isGameMuted) {
         gameWon.muted = false;
@@ -87,6 +93,10 @@ function gameWonSound() {
     }
 }
 
+/**
+ * Plays the game lost sound effect
+ * Sets volume and plays the defeat sound if not muted
+ */
 function gameLostSound() {
     if (gameLost && !isGameMuted) {
         gameLost.muted = false;
@@ -376,7 +386,11 @@ function initSoundStatusUI() {
     muteSounds();
 }
 
-
+/**
+ * Event listener for window load
+ * Initializes sound status UI when the page is fully loaded
+ * @listens window#load
+ */
 window.addEventListener('load', () => {
     initSoundStatusUI();
 });

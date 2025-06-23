@@ -3,22 +3,100 @@
  * @extends MoveableObject
  */
 class Endboss extends MoveableObject {
+    /**
+     * Height of the end boss in pixels
+     * @type {number}
+     */
     height = 400;
+    
+    /**
+     * Width of the end boss in pixels
+     * @type {number}
+     */
     width = 250;
+    
+    /**
+     * Y-coordinate position of the end boss
+     * @type {number}
+     */
     y = 55;
+    
+    /**
+     * Energy/health points of the end boss
+     * @type {number}
+     */
     energy = 300;
+    
+    /**
+     * Whether the boss is dead
+     * @type {boolean}
+     */
     isDead = false;
+    
+    /**
+     * Whether the boss had first contact with character
+     * @type {boolean}
+     */
     hadFirstContact = false;
+    
+    /**
+     * Whether alert animation has been played
+     * @type {boolean}
+     */
     alertAnimationPlayed = false;
+    
+    /**
+     * Whether the boss is currently attacking
+     * @type {boolean}
+     */
     isAttacking = false;
+    
+    /**
+     * Timestamp of last attack
+     * @type {number}
+     */
     lastAttackTime = 0;
+    
+    /**
+     * Whether the boss is jumping
+     * @type {boolean}
+     */
     isJumping = false;
+    
+    /**
+     * Timestamp of last jump
+     * @type {number}
+     */
     lastJumpTime = 0;
+    
+    /**
+     * Current speed mode of the boss
+     * @type {string}
+     */
     speedMode = 'normal'; 
+    
+    /**
+     * Timestamp of last speed change
+     * @type {number}
+     */
     lastSpeedChange = 0;
+    
+    /**
+     * Current aggression level
+     * @type {number}
+     */
     aggressionLevel = 1; 
+    
+    /**
+     * Horizontal jump speed
+     * @type {number}
+     */
     horizontalJumpSpeed = 0; 
 
+    /**
+     * Array of walking animation images
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -26,6 +104,10 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
+    /**
+     * Array of alert animation images
+     * @type {string[]}
+     */
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -37,6 +119,10 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
+    /**
+     * Array of attack animation images
+     * @type {string[]}
+     */
     IMAGES_ATTACK = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -48,18 +134,29 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
 
+    /**
+     * Array of hurt animation images
+     * @type {string[]}
+     */
     IMAGES_HURT = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
+    /**
+     * Array of death animation images
+     * @type {string[]}
+     */
     IMAGES_DEAD = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    /**
+     * Creates a new Endboss instance
+     */
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
         this.initializeImages();

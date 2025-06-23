@@ -3,6 +3,10 @@
  * @class
  */
 class BossMovement {
+    /**
+     * Creates a new BossMovement instance
+     * @param {Endboss} boss - Reference to the boss object
+     */
     constructor(boss) {
         this.boss = boss;
     }
@@ -21,7 +25,7 @@ class BossMovement {
     }
 
     /**
-     * Balanced boss speed
+     * Balanced boss speed based on aggression level, distance to player, and energy
      */
     updateAggressiveSpeed() {
         this.boss.speed = 40 + this.boss.aggressionLevel * 15;
@@ -42,7 +46,8 @@ class BossMovement {
     }
 
     /**
-     * Check if boss can move
+     * Check if boss can move based on state conditions
+     * @returns {boolean} - True if boss can move
      */
     canBossMove() {
         return this.boss.energy > 0 && 
@@ -52,7 +57,7 @@ class BossMovement {
     }
 
     /**
-     * Handle boss movement and attacks
+     * Handle boss movement and attacks logic
      */
     handleBossMovement() {
         this.updateAggressionLevel();
@@ -75,7 +80,7 @@ class BossMovement {
     }
 
     /**
-     * Create walking interval
+     * Create walking interval for boss movement
      */
     createWalkingInterval() {
         this.boss.walkingInterval = setInterval(() => {
@@ -89,7 +94,7 @@ class BossMovement {
     }
 
     /**
-     * Register walking interval
+     * Register walking interval for cleanup
      */
     registerWalkingInterval() {
         this.boss.animationIntervals.push(this.boss.walkingInterval);
@@ -116,6 +121,7 @@ class BossMovement {
 
     /**
      * Resumes the movement of the end boss after a certain delay
+     * @param {number} delay - Delay in seconds before resuming movement
      */
     resumeMovementAfterDelay(delay) {
         setTimeout(() => {

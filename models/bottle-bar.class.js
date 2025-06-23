@@ -3,7 +3,10 @@
  * @extends DrawableObject
  */
 class BottleBar extends DrawableObject {
-
+    /**
+     * Array of bottle status bar images
+     * @type {string[]}
+     */
     IMAGES_BOTTLES = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png',
@@ -13,6 +16,9 @@ class BottleBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png'
     ];
 
+    /**
+     * Creates a new BottleBar instance
+     */
     constructor() {
         super();
         this.initializeImages();

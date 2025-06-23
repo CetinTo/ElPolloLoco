@@ -3,12 +3,17 @@
  * @class
  */
 class BossAttacks {
+    /**
+     * Creates a new BossAttacks instance
+     * @param {Endboss} boss - Reference to the boss object
+     */
     constructor(boss) {
         this.boss = boss;
     }
 
     /**
      * Safely plays boss audio with error handling
+     * @param {HTMLAudioElement} audioElement - Audio element to play
      */
     playBossSound(audioElement) {
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
@@ -40,14 +45,15 @@ class BossAttacks {
     }
 
     /**
-     * Calculate attack speed based on aggression
+     * Calculate attack speed based on aggression level
+     * @returns {number} - Attack speed in milliseconds
      */
     getAttackSpeed() {
         return Math.max(120 - (this.boss.aggressionLevel * 20), 80);
     }
 
     /**
-     * Handle attack completion
+     * Handle attack completion and reset state
      */
     completeAttack() {
         this.boss.animationHandler.resetToWalkingState();
@@ -75,7 +81,8 @@ class BossAttacks {
     }
 
     /**
-     * Checks if the boss should attack - More aggressive
+     * Checks if the boss should attack - More aggressive based on distance and cooldown
+     * @returns {boolean} - True if boss should attack
      */
     shouldAttack() {
         if (!world || !world.character || this.boss.isAttacking || this.boss.isJumping) return false;
@@ -95,12 +102,17 @@ class BossAttacks {
  * @class
  */
 class BossJumpAttacks {
+    /**
+     * Creates a new BossJumpAttacks instance
+     * @param {Endboss} boss - Reference to the boss object
+     */
     constructor(boss) {
         this.boss = boss;
     }
 
     /**
      * Checks if boss should perform a jump attack - More frequent and aggressive
+     * @returns {boolean} - True if boss should jump attack
      */
     shouldJumpAttack() {
         if (!world || !world.character || this.boss.isJumping || this.boss.isAttacking) return false;
@@ -116,6 +128,7 @@ class BossJumpAttacks {
 
     /**
      * Calculate jump direction towards player
+     * @returns {number} - Horizontal jump speed (negative for left, positive for right)
      */
     calculateJumpDirection() {
         const playerX = world.character.x;
@@ -157,6 +170,30 @@ class BossJumpAttacks {
             this.initializeJump();
             this.playBossSound(this.boss.alert_sound);
             this.setupJumpCompletion();
+        }
+    }
+
+    /**
+     * Safely plays boss audio with error handling
+     * @param {HTMLAudioElement} audioElement - Audio element to play
+     */
+    playBossSound(audioElement) {
+        if (typeof isGameMuted !== 'undefined' && isGameMuted) {
+            return; 
+        }
+        if (audioElement) {
+            try {
+                audioElement.currentTime = 0;
+                if (typeof safePlay === 'function') {
+                    safePlay(audioElement);
+                } else {
+                    audioElement.play().catch(error => {
+                        console.warn('Boss audio playback failed:', error);
+                    });
+                }
+            } catch (error) {
+                console.warn('Boss audio error:', error);
+            }
         }
     }
 

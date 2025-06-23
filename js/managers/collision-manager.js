@@ -3,12 +3,16 @@
  * @class
  */
 class CollisionManager {
+    /**
+     * Creates a new CollisionManager instance
+     * @param {World} world - Reference to the game world
+     */
     constructor(world) {
         this.world = world;
     }
 
     /**
-     * Checks all collisions
+     * Checks all collisions in the game
      */
     checkAllCollisions() {
         this.checkCoinCollisions();
@@ -19,7 +23,7 @@ class CollisionManager {
     }
 
     /**
-     * Checks coin collisions
+     * Checks collisions between character and coins
      */
     checkCoinCollisions() {
         for (let i = this.world.level.coins.length - 1; i >= 0; i--) {
@@ -35,7 +39,7 @@ class CollisionManager {
     }
 
     /**
-     * Checks bottle collisions
+     * Checks collisions between character and bottles
      */
     checkBottleCollisions() {
         for (let i = this.world.level.bottles.length - 1; i >= 0; i--) {
@@ -53,6 +57,8 @@ class CollisionManager {
 
     /**
      * Improved collision detection for bottle collection
+     * @param {Bottles} bottle - The bottle to check collision with
+     * @returns {boolean} - True if character is near bottle
      */
     isCharacterNearBottle(bottle) {
         const buffer = 20;
@@ -76,6 +82,9 @@ class CollisionManager {
 
     /**
      * Find enemies to kill from jumping
+     * @returns {Object} - Object containing jump status and enemies to kill
+     * @returns {boolean} returns.hasJumpedOnAnyEnemy - Whether character jumped on any enemy
+     * @returns {Array} returns.enemiesToKill - Array of enemies to kill
      */
     findEnemiesToKill() {
         let hasJumpedOnAnyEnemy = false;
@@ -95,6 +104,7 @@ class CollisionManager {
 
     /**
      * Add nearby enemies to kill list
+     * @param {Array} enemiesToKill - Array of enemies to kill
      */
     addNearbyEnemiesToKill(enemiesToKill) {
         this.world.level.enemies.forEach((enemy) => {
@@ -108,6 +118,7 @@ class CollisionManager {
 
     /**
      * Execute enemy deaths from jumping
+     * @param {Array} enemiesToKill - Array of enemies to kill
      */
     executeEnemyDeaths(enemiesToKill) {
         enemiesToKill.forEach((enemy) => {
@@ -124,6 +135,7 @@ class CollisionManager {
 
     /**
      * Handle jump attacks on enemies
+     * @param {Array} enemiesToKill - Array of enemies to kill
      */
     handleJumpAttacks(enemiesToKill) {
         this.addNearbyEnemiesToKill(enemiesToKill);
@@ -133,7 +145,7 @@ class CollisionManager {
     }
 
     /**
-     * Handle normal enemy collisions
+     * Handle normal enemy collisions without jumping
      */
     handleNormalEnemyCollisions() {
         this.world.level.enemies.forEach((enemy) => {
@@ -145,7 +157,7 @@ class CollisionManager {
     }
 
     /**
-     * Checks collisions with enemies
+     * Checks collisions with enemies (jumping vs normal collision)
      */
     checkCollisionsWithEnemies() {
         const { hasJumpedOnAnyEnemy, enemiesToKill } = this.findEnemiesToKill();
@@ -227,6 +239,9 @@ class CollisionManager {
 
     /**
      * Handles collision between bottle and enemy
+     * @param {ThrowableObject} bottle - The bottle that collided
+     * @param {number} bottleIndex - Index of the bottle in array
+     * @param {Object} enemy - The enemy that was hit
      */
     handleBottleEnemyCollision(bottle, bottleIndex, enemy) {
         bottle.hasCollided = true;
@@ -238,7 +253,8 @@ class CollisionManager {
     }
 
     /**
-     * Plays enemy death animation
+     * Plays enemy death animation if enemy is dead
+     * @param {Object} enemy - The enemy to check
      */
     playEnemyDeathAnimation(enemy) {
         if (enemy.energy === 0) {
@@ -247,7 +263,9 @@ class CollisionManager {
     }
 
     /**
-     * Removes bottle and enemy after collision
+     * Removes bottle and enemy after collision with delay
+     * @param {number} bottleIndex - Index of bottle to remove
+     * @param {Object} enemy - Enemy to remove if dead
      */
     removeBottleAndEnemyAfterCollision(bottleIndex, enemy) {
         if (enemy.energy === 0) {
@@ -275,6 +293,8 @@ class CollisionManager {
 
     /**
      * Handles collision between bottle and endboss
+     * @param {ThrowableObject} bottle - The bottle that hit the boss
+     * @param {number} index - Index of the bottle
      */
     handleBottleEndbossCollision(bottle, index) {
         bottle.hasCollided = true;
@@ -289,6 +309,8 @@ class CollisionManager {
 
     /**
      * Checks if bottle is colliding with endboss
+     * @param {ThrowableObject} bottle - The bottle to check
+     * @returns {boolean} - True if colliding with endboss
      */
     isBottleCollidingWithEndboss(bottle) {
         return this.world.level.endboss[0] && !bottle.hasCollided && this.world.level.endboss[0].isColliding(bottle);
@@ -296,6 +318,7 @@ class CollisionManager {
 
     /**
      * Removes enemy from level
+     * @param {Object} enemy - Enemy to remove
      */
     removeEnemyFromLevel(enemy) {
         const index = this.world.level.enemies.indexOf(enemy);
@@ -306,6 +329,7 @@ class CollisionManager {
 
     /**
      * Removes bottle after collision
+     * @param {number} bottleIndex - Index of bottle to remove
      */
     removeBottleAfterCollision(bottleIndex) {
         if (this.world.throwableObjects[bottleIndex]) {

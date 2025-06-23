@@ -3,13 +3,56 @@
  * @class
  */
 class DrawableObject {
+    /**
+     * X-coordinate position of the object
+     * @type {number}
+     */
     x = 120;
+    
+    /**
+     * Y-coordinate position of the object
+     * @type {number}
+     */
     y = 365;
+    
+    /**
+     * Height of the object in pixels
+     * @type {number}
+     */
     height = 150;
+    
+    /**
+     * Width of the object in pixels
+     * @type {number}
+     */
     width = 100;
+    
+    /**
+     * Image element for the object
+     * @type {HTMLImageElement}
+     */
     img;
+    
+    /**
+     * Cache for storing loaded images
+     * @type {Object<string, HTMLImageElement>}
+     */
     imageCache = {};
+    
+    /**
+     * Index of the current image in animation sequence
+     * @type {number}
+     */
     currentImage = 0;
+    
+    /**
+     * Collision offset values for more precise collision detection
+     * @type {Object}
+     * @property {number} top - Top offset
+     * @property {number} right - Right offset
+     * @property {number} bottom - Bottom offset
+     * @property {number} left - Left offset
+     */
     offset = {
         top: 0,
         right: 0,

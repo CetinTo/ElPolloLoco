@@ -3,12 +3,17 @@
  * @class
  */
 class BossAnimations {
+    /**
+     * Creates a new BossAnimations instance
+     * @param {Endboss} boss - Reference to the boss object
+     */
     constructor(boss) {
         this.boss = boss;
     }
 
     /**
      * Safely plays boss audio with error handling
+     * @param {HTMLAudioElement} audioElement - Audio element to play
      */
     playBossSound(audioElement) {
         if (typeof isGameMuted !== 'undefined' && isGameMuted) {
@@ -32,6 +37,7 @@ class BossAnimations {
 
     /**
      * Checks if the alert animation should start based on certain conditions
+     * @returns {boolean} - True if alert animation should start
      */
     shouldStartAlert() {
         const shouldStart = world && world.character.x >= 4500 && !this.boss.hadFirstContact;
@@ -52,6 +58,7 @@ class BossAnimations {
 
     /**
      * Starts the alert animation for the end boss character
+     * @param {number} interval - Interval ID to clear
      */
     startAlertAnimation(interval) {
         if (!this.boss.alertAnimationPlayed) {
@@ -177,6 +184,10 @@ class BossAnimations {
 
     /**
      * Starts an animation interval for a series of images
+     * @param {string[]} images - Array of image paths for animation
+     * @param {number} intervalTime - Time between animation frames in milliseconds
+     * @param {Function} [onComplete=null] - Callback function when animation completes
+     * @returns {number} - Interval ID
      */
     startAnimationInterval(images, intervalTime, onComplete = null) {
         let currentFrame = 0;

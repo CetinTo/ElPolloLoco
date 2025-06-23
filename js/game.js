@@ -1,9 +1,43 @@
+/**
+ * Canvas element for game rendering
+ * @type {HTMLCanvasElement}
+ */
 let canvas;
+
+/**
+ * Game world instance
+ * @type {World}
+ */
 let world;
+
+/**
+ * Keyboard input handler
+ * @type {Keyboard}
+ */
 let keyboard = new Keyboard();
+
+/**
+ * Current screen state
+ * @type {string}
+ */
 let currentScreen = 'main-menu';
+
+/**
+ * Game active status
+ * @type {boolean}
+ */
 let gameActive = true;
+
+/**
+ * Array to track active intervals
+ * @type {Array<number>}
+ */
 let intervals = [];
+
+/**
+ * Array to track active timeouts
+ * @type {Array<number>}
+ */
 let timeouts = [];
 
 /**
@@ -696,21 +730,30 @@ function toggleIngameMenu() {
 }
 
 /**
- * Test functions for browser console
+ * Test functions for browser console debugging
+ * Test menu button functionality
  */
 function testMenuButton() {
     console.log('Menu button clicked');
 }
 
+/**
+ * Test restart button functionality
+ */
 function testRestartButton() {
     console.log('Restart button clicked');
 }
 
+/**
+ * Test end screen display functionality
+ */
 function testShowEndScreen() {
     showEndScreen();
 }
 
-
+/**
+ * Expose test functions to global window object for console debugging
+ */
 window.testMenuButton = testMenuButton;
 window.testRestartButton = testRestartButton;
 window.testShowEndScreen = testShowEndScreen;

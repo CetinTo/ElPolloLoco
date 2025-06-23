@@ -1,3 +1,7 @@
+/**
+ * Animation frame request ID for tracking
+ * @type {number}
+ */
 let requestAnimationFrameId = 0;
 
 /**
@@ -5,28 +9,126 @@ let requestAnimationFrameId = 0;
  * @class
  */
 class World {
+    /**
+     * Main character object
+     * @type {Character}
+     */
     character = new Character();
+    
+    /**
+     * Coin status bar display
+     * @type {CoinBar}
+     */
     coinBar = new CoinBar();
+    
+    /**
+     * Bottle status bar display
+     * @type {BottleBar}
+     */
     bottleBar = new BottleBar();
+    
+    /**
+     * End boss health bar display
+     * @type {EndbossHealthbar}
+     */
     endbossHealthbar = new EndbossHealthbar();
+    
+    /**
+     * Character health status bar
+     * @type {Statusbar}
+     */
     statusBar = new Statusbar();
+    
+    /**
+     * Array of thrown objects
+     * @type {Array<ThrowableObject>}
+     */
     throwableObjects = [];
+    
+    /**
+     * Current game level
+     * @type {Level}
+     */
     level; 
+    
+    /**
+     * Canvas element for rendering
+     * @type {HTMLCanvasElement}
+     */
     canvas;
+    
+    /**
+     * 2D rendering context
+     * @type {CanvasRenderingContext2D}
+     */
     ctx;
+    
+    /**
+     * Keyboard input handler
+     * @type {Keyboard}
+     */
     keyboard;
+    
+    /**
+     * Camera X position for scrolling
+     * @type {number}
+     */
     camera_x = 0;
+    
+    /**
+     * Number of collected coins
+     * @type {number}
+     */
     collectedCoins = 0;
+    
+    /**
+     * Whether to show end boss health bar
+     * @type {boolean}
+     */
     showEndbossHealthbar = false;
+    
+    /**
+     * Game over status
+     * @type {boolean}
+     */
     gameOver = false;
+    
+    /**
+     * Whether character can throw bottles
+     * @type {boolean}
+     */
     canThrowBottle = true;
+    
+    /**
+     * Number of available bottles to throw
+     * @type {number}
+     */
     availableBottles = 0;
 
-    
+    /**
+     * Collision detection manager
+     * @type {CollisionManager}
+     */
     collisionManager;
+    
+    /**
+     * Rendering manager
+     * @type {RenderManager}
+     */
     renderManager;
+    
+    /**
+     * Game logic manager
+     * @type {GameManager}
+     */
     gameManager;
 
+    /**
+     * Creates a new World instance
+     * @param {HTMLCanvasElement} canvas - Canvas element for rendering
+     * @param {Keyboard} keyboard - Keyboard input handler
+     * @param {Level} level1 - Initial game level
+     */
     constructor(canvas, keyboard, level1) {
         this.initializeCanvasContext(canvas);
         this.initializeProperties(keyboard, level1);
@@ -37,6 +139,7 @@ class World {
 
     /**
      * Initializes canvas and context properties
+     * @param {HTMLCanvasElement} canvas - Canvas element
      */
     initializeCanvasContext(canvas) {
         this.ctx = canvas.getContext('2d');
@@ -58,6 +161,8 @@ class World {
 
     /**
      * Initializes basic properties
+     * @param {Keyboard} keyboard - Keyboard input handler
+     * @param {Level} level1 - Initial game level
      */
     initializeProperties(keyboard, level1) {
         this.keyboard = keyboard;
@@ -74,7 +179,7 @@ class World {
     }
 
     /**
-     * Richtet die Welt ein
+     * Sets up the game world
      */
     setupWorld() {
         this.setWorld();
@@ -86,7 +191,7 @@ class World {
     }
 
     /**
-     * Startet alle Spiel-Loops
+     * Starts all game loops
      */
     startGameLoops() {
         this.startMainGameLoop();
@@ -94,7 +199,7 @@ class World {
     }
 
     /**
-     * Startet die Hauptspiel-Schleife
+     * Starts the main game loop
      */
     startMainGameLoop() {
         const gameLoop = setInterval(() => {
@@ -109,7 +214,7 @@ class World {
     }
 
     /**
-     * Startet die Zeichen-Schleife
+     * Starts the drawing loop
      */
     startDrawLoop() {
         const drawLoop = setInterval(() => {
@@ -183,14 +288,16 @@ class World {
     }
 
     /**
-     * Hauptzeichenfunktion - delegiert an RenderManager
+     * Main drawing function - delegates to RenderManager
      */
     draw() {
         this.renderManager.draw();
     }
 
     /**
-     * Spielt einen Spiel-Sound ab - delegiert an GameManager
+     * Plays a game sound - delegates to GameManager
+     * @param {string} soundFilePath - Path to the sound file
+     * @param {number} [volume=0.2] - Volume level
      */
     playGameSound(soundFilePath, volume = 0.2) {
         this.gameManager.playGameSound(soundFilePath, volume);

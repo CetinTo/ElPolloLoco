@@ -3,14 +3,52 @@
  * @extends MoveableObject
  */
 class Character extends MoveableObject {
+    /**
+     * Y-coordinate position of the character
+     * @type {number}
+     */
     y = 80;
+    
+    /**
+     * Height of the character in pixels
+     * @type {number}
+     */
     height = 275;
+    
+    /**
+     * Width of the character in pixels
+     * @type {number}
+     */
     width = 100;
+    
+    /**
+     * Movement speed of the character
+     * @type {number}
+     */
     speed = 6;
+    
+    /**
+     * Timer for tracking idle duration
+     * @type {number}
+     */
     idleTimer = 0;
+    
+    /**
+     * Threshold for triggering long idle animation
+     * @type {number}
+     */
     IDLE_THRESHOLD = 2000;
+    
+    /**
+     * Whether walking sound is currently playing
+     * @type {boolean}
+     */
     isWalkingSoundPlaying = false;
 
+    /**
+     * Array of walking animation images
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -20,6 +58,10 @@ class Character extends MoveableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
 
+    /**
+     * Array of jumping animation images
+     * @type {string[]}
+     */
     IMAGES_JUMPING = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
@@ -32,6 +74,10 @@ class Character extends MoveableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
+    /**
+     * Array of death animation images
+     * @type {string[]}
+     */
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -42,12 +88,20 @@ class Character extends MoveableObject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
+    /**
+     * Array of hurt animation images
+     * @type {string[]}
+     */
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
     ];
 
+    /**
+     * Array of idle animation images
+     * @type {string[]}
+     */
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -61,6 +115,10 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
+    /**
+     * Array of long idle animation images
+     * @type {string[]}
+     */
     IMAGES_LONG_IDLE = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -74,8 +132,15 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
+    /**
+     * Reference to the game world
+     * @type {World}
+     */
     world;
 
+    /**
+     * Creates a new Character instance
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);

@@ -24,7 +24,7 @@ class RenderManager {
         this.addObjectsToMap(this.world.level.clouds);
         this.addObjectsToMap(this.world.level.coins);
         this.addObjectsToMap(this.world.level.bottles);
-        this.addObjectsToMap(this.world.level.enemies);
+        this.renderEnemiesByType();
         this.addObjectsToMap(this.world.level.endboss);
         this.addToMap(this.world.character);
         this.addObjectsToMap(this.world.throwableObjects);
@@ -102,5 +102,24 @@ class RenderManager {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.world.ctx.restore();
+    }
+
+    /**
+     * Renders enemies by type - small chickens in background, large chickens in foreground
+     */
+    renderEnemiesByType() {
+        // Zuerst kleine Chickens (hinten)
+        this.world.level.enemies.forEach(enemy => {
+            if (enemy instanceof ChickenSmall) {
+                this.addToMap(enemy);
+            }
+        });
+        
+        // Dann große Chickens (vorne)
+        this.world.level.enemies.forEach(enemy => {
+            if (enemy instanceof Chicken && !(enemy instanceof ChickenSmall)) {
+                this.addToMap(enemy);
+            }
+        });
     }
 } 

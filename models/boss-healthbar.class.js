@@ -5,7 +5,16 @@
  */
 
 class EndbossHealthbar extends DrawableObject {
+    /**
+     * Images for full boss health display
+     * @type {string[]}
+     */
     IMAGES_BOSS_HEALTH_FULL = ['img/7_statusbars/2_statusbar_endboss/blue.png'];
+    
+    /**
+     * Array of boss health bar images at different levels
+     * @type {string[]}
+     */
     IMAGES_BOSS_HEALTH = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
@@ -15,8 +24,15 @@ class EndbossHealthbar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png',
     ];
 
+    /**
+     * Current energy level of the boss
+     * @type {number}
+     */
     bossEnergy = 120;
 
+    /**
+     * Creates a new EndbossHealthbar instance
+     */
     constructor() {
         super();
         this.initializeImages();

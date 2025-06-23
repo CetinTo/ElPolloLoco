@@ -1,4 +1,8 @@
-
+/**
+ * Event listener for keydown events
+ * Handles keyboard input for game controls (arrow keys, space, D key)
+ * @listens document#keydown
+ */
 document.addEventListener("keydown", (event) => {
     if (!gameActive) return;
     if (event.code == 'ArrowRight') {
@@ -15,6 +19,11 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+/**
+ * Event listener for keyup events
+ * Handles keyboard input release for game controls
+ * @listens document#keyup
+ */
 document.addEventListener("keyup", (event) => {
     if (!gameActive) return;
     if (event.code == 'ArrowRight') {
@@ -33,6 +42,8 @@ document.addEventListener("keyup", (event) => {
 
 /**
  * Setup touch events for a specific button
+ * @param {HTMLElement} button - The button element to setup touch events for
+ * @param {string} keyProperty - The keyboard property to control
  */
 function setupButtonTouch(button, keyProperty) {
     if (button) {
@@ -49,7 +60,12 @@ function setupButtonTouch(button, keyProperty) {
 }
 
 /**
- * Get mobile button elements
+ * Get mobile button elements from the DOM
+ * @returns {Object} Object containing references to mobile control buttons
+ * @returns {HTMLElement} returns.leftButton - Left movement button
+ * @returns {HTMLElement} returns.rightButton - Right movement button
+ * @returns {HTMLElement} returns.jumpButton - Jump button
+ * @returns {HTMLElement} returns.throwButton - Throw button
  */
 function getMobileButtons() {
     return {
@@ -62,6 +78,7 @@ function getMobileButtons() {
 
 /**
  * Handles touch events for mobile buttons
+ * Sets up touch controls for all mobile interface buttons
  */
 function mobileButtonTouch() {
     const buttons = getMobileButtons();
@@ -72,7 +89,11 @@ function mobileButtonTouch() {
     setupButtonTouch(buttons.throwButton, 'D');
 }
 
-
+/**
+ * Event listener for DOM content loaded
+ * Initializes mobile touch controls when the page is fully loaded
+ * @listens document#DOMContentLoaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
     mobileButtonTouch();
 });
