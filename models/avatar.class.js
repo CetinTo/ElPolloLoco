@@ -398,6 +398,3 @@ class Character extends MoveableObject {
         this.world.camera_x = -this.x + 100;
     }
 }
-
-
-

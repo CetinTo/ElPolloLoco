@@ -223,7 +223,7 @@ h1 {
     background-position: 20% center;
     background-repeat: no-repeat;
     margin-bottom: 20px;
-    
+    pointer-events: none;
 }
 
 .finale-screen .endscreen-buttons {

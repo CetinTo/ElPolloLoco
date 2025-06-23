@@ -108,14 +108,14 @@ class RenderManager {
      * Renders enemies by type - small chickens in background, large chickens in foreground
      */
     renderEnemiesByType() {
-        // Zuerst kleine Chickens (hinten)
+
         this.world.level.enemies.forEach(enemy => {
             if (enemy instanceof ChickenSmall) {
                 this.addToMap(enemy);
             }
         });
         
-        // Dann große Chickens (vorne)
+
         this.world.level.enemies.forEach(enemy => {
             if (enemy instanceof Chicken && !(enemy instanceof ChickenSmall)) {
                 this.addToMap(enemy);

@@ -40,9 +40,9 @@ function createAudioElement(src) {
 
         });
         
-        // Improve audio performance
+        
         audio.addEventListener('canplaythrough', () => {
-            // Audio is ready to play through without buffering
+        
         });
         
         return audio;
@@ -201,7 +201,7 @@ function muteEndGameSounds() {
  * Mute world character sounds
  */
 function muteWorldCharacterSounds() {
-    if (world && world.character) {
+    if (typeof world !== 'undefined' && world && world.character) {
         if (world.character.walking_sound) {
             world.character.walking_sound.muted = isGameMuted;
             if (isGameMuted) world.character.walking_sound.pause();
@@ -221,7 +221,7 @@ function muteWorldCharacterSounds() {
  * Mute world enemy sounds
  */
 function muteWorldEnemySounds() {
-    if (world && world.level && world.level.enemies) {
+    if (typeof world !== 'undefined' && world && world.level && world.level.enemies) {
         world.level.enemies.forEach((enemy) => {
             if (enemy.death_sound) {
                 enemy.death_sound.muted = isGameMuted;
@@ -239,7 +239,7 @@ function muteWorldEnemySounds() {
  * Mute world boss sounds
  */
 function muteWorldBossSounds() {
-    if (world && world.level && world.level.endboss) {
+    if (typeof world !== 'undefined' && world && world.level && world.level.endboss) {
         world.level.endboss.forEach((endboss) => {
             if (endboss.alert_sound) {
                 endboss.alert_sound.muted = isGameMuted;
@@ -261,7 +261,7 @@ function muteWorldBossSounds() {
  * Mute world throwable sounds
  */
 function muteWorldThrowableSounds() {
-    if (world && world.throwableObjects) {
+    if (typeof world !== 'undefined' && world && world.throwableObjects) {
         world.throwableObjects.forEach((bottle) => {
             if (bottle.bottle_shatter_sound) {
                 bottle.bottle_shatter_sound.muted = isGameMuted;
@@ -314,7 +314,7 @@ function muteSounds() {
  * (Part of the master mute function)
  */
 function muteChickenSounds() {
-    if (world && world.level && world.level.enemies) {
+    if (typeof world !== 'undefined' && world && world.level && world.level.enemies) {
         world.level.enemies.forEach((enemy) => {
             if (enemy instanceof Chicken && enemy.death_sound) {
                 enemy.death_sound.muted = isGameMuted;
@@ -329,7 +329,7 @@ function muteChickenSounds() {
  * (Part of the master mute function)
  */
 function muteEndbossSounds() {
-    if (world && world.level && world.level.endboss) {
+    if (typeof world !== 'undefined' && world && world.level && world.level.endboss) {
         world.level.endboss.forEach((endboss) => {
             if (endboss.alert_sound) {
                 endboss.alert_sound.muted = isGameMuted;
@@ -352,7 +352,7 @@ function muteEndbossSounds() {
  * (Part of the master mute function)
  */
 function muteCharacterSounds() {
-    if (world && world.character) {
+    if (typeof world !== 'undefined' && world && world.character) {
         if (world.character.walking_sound) {
             world.character.walking_sound.muted = isGameMuted;
             if (isGameMuted) world.character.walking_sound.pause();

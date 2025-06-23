@@ -1,7 +1,6 @@
 /**
- * Main game entry point - streamlined version
- * This file now only contains the essential game initialization and window exports
- * Most functionality has been moved to specialized modules
+ * Core game functionality module
+ * Contains essential game initialization and management functions
  */
 
 /**
@@ -22,8 +21,6 @@ let world;
  */
 let keyboard = new Keyboard();
 
-
-
 /**
  * Game active status
  * @type {boolean}
@@ -41,32 +38,6 @@ let intervals = [];
  * @type {Array<number>}
  */
 let timeouts = [];
-
-/**
- * Initialize game and set up game world
- */
-async function init() {
-    console.log('init() called');
-    resetFinaleScreen();
-    gameActive = false;
-    clearAllIntervals();
-    resetGame();
-    gameActive = true;
-    await preloadImages();
-    initLevel();
-    if (!setupCanvas()) {
-        console.error('Canvas setup failed');
-        return;
-    }
-    world = new World(canvas, keyboard, level1);
-    startGame();
-    
-    if (typeof initializeUI === 'function') {
-        initializeUI();
-    } else {
-        console.error('initializeUI is not a function');
-    }
-}
 
 /**
  * Reset game state
@@ -172,10 +143,29 @@ function drawCanvasTest() {
 }
 
 /**
+ * Initialize game and set up game world
+ */
+async function init() {
+    resetFinaleScreen();
+    gameActive = false;
+    clearAllIntervals();
+    resetGame();
+    gameActive = true;
+    await preloadImages();
+    initLevel();
+    if (!setupCanvas()) {
+        return;
+    }
+    world = new World(canvas, keyboard, level1);
+    startGame();
+    initializeUI();
+}
+
+/**
  * Start the game
  */
 function startGame() {
-    window.currentScreen = 'game';
+    currentScreen = 'game';
     const elements = getMenuElements();
     elements.finaleScreen.style.display = 'none';
     elements.gameArea.style.display = 'block';
@@ -268,29 +258,4 @@ function resetWorldState() {
         world.camera_x = 0;
     }
     keyboard = new Keyboard();
-}
-
-/**
- * Export functions to window object for global access
- * This ensures all functions remain accessible from HTML and other scripts
- */
-window.init = init;
-window.resetGame = resetGame;
-window.getCriticalImages = getCriticalImages;
-window.loadSingleImage = loadSingleImage;
-window.handleImageLoad = handleImageLoad;
-window.preloadImages = preloadImages;
-window.setupCanvas = setupCanvas;
-window.drawCanvasTest = drawCanvasTest;
-window.startGame = startGame;
-window.clearCanvas = clearCanvas;
-window.restart = restart;
-window.prepareRestart = prepareRestart;
-window.clearAllIntervals = clearAllIntervals;
-window.addInterval = addInterval;
-window.addTimeout = addTimeout;
-window.resetWorldState = resetWorldState;
-
-
-
-
+} 
