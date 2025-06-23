@@ -26,11 +26,9 @@ class BossAnimations {
                     safePlay(audioElement);
                 } else {
                     audioElement.play().catch(error => {
-                        console.warn('Boss audio playback failed:', error);
                     });
                 }
             } catch (error) {
-                console.warn('Boss audio error:', error);
             }
         }
     }

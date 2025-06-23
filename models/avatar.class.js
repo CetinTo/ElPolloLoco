@@ -291,7 +291,7 @@ class Character extends MoveableObject {
      */
     startWalkingSound() {
         if (this.walking_sound && typeof isGameMuted !== 'undefined' && !isGameMuted) {
-            this.walking_sound.play().catch(e => console.log('Walking sound play failed:', e));
+                                this.walking_sound.play().catch(e => {});
             this.isWalkingSoundPlaying = true;
         }
     }
@@ -338,7 +338,7 @@ class Character extends MoveableObject {
         }
         this.playAnimation(this.IMAGES_HURT);
         if (this.hurt_sound && typeof isGameMuted !== 'undefined' && !isGameMuted) {
-            this.hurt_sound.play().catch(e => console.log('Hurt sound play failed:', e));
+                            this.hurt_sound.play().catch(e => {});
         }
     }
 

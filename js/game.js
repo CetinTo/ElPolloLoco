@@ -734,14 +734,14 @@ function toggleIngameMenu() {
  * Test menu button functionality
  */
 function testMenuButton() {
-    console.log('Menu button clicked');
+
 }
 
 /**
  * Test restart button functionality
  */
 function testRestartButton() {
-    console.log('Restart button clicked');
+
 }
 
 /**

@@ -37,7 +37,7 @@ function createAudioElement(src) {
         }
         
         audio.addEventListener('error', (e) => {
-            console.warn(`Audio loading failed for: ${src}`);
+
         });
         
         // Improve audio performance
@@ -47,7 +47,7 @@ function createAudioElement(src) {
         
         return audio;
     } catch (error) {
-        console.warn(`Failed to create audio element for: ${src}`, error);
+
         return null;
     }
 }
