@@ -304,8 +304,6 @@ h1 {
     transform: scale(0.95);
 }
 
-
-
 /* IMPRESSUM */
 .impressum-text {
     position: fixed;
@@ -478,7 +476,7 @@ h1 {
     
     .impressum-text {
         position: fixed;
-        bottom: 450px;
+        bottom: 190px;
         left: 50%;
         transform: translateX(-50%);
         color: #FECC02;
