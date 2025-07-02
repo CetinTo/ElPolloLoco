@@ -165,12 +165,16 @@ class Character extends MoveableObject {
      * Initializes audio elements
      */
     initializeAudio() {
-        this.walking_sound = new Audio('audio/running_3.mp3');
-        this.walking_sound.volume = 1.0; // Maximum volume
-        this.walking_sound.loop = true;
+        this.walking_sound = createAudioElement('audio/running_3.mp3');
+        if (this.walking_sound) {
+            this.walking_sound.volume = 1.0; // Maximum volume
+            this.walking_sound.loop = true;
+        }
         
-        this.hurt_sound = new Audio('audio/hurt.mp3');
-        this.hurt_sound.volume = 0.8;
+        this.hurt_sound = createAudioElement('audio/hurt.mp3');
+        if (this.hurt_sound) {
+            this.hurt_sound.volume = 0.8;
+        }
     }
 
     /**

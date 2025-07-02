@@ -12,13 +12,13 @@ let canvas;
 
 /**
  * Game world instance
- * @type {World}
+ * @type {world}
  */
 let world;
 
 /**
  * Keyboard input handler
- * @type {Keyboard}
+ * @type {keyboard}
  */
 let keyboard = new Keyboard();
 

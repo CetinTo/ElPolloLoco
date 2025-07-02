@@ -173,19 +173,19 @@ class Endboss extends MoveableObject {
         this.alert_sound = createAudioElement('audio/boss_intro_sound.mp3');
         if (this.alert_sound) {
             this.alert_sound.volume = 0.4;
-            this.alert_sound.preload = 'auto';
+            this.alert_sound.preload = 'metadata';
         }
         
         this.hurt_sound = createAudioElement('audio/chicken_hurt.mp3');
         if (this.hurt_sound) {
             this.hurt_sound.volume = 0.5;
-            this.hurt_sound.preload = 'auto';
+            this.hurt_sound.preload = 'metadata';
         }
         
         this.dead_sound = createAudioElement('audio/boss_dead.mp3');
         if (this.dead_sound) {
             this.dead_sound.volume = 0.7;
-            this.dead_sound.preload = 'auto';
+            this.dead_sound.preload = 'metadata';
         }
     }
 

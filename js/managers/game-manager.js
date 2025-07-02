@@ -100,7 +100,7 @@ class GameManager {
     }
 
     /**
-     * Plays game audio with error handling
+     * Plays game audio with CORS-safe error handling
      * @param {string} audioPath - Path to the audio file
      * @param {number} [volume=1.0] - Volume level (0.0 to 1.0)
      * @param {boolean} [loop=false] - Whether to loop the audio
@@ -111,17 +111,22 @@ class GameManager {
         }
         
         try {
-            const audio = new Audio(audioPath);
-            audio.volume = volume;
-            audio.loop = loop;
-            
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                }).catch(error => {
-                });
+            const audio = createAudioElement(audioPath);
+            if (audio) {
+                audio.volume = volume;
+                audio.loop = loop;
+                
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Audio played successfully
+                    }).catch(error => {
+                        // Silently suppress all audio errors
+                    });
+                }
             }
         } catch (error) {
+            // Silently suppress all audio errors
         }
     }
 
